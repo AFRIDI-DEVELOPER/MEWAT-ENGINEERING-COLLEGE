@@ -245,3 +245,73 @@ CREATE POLICY "Public read stats"        ON stats        FOR SELECT USING (true)
 CREATE POLICY "Public read testimonials" ON testimonials FOR SELECT USING (true);
 CREATE POLICY "Public read facilities"   ON facilities   FOR SELECT USING (true);
 CREATE POLICY "Public read recruiters"   ON recruiters   FOR SELECT USING (true);
+
+-- ─── COLLEGE INFO ─────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS college_info (
+    id TEXT PRIMARY KEY,
+    history TEXT,
+    vision TEXT,
+    mission TEXT[],
+    core_values JSONB
+);
+
+-- ─── CONTACT SUBMISSIONS ──────────────────────────────────────
+CREATE TABLE IF NOT EXISTS contact_submissions (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT,
+    subject TEXT,
+    message TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ─── STUDENTS ─────────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS students (
+    id SERIAL PRIMARY KEY,
+    roll_no TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    name TEXT NOT NULL,
+    department TEXT,
+    year INTEGER,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ============================================================
+-- SEED DATA (NEW)
+-- ============================================================
+
+-- College Info
+INSERT INTO college_info (id, history, vision, mission, core_values) VALUES
+('main', 
+ 'Mewat Engineering College (WAQF) was established with the vision of providing quality technical education to the students of Mewat region and beyond. Located in the serene village of Palla, District Nuh (Mewat), Haryana, the college has grown to become a premier engineering institution in the region.',
+ 'To be a center of excellence in technical education, producing competent engineers who contribute to the national development and upliftment of the Mewat region.',
+ ARRAY[
+    'To provide quality technical education accessible to all sections of society',
+    'To develop competent engineers with strong ethical values',
+    'To promote research and innovation in engineering and technology',
+    'To foster industry-academia collaboration for practical learning',
+    'To empower women through engineering education with special incentives'
+ ],
+ '[
+    {"title": "Excellence", "description": "Striving for the highest standards in education and research", "icon": "⭐"},
+    {"title": "Inclusivity", "description": "Welcoming students from all backgrounds, especially underserved communities", "icon": "🤝"},
+    {"title": "Innovation", "description": "Encouraging creative thinking and technological advancement", "icon": "💡"},
+    {"title": "Integrity", "description": "Maintaining honesty and ethical standards in all endeavors", "icon": "🛡️"}
+ ]'::jsonb
+) ON CONFLICT (id) DO NOTHING;
+
+-- Students (Test data)
+INSERT INTO students (roll_no, password, name, department, year) VALUES
+('25CSB045', 'afridi.dvlpr', 'Sahid Afridi', 'Computer Science', 4)
+ON CONFLICT (roll_no) DO NOTHING;
+
+-- ─── Policies ────────────────────────────────────────────────
+ALTER TABLE college_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contact_submissions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE students ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read college_info" ON college_info FOR SELECT USING (true);
+CREATE POLICY "Insert contact_submissions" ON contact_submissions FOR INSERT WITH CHECK (true);
+CREATE POLICY "ReadOnly students" ON students FOR SELECT USING (true); -- Note: In production, restricted to authenticated students
+

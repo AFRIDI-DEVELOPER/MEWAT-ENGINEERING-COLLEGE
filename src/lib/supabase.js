@@ -71,8 +71,40 @@ export async function fetchRecruiters() {
     return data.map(r => r.name);
 }
 
+// ─── College Info ─────────────────────────────────────────────────────────────
+export async function fetchCollegeInfo() {
+    const { data, error } = await supabase
+        .from('college_info')
+        .select('*')
+        .eq('id', 'main')
+        .single();
+    if (error) throw error;
+    return data;
+}
+
+// ─── Contact Submissions ──────────────────────────────────────────────────────
+export async function submitContactForm(formData) {
+    const { data, error } = await supabase
+        .from('contact_submissions')
+        .insert([formData]);
+    if (error) throw error;
+    return data;
+}
+
+// ─── Students / Portal ────────────────────────────────────────────────────────
+export async function fetchStudentByRollNo(rollNo) {
+    const { data, error } = await supabase
+        .from('students')
+        .select('*')
+        .eq('roll_no', rollNo)
+        .single();
+    if (error) throw error;
+    return data;
+}
+
 // ─── Storage: Get Public URL ──────────────────────────────────────────────────
 export function getStorageUrl(bucket, path) {
     const { data } = supabase.storage.from(bucket).getPublicUrl(path);
     return data.publicUrl;
 }
+

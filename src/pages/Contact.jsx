@@ -3,23 +3,32 @@ import { motion } from 'framer-motion'
 
 import { contactInfo } from '../data/content'
 import { FiMapPin, FiPhone, FiMail, FiGlobe } from 'react-icons/fi'
+import { submitContactForm } from '../lib/supabase'
 
 export default function Contact() {
     const [formData, setFormData] = useState({
         name: '', email: '', phone: '', subject: '', message: ''
     })
-    const [submitted, setSubmitted] = useState(false)
+    const [status, setStatus] = useState({ submitting: false, submitted: false, error: null })
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        setSubmitted(true)
-        setTimeout(() => setSubmitted(false), 3000)
-        setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+        setStatus({ submitting: true, submitted: false, error: null })
+        try {
+            await submitContactForm(formData)
+            setStatus({ submitting: false, submitted: true, error: null })
+            setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+            setTimeout(() => setStatus(prev => ({ ...prev, submitted: false })), 5000)
+        } catch (err) {
+            console.error('Submission error:', err)
+            setStatus({ submitting: false, submitted: false, error: 'Failed to send message. Please try again later.' })
+        }
     }
+
 
     const contactCards = [
         { icon: <FiMapPin size={22} />, title: 'Address', value: contactInfo.address },
@@ -43,19 +52,41 @@ export default function Contact() {
                             transition={{ duration: 0.5 }}
                         >
                             <h3>Send a Message</h3>
-                            {submitted && (
-                                <div style={{
-                                    background: 'rgba(0, 132, 61, 0.1)',
-                                    border: '1px solid rgba(0, 132, 61, 0.3)',
-                                    borderRadius: 'var(--radius-sm)',
-                                    padding: '12px 16px',
-                                    marginBottom: 20,
-                                    color: 'var(--secondary)',
-                                    fontWeight: 600,
-                                    fontSize: '0.9rem'
-                                }}>
+                            {status.submitted && (
+                                <motion.div 
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    style={{
+                                        background: 'rgba(0, 132, 61, 0.1)',
+                                        border: '1px solid rgba(0, 132, 61, 0.3)',
+                                        borderRadius: 'var(--radius-sm)',
+                                        padding: '12px 16px',
+                                        marginBottom: 20,
+                                        color: 'var(--secondary)',
+                                        fontWeight: 600,
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
                                     ✅ Thank you! Your message has been sent successfully.
-                                </div>
+                                </motion.div>
+                            )}
+                            {status.error && (
+                                <motion.div 
+                                    initial={{ opacity: 0, y: -10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    style={{
+                                        background: 'rgba(214, 48, 49, 0.1)',
+                                        border: '1px solid rgba(214, 48, 49, 0.3)',
+                                        borderRadius: 'var(--radius-sm)',
+                                        padding: '12px 16px',
+                                        marginBottom: 20,
+                                        color: '#d63031',
+                                        fontWeight: 600,
+                                        fontSize: '0.9rem'
+                                    }}
+                                >
+                                    ❌ {status.error}
+                                </motion.div>
                             )}
                             <form onSubmit={handleSubmit}>
                                 <div className="form-row">
@@ -111,11 +142,17 @@ export default function Contact() {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                                    Send Message →
+                                <button 
+                                    type="submit" 
+                                    className="btn btn-primary" 
+                                    style={{ width: '100%', justifyContent: 'center' }}
+                                    disabled={status.submitting}
+                                >
+                                    {status.submitting ? 'Sending...' : 'Send Message →'}
                                 </button>
                             </form>
                         </motion.div>
+
 
                         <motion.div
                             className="contact-info-cards"

@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion'
-
-import { aboutData } from '../data/content'
+import { aboutData as staticAboutData } from '../data/content'
+import { useCollegeInfo } from '../hooks/useSupabase'
 
 export default function About() {
+    const { data: sbInfo } = useCollegeInfo()
+    const aboutData = sbInfo || staticAboutData
+
     return (
         <>
 

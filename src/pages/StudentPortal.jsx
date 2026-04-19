@@ -1,21 +1,42 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { fetchStudentByRollNo } from '../lib/supabase'
 
 export default function StudentPortal() {
     const [rollNo, setRollNo] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
-        if (rollNo === '25CSB045' && password === 'afridi.dvlpr') {
-            localStorage.setItem('student_auth', JSON.stringify({ name: 'Sahid Afridi', rollNo: '25CSB045', dept: 'Computer Science' }))
-            navigate('/dashboard')
-        } else {
-            setError('Invalid Roll No or Password')
+        setLoading(true)
+        setError('')
+
+        try {
+            const student = await fetchStudentByRollNo(rollNo)
+            
+            if (student && student.password === password) {
+                localStorage.setItem('student_auth', JSON.stringify({ 
+                    name: student.name, 
+                    rollNo: student.roll_no, 
+                    dept: student.department 
+                }))
+                navigate('/dashboard')
+            } else {
+                setError('Invalid Roll No or Password')
+            }
+        } catch (err) {
+            console.error('Login error:', err)
+            setError(err.message === 'JSON object requested, multiple (or no) rows returned' 
+                ? 'Invalid Roll No or Password' 
+                : 'Authentication failed. Please try again.')
+        } finally {
+            setLoading(false)
         }
     }
+
 
     return (
         <div className="login-page">
@@ -49,8 +70,8 @@ export default function StudentPortal() {
                         />
                     </div>
                     {error && <p className="error-msg">{error}</p>}
-                    <button type="submit" className="login-btn">
-                        Access Portal
+                    <button type="submit" className="login-btn" disabled={loading}>
+                        {loading ? 'Authenticating...' : 'Access Portal'}
                     </button>
                 </form>
                 <div className="login-footer">

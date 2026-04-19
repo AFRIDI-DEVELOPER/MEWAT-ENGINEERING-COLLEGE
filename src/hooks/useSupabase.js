@@ -6,7 +6,8 @@ import {
     fetchStats,
     fetchTestimonials,
     fetchFacilities,
-    fetchRecruiters
+    fetchRecruiters,
+    fetchCollegeInfo
 } from '../lib/supabase';
 
 // ─── Generic hook factory ─────────────────────────────────────────────────────
@@ -91,4 +92,8 @@ export function useFacilities() {
 
 export function useRecruiters() {
     return useSupabaseData(fetchRecruiters, []);
+}
+
+export function useCollegeInfo() {
+    return useSupabaseData(fetchCollegeInfo, null);
 }

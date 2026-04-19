@@ -1,0 +1,19 @@
+# Deps
+node_modules/
+
+# Build
+dist/
+
+# Env (keep secret, don't push to GitHub)
+.env
+.env.local
+.env.*.local
+
+# Editor
+.DS_Store
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

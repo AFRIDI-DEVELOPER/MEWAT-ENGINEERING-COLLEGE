@@ -1,6 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { departments } from '../data/content'
+import { departments as staticDepartments } from '../data/content'
+import { useDepartment } from '../hooks/useSupabase'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 const fadeUp = {
     hidden: { opacity: 0, y: 30 },
@@ -12,7 +14,33 @@ const fadeUp = {
 
 export default function DepartmentDetail() {
     const { id } = useParams()
-    const dept = departments.find(d => d.id === id)
+    const { data: sbDept, loading } = useDepartment(id)
+    const staticDept = staticDepartments.find(d => d.id === id)
+
+    // Normalize Supabase flat fields into nested shape used by UI
+    const normalizeDept = (raw) => {
+        if (!raw) return null
+        return {
+            ...raw,
+            hod: raw.hod || {
+                name: raw.hod_name,
+                designation: raw.hod_designation,
+                experience: raw.hod_experience,
+                education: raw.hod_education,
+                image: raw.hod_image || '👨‍💼'
+            },
+            highlights: raw.highlights || [],
+            subjects: raw.subjects || [],
+            faculty: raw.faculty || [],
+            labs: raw.labs || [],
+        }
+    }
+
+    const dept = normalizeDept(sbDept) || staticDept
+
+    if (loading && !dept) {
+        return <LoadingSpinner message="Loading department..." />
+    }
 
     if (!dept) {
         return (

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { facilities } from '../data/content'
+import { facilities as staticFacilities } from '../data/content'
+import { useFacilities } from '../hooks/useSupabase'
 
 /* ─────────────────────────────────────────
    Campus Gallery Data & Component
@@ -615,6 +616,10 @@ function ModalContent({ facility }) {
 
 export default function Campus() {
     const [selected, setSelected] = useState(null)
+    const { data: sbFacilities } = useFacilities()
+    const facilities = sbFacilities?.length > 0
+        ? sbFacilities.map(f => ({ ...f, image: f.image_url || f.image }))
+        : staticFacilities
 
     // Prevent body scroll when modal is open
     useEffect(() => {

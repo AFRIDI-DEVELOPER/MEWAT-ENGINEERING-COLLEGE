@@ -1,8 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { departments, highlights, testimonials, events, stats } from '../data/content'
+import {
+    departments as staticDepartments,
+    highlights,
+    testimonials as staticTestimonials,
+    events as staticEvents,
+    stats as staticStats
+} from '../data/content'
 import AnimatedCounter from '../components/AnimatedCounter'
+import { useDepartments, useStats, useEvents, useTestimonials } from '../hooks/useSupabase'
 
 
 const fadeUp = {
@@ -344,6 +351,17 @@ function CampusGallery() {
 }
 
 export default function Home() {
+    // ── Supabase data (falls back to static if Supabase unavailable) ──
+    const { data: sbDepts }         = useDepartments()
+    const { data: sbStats }         = useStats()
+    const { data: sbEvents }        = useEvents()
+    const { data: sbTestimonials }  = useTestimonials()
+
+    const departments  = sbDepts?.length        > 0 ? sbDepts        : staticDepartments
+    const stats        = sbStats?.length        > 0 ? sbStats        : staticStats
+    const events       = sbEvents?.length       > 0 ? sbEvents       : staticEvents
+    const testimonials = sbTestimonials?.length > 0 ? sbTestimonials : staticTestimonials
+
     const videos = [
         {
             src: '/Drone_Video_Generation.mp4',
@@ -654,7 +672,7 @@ export default function Home() {
                                 transition={{ duration: 0.4, delay: i * 0.1 }}
                             >
                                 <div className="event-image">
-                                    <img src={event.image} alt={event.title} />
+                                    <img src={event.image_url || event.image} alt={event.title} />
                                     <div className="event-date-badge">
                                         <div className="month">{event.date.split(' ')[0]}</div>
                                         <div className="year">{event.date.split(' ')[1]}</div>

@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
-import { admissionInfo } from '../data/content'
+import { admissionInfo, departments as staticDepartments } from '../data/content'
+import { useDepartments } from '../hooks/useSupabase'
 
 export default function Admissions() {
+    const { data: sbDepts } = useDepartments()
+    const departments = sbDepts?.length > 0 ? sbDepts : staticDepartments
+    const programs = departments
+        .filter(d => d.seats)
+        .map(d => ({ name: `B.Tech in ${d.name}`, seats: d.seats, duration: '4 Years' }))
     return (
         <>
 
@@ -90,7 +96,7 @@ export default function Admissions() {
                             </tr>
                         </thead>
                         <tbody>
-                            {admissionInfo.programs.map((prog, i) => (
+                            {programs.map((prog, i) => (
                                 <tr key={i}>
                                     <td><strong>{prog.name}</strong></td>
                                     <td>{prog.duration}</td>

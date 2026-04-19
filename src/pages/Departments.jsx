@@ -1,9 +1,14 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 
-import { departments } from '../data/content'
+import { useDepartments } from '../hooks/useSupabase'
+import { departments as staticDepartments } from '../data/content'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function Departments() {
+    const { data: supabaseDepts, loading } = useDepartments()
+    const departments = supabaseDepts?.length > 0 ? supabaseDepts : staticDepartments
+
     return (
         <>
             <section className="section departments-section">
@@ -13,6 +18,7 @@ export default function Departments() {
                         <h2>All Departments</h2>
                         <p>Explore our comprehensive range of engineering and foundational departments</p>
                     </div>
+                    {loading && <LoadingSpinner message="Loading departments..." />}
                     <div className="departments-grid">
                         {departments.map((dept, i) => (
                             <motion.div

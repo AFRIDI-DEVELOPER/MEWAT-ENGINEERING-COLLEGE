@@ -1,13 +1,25 @@
 import { motion } from 'framer-motion'
 
 import AnimatedCounter from '../components/AnimatedCounter'
-import { recruiters } from '../data/content'
+import { useRecruiters, useStats } from '../hooks/useSupabase'
+import { recruiters as staticRecruiters } from '../data/content'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default function Placements() {
+    const { data: supabaseRecruiters, loading: recruitersLoading } = useRecruiters()
+    const { data: supabaseStats } = useStats()
+
+    const recruiters = supabaseRecruiters?.length > 0 ? supabaseRecruiters : staticRecruiters
+
+    // Use Supabase stats or local fallback
+    const placedStat  = supabaseStats?.find(s => s.id === 'placed')
+    const gateStat    = supabaseStats?.find(s => s.id === 'air')
+    const recruiterSt = supabaseStats?.find(s => s.id === 'recruiters')
+
     const placementStats = [
-        { icon: '💼', number: 500, suffix: '+', text: 'Students Placed' },
-        { icon: '🏆', number: 48, suffix: '', text: 'Best GATE AIR' },
-        { icon: '🏢', number: 30, suffix: '+', text: 'Recruiting Companies' },
+        { icon: '💼', number: placedStat?.value  ?? 500, suffix: '+', text: 'Students Placed' },
+        { icon: '🏆', number: gateStat?.value    ?? 48,  suffix: '',  text: 'Best GATE AIR' },
+        { icon: '🏢', number: recruiterSt?.value ?? 30,  suffix: '+', text: 'Recruiting Companies' },
         { icon: '📈', number: 100, suffix: '%', text: 'Placement Assistance' }
     ]
 
@@ -94,6 +106,7 @@ export default function Placements() {
                         <h2>Top Recruiters</h2>
                         <p>Leading companies that trust MEC graduates</p>
                     </div>
+                    {recruitersLoading && <LoadingSpinner message="Loading recruiters..." />}
                     <div className="recruiters-grid">
                         {recruiters.map((name, i) => (
                             <motion.div

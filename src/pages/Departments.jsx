@@ -1,62 +1,52 @@
 import { motion } from 'framer-motion'
-import PageHeader from '../components/PageHeader'
+import { Link } from 'react-router-dom'
+
 import { departments } from '../data/content'
 
 export default function Departments() {
     return (
         <>
-            <PageHeader
-                title="Our Departments"
-                subtitle="Explore our six academic departments offering world-class engineering education"
-            />
-
-            <section className="section" style={{ background: 'var(--off-white)' }}>
+            <section className="section departments-section">
                 <div className="container">
+                    <div className="section-header">
+                        <span className="section-label">Academics</span>
+                        <h2>All Departments</h2>
+                        <p>Explore our comprehensive range of engineering and foundational departments</p>
+                    </div>
                     <div className="departments-grid">
                         {departments.map((dept, i) => (
                             <motion.div
-                                className="dept-card"
+                                className={`dept-card dept-card--${dept.id}`}
                                 key={dept.id}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: '-50px' }}
                                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                                style={{ cursor: 'default' }}
                             >
-                                <div className="dept-card-icon">{dept.icon}</div>
-                                <h3>{dept.name}</h3>
-                                {dept.seats && <div className="dept-seats">{dept.seats} Seats</div>}
-                                {!dept.seats && <div className="dept-seats" style={{ color: 'var(--secondary)' }}>Foundation Department</div>}
-                                <p>{dept.description}</p>
-                                <div className="dept-highlights">
-                                    {dept.highlights.map((h, j) => <span key={j}>{h}</span>)}
+                                <div className="dept-card__header">
+                                    <img className="dept-card__icon" src={dept.iconImg} alt={dept.shortName} />
+                                    <div className="dept-card__shortname">{dept.shortName}</div>
+                                </div>
+                                <div className="dept-card__body">
+                                    <h3 className="dept-card__title">{dept.name}</h3>
+                                    {dept.seats ? (
+                                        <span className="dept-card__seats">🎓 {dept.seats} Seats</span>
+                                    ) : (
+                                        <span className="dept-card__seats dept-card__seats--foundation">📌 Foundation Department</span>
+                                    )}
+                                    <p className="dept-card__desc">{dept.description}</p>
+                                    <div className="dept-card__tags">
+                                        {dept.highlights.slice(0, 3).map((h, j) => (
+                                            <span key={j} className="dept-card__tag">{h}</span>
+                                        ))}
+                                    </div>
+                                    <Link to={`/departments/${dept.id}`} className="dept-card__btn">
+                                        Explore Department
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                    </Link>
                                 </div>
                             </motion.div>
                         ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Department Info Banner */}
-            <section className="stats-section">
-                <div className="container">
-                    <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
-                        <div className="stat-item">
-                            <div className="stat-value">5</div>
-                            <div className="stat-label">B.Tech Programs</div>
-                        </div>
-                        <div className="stat-item">
-                            <div className="stat-value">210</div>
-                            <div className="stat-label">Total Seats</div>
-                        </div>
-                        <div className="stat-item">
-                            <div className="stat-value">50+</div>
-                            <div className="stat-label">Faculty Members</div>
-                        </div>
-                        <div className="stat-item">
-                            <div className="stat-value">4 Yrs</div>
-                            <div className="stat-label">Program Duration</div>
-                        </div>
                     </div>
                 </div>
             </section>

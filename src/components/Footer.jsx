@@ -9,6 +9,9 @@ export default function Footer() {
             <div className="container">
                 <div className="footer-grid">
                     <div className="footer-brand">
+                        <div className="footer-logo">
+                            <img src="/images/college-logo.png" alt="MEC Logo" />
+                        </div>
                         <h3>Mewat Engineering College</h3>
                         <p className="footer-tagline">WAQF — Empowering Through Education</p>
                         <p>

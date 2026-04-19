@@ -1,15 +1,11 @@
 import { motion } from 'framer-motion'
-import PageHeader from '../components/PageHeader'
+
 import { aboutData } from '../data/content'
 
 export default function About() {
     return (
         <>
-            <PageHeader
-                title="About MEC"
-                subtitle="Discover our history, vision, mission, and the values that drive us forward"
-                breadcrumb="About Us"
-            />
+
 
             {/* History */}
             <section className="section" style={{ background: 'var(--off-white)' }}>
@@ -22,7 +18,9 @@ export default function About() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                         >
-                            <div className="img-placeholder">🏛️</div>
+                            <div className="about-img-container">
+                                <img src="/images/college-bg-2.png" alt="MEC Campus" className="about-img-main" />
+                            </div>
                             <div className="experience-badge">
                                 <div className="big-number">15+</div>
                                 <div className="small-text">Years of Excellence</div>

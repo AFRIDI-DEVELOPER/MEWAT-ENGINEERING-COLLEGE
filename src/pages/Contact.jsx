@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import PageHeader from '../components/PageHeader'
+
 import { contactInfo } from '../data/content'
 import { FiMapPin, FiPhone, FiMail, FiGlobe } from 'react-icons/fi'
 
@@ -30,10 +30,7 @@ export default function Contact() {
 
     return (
         <>
-            <PageHeader
-                title="Contact Us"
-                subtitle="We'd love to hear from you. Reach out with any questions about admissions or academics."
-            />
+
 
             <section className="section" style={{ background: 'var(--off-white)' }}>
                 <div className="container">

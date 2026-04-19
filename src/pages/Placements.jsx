@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import PageHeader from '../components/PageHeader'
+
 import AnimatedCounter from '../components/AnimatedCounter'
 import { recruiters } from '../data/content'
 
@@ -13,10 +13,7 @@ export default function Placements() {
 
     return (
         <>
-            <PageHeader
-                title="Placements"
-                subtitle="Our dedicated placement cell ensures every student gets the best career opportunities"
-            />
+
 
             {/* Stats */}
             <section className="section" style={{ background: 'var(--off-white)' }}>

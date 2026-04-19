@@ -6,11 +6,29 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa'
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false)
+    const [isHiding, setIsHiding] = useState(false)
+    const [isFloating, setIsFloating] = useState(false)
     const [mobileOpen, setMobileOpen] = useState(false)
     const location = useLocation()
 
     useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 50)
+        const onScroll = () => {
+            const scrollY = window.scrollY
+            const heroHeight = window.innerHeight
+            
+            // Keeps top-bar visible until hero section is 100% scrolled
+            setScrolled(scrollY > heroHeight)
+            
+            // Show floating navbar when the green container (director-section) touches the top
+            const directorSection = document.querySelector('.director-section')
+            if (directorSection) {
+                const rect = directorSection.getBoundingClientRect()
+                setIsFloating(rect.top <= 7) // 7px gap allowance
+            } else {
+                // Fallback for subpages or missing section
+                setIsFloating(scrollY > heroHeight + 100)
+            }
+        }
         window.addEventListener('scroll', onScroll)
         return () => window.removeEventListener('scroll', onScroll)
     }, [])
@@ -21,7 +39,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''}`}>
+            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isHiding ? 'hiding' : ''} ${isFloating ? 'floating' : ''}`}>
                 <div className="top-bar">
                     <div className="container">
                         <div className="top-bar-left">
@@ -40,10 +58,15 @@ export default function Navbar() {
                 <div className="main-nav">
                     <div className="container">
                         <Link to="/" className="nav-logo">
-                            <div className="logo-icon">M</div>
+                            <div className="logo-emblem">
+                                <img src="/images/college-logo.png" alt="MEC Logo" className="logo-image" />
+                            </div>
                             <div className="logo-text">
-                                <h3>MEC</h3>
-                                <span>Mewat Engineering College</span>
+                                <div className="logo-title-row">
+                                    <h3>MEC</h3>
+                                    <span className="logo-waqf">WAQF</span>
+                                </div>
+                                <span className="logo-subtitle">MEWAT ENGINEERING COLLEGE</span>
                             </div>
                         </Link>
                         <div className="nav-links">
@@ -56,7 +79,9 @@ export default function Navbar() {
                                     {link.name}
                                 </Link>
                             ))}
-                            <Link to="/admissions" className="nav-apply-btn">Apply Now</Link>
+                            <Link to="/student-portal" className="nav-apply-btn">
+                                <span className="btn-text">STUDENT PORTAL</span>
+                            </Link>
                         </div>
                         <button
                             className={`hamburger ${mobileOpen ? 'open' : ''}`}
@@ -80,8 +105,8 @@ export default function Navbar() {
                         {link.name}
                     </Link>
                 ))}
-                <Link to="/admissions" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
-                    Apply Now
+                <Link to="/student-portal" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
+                    <span className="btn-text">STUDENT PORTAL</span>
                 </Link>
             </div>
         </>

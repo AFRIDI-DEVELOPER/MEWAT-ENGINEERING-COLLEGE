@@ -1,4 +1,3 @@
-// College departments
 export const departments = [
     {
         id: 'cse',
@@ -7,7 +6,28 @@ export const departments = [
         seats: 60,
         description: 'The CSE department offers a cutting-edge curriculum covering algorithms, data structures, AI, machine learning, web development, and software engineering.',
         icon: '💻',
-        highlights: ['Modern Computer Labs', 'Industry Collaborations', 'Coding Bootcamps', 'Smart Classrooms']
+        iconImg: '/images/cursor/icon_21.webp',
+        highlights: ['Modern Computer Labs', 'Industry Collaborations', 'Coding Bootcamps', 'Smart Classrooms'],
+        hod: {
+            name: 'Dr. Shamim Sharma',
+            designation: 'HOD & Associate Professor',
+            experience: '15+ Years',
+            education: 'Ph.D in Computer Science',
+            image: '👨‍💼'
+        },
+        faculty: [
+            { name: 'Dr. Shamim Sharma', designation: 'Associate Professor', specialization: 'Machine Learning', experience: '15 Years' },
+            { name: 'Mr. Mohd Anas', designation: 'Assistant Professor', specialization: 'Cloud Computing', experience: '8 Years' },
+            { name: 'Ms. Farhat Jahan', designation: 'Assistant Professor', specialization: 'Data Structures', experience: '6 Years' },
+            { name: 'Mr. Salman Khan', designation: 'Assistant Professor', specialization: 'Web Technologies', experience: '5 Years' }
+        ],
+        labs: [
+            { name: 'Computer Networking Lab', resources: 'Cisco Switches, Routers, LAN Trainers' },
+            { name: 'AI & Data Science Lab', resources: 'High Performance GPUs, Python/Anaconda Environment' },
+            { name: 'Web Development Lab', resources: 'Modern IDEs, Hosting Servers' },
+            { name: 'Software Engineering Lab', resources: 'Case Tools, Project Management Software' }
+        ],
+        subjects: ['Artificial Intelligence', 'Data Mining', 'Compiler Design', 'Operating Systems', 'Cloud Computing', 'Computer Networks']
     },
     {
         id: 'civil',
@@ -16,7 +36,27 @@ export const departments = [
         seats: 60,
         description: 'Training future civil engineers with hands-on experience in structural design, construction management, surveying, and environmental engineering.',
         icon: '🏗️',
-        highlights: ['Material Testing Lab', 'Survey Instruments', 'CAD Software', 'Site Visits']
+        iconImg: '/images/cursor/icon_15.webp',
+        highlights: ['Material Testing Lab', 'Survey Instruments', 'CAD Software', 'Site Visits'],
+        hod: {
+            name: 'Dr. Vaseem Akram',
+            designation: 'HOD & Professor',
+            experience: '18+ Years',
+            education: 'Ph.D in Structural Engineering',
+            image: '👷‍♂️'
+        },
+        faculty: [
+            { name: 'Dr. Vaseem Akram', designation: 'Professor', specialization: 'Structures', experience: '18 Years' },
+            { name: 'Mr. Irfan Khan', designation: 'Assistant Professor', specialization: 'Geotech', experience: '10 Years' },
+            { name: 'Ms. Sana Malik', designation: 'Assistant Professor', specialization: 'Environmental Engg', experience: '7 Years' }
+        ],
+        labs: [
+            { name: 'Structural Engineering Lab', resources: 'UTM Machines, Concrete Testing' },
+            { name: 'Surveying Lab', resources: 'Total Station, Theodolites, Dumpy Levels' },
+            { name: 'Fluid Mechanics Lab', resources: 'Turbines, Pumps, Venturimeters' },
+            { name: 'Geotechnical Lab', resources: 'Soil Testing Kits' }
+        ],
+        subjects: ['Structural Analysis', 'Surveying', 'Hydraulics', 'Soil Mechanics', 'Concrete Technology', 'RC Design']
     },
     {
         id: 'mechanical',
@@ -25,7 +65,27 @@ export const departments = [
         seats: 30,
         description: 'Comprehensive program covering thermodynamics, manufacturing, CAD/CAM, robotics, and automotive engineering with state-of-the-art workshops.',
         icon: '⚙️',
-        highlights: ['Workshop Facilities', 'CAD/CAM Lab', 'Thermal Lab', 'Industrial Visits']
+        iconImg: '/images/cursor/icon_16.webp',
+        highlights: ['Workshop Facilities', 'CAD/CAM Lab', 'Thermal Lab', 'Industrial Visits'],
+        hod: {
+            name: 'Mr. Raffi Khan',
+            designation: 'Head of Department',
+            experience: '12+ Years',
+            education: 'M.Tech, Ph.D (Pursuing)',
+            image: '🔧'
+        },
+        faculty: [
+            { name: 'Mr. Raffi Khan', designation: 'Associate Professor', specialization: 'Thermal Engg', experience: '12 Years' },
+            { name: 'Mr. Adil Shah', designation: 'Assistant Professor', specialization: 'Manufacturing', experience: '9 Years' },
+            { name: 'Mr. Zeeshan Ali', designation: 'Assistant Professor', specialization: 'Robotics', experience: '6 Years' }
+        ],
+        labs: [
+            { name: 'Central Workshop', resources: 'Lathe Machines, Milling, Welding' },
+            { name: 'Thermal Engineering Lab', resources: 'IC Engines, Boilers' },
+            { name: 'CAD/CAM Lab', resources: 'SolidWorks, AutoCAD, CNC Simulation' },
+            { name: 'Automobile Lab', resources: 'Engine Cut-sections, Chassis Models' }
+        ],
+        subjects: ['Thermodynamics', 'Machine Design', 'Heat Transfer', 'Manufacturing Processes', 'CAD/CAM', 'Mechatronics']
     },
     {
         id: 'eee',
@@ -34,7 +94,26 @@ export const departments = [
         seats: 30,
         description: 'Focuses on power systems, electrical machines, control systems, and electronics, preparing students for careers in energy and electrical sectors.',
         icon: '⚡',
-        highlights: ['Power Systems Lab', 'Electrical Machines Lab', 'Control Systems Lab', 'Smart Grid Training']
+        iconImg: '/images/cursor/icon_18.webp',
+        highlights: ['Power Systems Lab', 'Electrical Machines Lab', 'Control Systems Lab', 'Smart Grid Training'],
+        hod: {
+            name: 'Dr. Shabana Khatoon',
+            designation: 'HOD & Associate Professor',
+            experience: '14+ Years',
+            education: 'Ph.D in Power Systems',
+            image: '⚡'
+        },
+        faculty: [
+            { name: 'Dr. Shabana Khatoon', designation: 'Associate Professor', specialization: 'Power Systems', experience: '14 Years' },
+            { name: 'Mr. Faisal Khan', designation: 'Assistant Professor', specialization: 'Control Systems', experience: '8 Years' }
+        ],
+        labs: [
+            { name: 'Electrical Machines Lab', resources: 'AC/DC Motors, Transformers' },
+            { name: 'Control Systems Lab', resources: 'PLC Trainers, Servomotors' },
+            { name: 'Power Electronics Lab', resources: 'Choppers, Inverters' },
+            { name: 'Simulation Lab', resources: 'MATLAB, PSpice' }
+        ],
+        subjects: ['Power Systems', 'Control Theory', 'Electrical Machines', 'Digital Electronics', 'Microprocessors', 'Signals & Systems']
     },
     {
         id: 'ece',
@@ -43,16 +122,54 @@ export const departments = [
         seats: 30,
         description: 'Covers communication systems, signal processing, VLSI design, embedded systems, and IoT with well-equipped laboratory infrastructure.',
         icon: '📡',
-        highlights: ['Communication Lab', 'VLSI Lab', 'Embedded Systems Lab', 'IoT Workshop']
+        iconImg: '/images/cursor/icon_12.webp',
+        highlights: ['Communication Lab', 'VLSI Lab', 'Embedded Systems Lab', 'IoT Workshop'],
+        hod: {
+            name: 'Dr. Abid Hussain',
+            designation: 'HOD & Professor',
+            experience: '20+ Years',
+            education: 'Ph.D in Electronics',
+            image: '📡'
+        },
+        faculty: [
+            { name: 'Dr. Abid Hussain', designation: 'Professor', specialization: 'Communication', experience: '20 Years' },
+            { name: 'Ms. Ruqaiya Bano', designation: 'Assistant Professor', specialization: 'Embedded Systems', experience: '7 Years' }
+        ],
+        labs: [
+            { name: 'Analog Communication Lab', resources: 'CROs, Signal Generators' },
+            { name: 'Digital Electronics Lab', resources: 'Trainer Kits, IC Testers' },
+            { name: 'Embedded Lab', resources: 'Arduino, Raspberry Pi, ARM kits' },
+            { name: 'VLSI Design Lab', resources: 'Xilinx, Cadence tools' }
+        ],
+        subjects: ['Wireless Communication', 'VLSI Design', 'Digital Signal Processing', 'Embedded Systems', 'Antennas', 'Analog Circuits']
     },
     {
         id: 'ash',
         name: 'Applied Sciences & Humanities',
         shortName: 'AS&H',
-        seats: null,
+        seats: 60,
         description: 'Provides foundational education in mathematics, physics, chemistry, English, and management to all engineering students.',
         icon: '📚',
-        highlights: ['Physics Lab', 'Chemistry Lab', 'Language Lab', 'Mathematics Resource Center']
+        iconImg: '/images/cursor/icon_10.webp',
+        highlights: ['Physics Lab', 'Chemistry Lab', 'Language Lab', 'Mathematics Resource Center'],
+        hod: {
+            name: 'Dr. Mehwish Alam',
+            designation: 'HOD (Applied Sciences)',
+            experience: '10+ Years',
+            education: 'Ph.D in Applied Mathematics',
+            image: '📐'
+        },
+        faculty: [
+            { name: 'Dr. Mehwish Alam', designation: 'Associate Professor', specialization: 'Mathematics', experience: '10 Years' },
+            { name: 'Dr. Imran Qureshi', designation: 'Assistant Professor', specialization: 'Physics', experience: '8 Years' },
+            { name: 'Ms. Tabassum', designation: 'Assistant Professor', specialization: 'Professional Ethics', experience: '6 Years' }
+        ],
+        labs: [
+            { name: 'Applied Physics Lab', resources: 'Laser kits, Optical Benches' },
+            { name: 'Applied Chemistry Lab', resources: 'Spectrometers, Chemical Analysis' },
+            { name: 'Communication Lab', resources: 'Linguaphone, Audio Aids' }
+        ],
+        subjects: ['Engg Mathematics', 'Engg Physics', 'Engg Chemistry', 'Communication Skills', 'Environmental Science', 'Ethics']
     }
 ];
 
@@ -69,12 +186,12 @@ export const navLinks = [
 
 // Statistics
 export const stats = [
-    { label: 'Students Placed', value: 500, suffix: '+' },
-    { label: 'GATE Qualified', value: 50, suffix: '+' },
-    { label: 'Best GATE AIR', value: 48, suffix: '' },
-    { label: 'Recruiters', value: 30, suffix: '+' },
-    { label: 'Library Books', value: 18000, suffix: '+' },
-    { label: 'Campus Acres', value: 15, suffix: '' }
+    { id: 'placed', label: 'Students Placed', value: 500, suffix: '+', icon: '💼' },
+    { id: 'gate', label: 'GATE Qualified', value: 50, suffix: '+', icon: '🎓' },
+    { id: 'air', label: 'Best GATE AIR', value: 48, suffix: '', icon: '🏆' },
+    { id: 'recruiters', label: 'Recruiters', value: 30, suffix: '+', icon: '🤝' },
+    { id: 'books', label: 'Library Books', value: 18000, suffix: '+', icon: '📖' },
+    { id: 'acres', label: 'Campus Acres', value: 15, suffix: '', icon: '🌳' }
 ];
 
 // Highlights
@@ -145,25 +262,29 @@ export const events = [
         title: 'Annual Technical Fest - TechMEC 2026',
         date: 'March 2026',
         description: 'A grand celebration of technology featuring hackathons, coding competitions, robotics challenges, and expert talks.',
-        type: 'fest'
+        type: 'fest',
+        image: '/images/event-fest.png'
     },
     {
         title: 'Campus Placement Drive',
         date: 'Feb 2026',
         description: 'Multiple top companies visiting campus for recruitment. Students from all branches participated actively.',
-        type: 'placement'
+        type: 'placement',
+        image: '/images/event-placement.png'
     },
     {
         title: 'Workshop on AI & Machine Learning',
         date: 'Jan 2026',
         description: 'A hands-on workshop conducted by industry experts covering latest trends in artificial intelligence.',
-        type: 'workshop'
+        type: 'workshop',
+        image: '/images/event-workshop.png'
     },
     {
         title: 'Sports Day Celebration',
         date: 'Dec 2025',
         description: 'Annual sports day with various indoor and outdoor events promoting physical fitness and team spirit.',
-        type: 'sports'
+        type: 'sports',
+        image: '/images/event-sports.png'
     }
 ];
 
@@ -180,39 +301,284 @@ export const contactInfo = {
 export const facilities = [
     {
         name: 'Hostel',
+        tagline: 'Home Away From Home',
         description: 'Separate hostels for boys and girls with mess facility, Wi-Fi, and 24/7 security. Comfortable rooms with modern amenities.',
         icon: '🏠',
-        features: ['Wi-Fi Connectivity', 'Mess Facility', '24/7 Security', 'Recreation Room']
+        gradient: 'linear-gradient(135deg, #3A5A40 0%, #588157 100%)',
+        accentColor: '#3A5A40',
+        features: ['Wi-Fi Connectivity', 'Mess Facility', '24/7 Security', 'Recreation Room'],
+        image: '/images/college-bg.png',
+        details: {
+            head: {
+                name: 'Mr. Salim Khan',
+                designation: 'Hostel Warden (Boys)',
+                contact: '+91-98765-43210',
+                email: 'warden.boys@mecw.ac.in'
+            },
+            headGirls: {
+                name: 'Ms. Rukhsana Begum',
+                designation: 'Hostel Warden (Girls)',
+                contact: '+91-98765-43211',
+                email: 'warden.girls@mecw.ac.in'
+            },
+            roomTypes: [
+                { type: 'Single Occupancy', rent: '₹3,500 / month', amenities: ['Attached Bathroom', 'Study Table', 'Wardrobe', 'Fan & Light'] },
+                { type: 'Double Occupancy', rent: '₹2,500 / month', amenities: ['Common Bathroom', 'Study Tables', 'Wardrobes', 'Fan & Light'] },
+                { type: 'Triple Occupancy', rent: '₹2,000 / month', amenities: ['Common Bathroom', 'Shared Study Area', 'Wardrobes', 'Fan & Light'] }
+            ],
+            annualFee: '₹25,000 / year (incl. Mess)',
+            messFee: '₹2,000 / month',
+            securityDeposit: '₹5,000 (refundable)',
+            security: [
+                '24/7 CCTV Surveillance with 80+ cameras',
+                'Biometric entry/exit system',
+                'Security guards at all entry points',
+                'Regular rounds by warden staff',
+                'Visitor log system & identity verification',
+                'Emergency panic buttons in each block'
+            ],
+            wifi: {
+                provider: 'BSNL Broadband',
+                speed: '100 Mbps (shared)',
+                coverage: 'All hostel blocks & common areas',
+                timings: '6:00 AM – 11:00 PM',
+                charge: 'Free (included in hostel fee)'
+            },
+            mess: {
+                timings: [
+                    { meal: 'Breakfast', time: '7:00 AM – 9:00 AM' },
+                    { meal: 'Lunch', time: '12:30 PM – 2:30 PM' },
+                    { meal: 'Snacks', time: '5:00 PM – 6:00 PM' },
+                    { meal: 'Dinner', time: '7:30 PM – 9:30 PM' }
+                ],
+                type: 'Pure Vegetarian & Non-Vegetarian options',
+                catering: 'Managed by licensed caterer'
+            },
+            amenities: [
+                'Common Room with TV & indoor games',
+                'Laundry & ironing facility',
+                'Hot water supply',
+                'Gymnasium access',
+                'Reading room & study hall',
+                'Medical room with first aid',
+                'Generator backup 24/7',
+                'Parking for two-wheelers'
+            ],
+            rules: [
+                'Entry curfew: 9:00 PM (Boys), 7:00 PM (Girls)',
+                'No outsiders allowed in rooms',
+                'Prior permission required for night-out',
+                'No smoking or alcohol in hostel premises'
+            ]
+        }
     },
     {
         name: 'Library',
+        tagline: 'Knowledge at Your Fingertips',
         description: 'A well-equipped library with over 18,000 volumes including textbooks, reference books, journals, and digital resources.',
-        icon: '📖',
-        features: ['18,000+ Books', 'E-Journals', 'Reading Hall', 'Digital Library']
+        icon: '📚',
+        gradient: 'linear-gradient(135deg, #5C4033 0%, #8B6347 100%)',
+        accentColor: '#7B4F2E',
+        features: ['18,000+ Books', 'E-Journals', 'Reading Hall', 'Digital Library'],
+        image: '/images/college-bg-1.jpg',
+        details: {
+            head: {
+                name: 'Mr. Aslam Qureshi',
+                designation: 'Chief Librarian',
+                contact: '+91-98765-43212',
+                email: 'library@mecw.ac.in'
+            },
+            timings: '8:00 AM – 8:00 PM (Mon–Sat), 10:00 AM – 4:00 PM (Sun)',
+            collection: [
+                { category: 'Engineering Textbooks', count: '8,500+' },
+                { category: 'Reference Books', count: '4,200+' },
+                { category: 'Journals & Magazines', count: '1,800+' },
+                { category: 'E-Books & E-Journals', count: '3,500+' },
+                { category: 'Question Banks & Past Papers', count: 'All branches' },
+                { category: 'National Newspapers', count: '8 dailies' }
+            ],
+            digital: [
+                'NPTEL Video Lectures access',
+                'IEEE Xplore digital library',
+                'Springer Online Journals',
+                'DELNET membership',
+                '35-seat digital reading room',
+                'High-speed internet access'
+            ],
+            services: [
+                'Home lending (14-day period)',
+                'Photocopy & scanning facility',
+                'Book reservation system',
+                'Inter-library loan',
+                'Reference & bibliography services',
+                'New arrivals notice board'
+            ],
+            annualFee: '₹500 / year (refundable deposit on books)',
+            seatingCapacity: 120
+        }
     },
     {
         name: 'Laboratories',
+        tagline: 'Hands-On Learning Excellence',
         description: 'State-of-the-art labs for all departments equipped with latest instruments and software for practical learning.',
         icon: '🔬',
-        features: ['Department Labs', 'Computer Labs', 'Workshop', 'Language Lab']
+        gradient: 'linear-gradient(135deg, #1A3A5C 0%, #2E6DA4 100%)',
+        accentColor: '#1A5276',
+        features: ['Department Labs', 'Computer Labs', 'Workshop', 'Language Lab'],
+        image: '/images/college-bg-2.png',
+        details: {
+            head: {
+                name: 'Dr. Mohd. Tariq',
+                designation: 'Lab Coordinator',
+                contact: '+91-98765-43213',
+                email: 'labs@mecw.ac.in'
+            },
+            totalLabs: 18,
+            labs: [
+                { dept: 'Computer Science', labs: ['Programming Lab', 'AI & Data Science Lab', 'Networking Lab', 'Web Dev Lab'], software: 'Python, MATLAB, Cisco Packet Tracer' },
+                { dept: 'Civil Engineering', labs: ['Structural Engg Lab', 'Surveying Lab', 'Fluid Mechanics Lab', 'Geotechnical Lab'], software: 'AutoCAD, STAAD Pro' },
+                { dept: 'Mechanical', labs: ['Central Workshop', 'Thermal Lab', 'CAD/CAM Lab', 'Automobile Lab'], software: 'SolidWorks, ANSYS' },
+                { dept: 'EEE / ECE', labs: ['Electrical Machines Lab', 'Power Electronics Lab', 'Communication Lab', 'VLSI Lab'], software: 'MATLAB, PSpice, Xilinx' },
+                { dept: 'Applied Sciences', labs: ['Physics Lab', 'Chemistry Lab', 'Language Lab'], software: 'LabView, Chemsketch' }
+            ],
+            timings: '9:00 AM – 5:00 PM (Mon–Sat)',
+            safety: [
+                'Fire extinguishers in every lab',
+                'First aid kits readily available',
+                'Safety gloves & goggles provided',
+                'Proper earthing & power safety measures'
+            ]
+        }
     },
     {
         name: 'Transport',
+        tagline: 'Safe & Convenient Commute',
         description: 'College bus service covering major routes in Nuh and surrounding areas for convenient commute.',
         icon: '🚌',
-        features: ['Multiple Routes', 'GPS Tracked', 'Faculty Bus', 'Affordable Fare']
+        gradient: 'linear-gradient(135deg, #7D4A00 0%, #C47A1A 100%)',
+        accentColor: '#B7600C',
+        features: ['Multiple Routes', 'GPS Tracked', 'Faculty Bus', 'Affordable Fare'],
+        image: '/images/college-bg-3.png',
+        details: {
+            head: {
+                name: 'Mr. Imran Ali',
+                designation: 'Transport In-charge',
+                contact: '+91-98765-43214',
+                email: 'transport@mecw.ac.in'
+            },
+            fleetSize: 12,
+            routes: [
+                { route: 'Nuh → MEC (via Tauru)', stops: 'Nuh, Tauru, Nagina', timing: '7:30 AM / 5:30 PM' },
+                { route: 'Gurgaon → MEC', stops: 'Gurgaon, Sohna, Nuh', timing: '7:00 AM / 6:00 PM' },
+                { route: 'Mewat Local Route', stops: 'Palla, Piangwan, Nagina', timing: '7:30 AM / 5:30 PM' },
+                { route: 'Faridabad → MEC', stops: 'Faridabad, Ballabhgarh, Hodal', timing: '6:30 AM / 6:30 PM' },
+                { route: 'Rewari → MEC', stops: 'Rewari, Palhawas', timing: '7:00 AM / 6:00 PM' }
+            ],
+            fees: [
+                { distance: 'Up to 10 km', annual: '₹8,000' },
+                { distance: '10–25 km', annual: '₹12,000' },
+                { distance: '25–50 km', annual: '₹18,000' },
+                { distance: '50+ km', annual: '₹22,000' }
+            ],
+            safety: [
+                'GPS tracking on all buses',
+                'Trained & licensed drivers',
+                'Speed governors installed',
+                'Regular vehicle maintenance checks',
+                'First aid kit on every bus',
+                'Female escort for girls\' routes'
+            ]
+        }
     },
     {
         name: 'Sports & Gymnasium',
+        tagline: 'Fitness Meets Excellence',
         description: 'Multi-purpose sports ground, indoor gymnasium, and facilities for cricket, football, basketball, and volleyball.',
         icon: '🏋️',
-        features: ['Gymnasium', 'Cricket Ground', 'Basketball Court', 'Indoor Games']
+        gradient: 'linear-gradient(135deg, #4A235A 0%, #7D3C98 100%)',
+        accentColor: '#6C3483',
+        features: ['Gymnasium', 'Cricket Ground', 'Basketball Court', 'Indoor Games'],
+        image: '/images/college-bg.png',
+        details: {
+            head: {
+                name: 'Mr. Salman Raza',
+                designation: 'Sports Director',
+                contact: '+91-98765-43215',
+                email: 'sports@mecw.ac.in'
+            },
+            outdoorFacilities: [
+                'Cricket Ground with pitch & practice nets',
+                'Football ground (full-size)',
+                'Volleyball court',
+                'Kabaddi & Kho-Kho ground',
+                'Athletics track (200m)',
+                'Badminton courts (outdoor)'
+            ],
+            indoorFacilities: [
+                'Fully equipped Gymnasium',
+                'Table Tennis room',
+                'Carom & Chess boards',
+                'Basketball court (indoor)',
+                'Boxing ring',
+                'Yoga & Meditation room'
+            ],
+            gymEquipment: [
+                'Treadmills × 6',
+                'Multi-gym station',
+                'Free weights & dumbbells',
+                'Cycling machines × 4',
+                'Rowing machine × 2',
+                'Pull-up & dip station'
+            ],
+            timings: '6:00 AM – 8:00 AM & 4:00 PM – 7:00 PM',
+            gymFee: '₹500 / month (students), ₹1,000 / month (staff)',
+            achievements: [
+                'Inter-University Cricket Championship – 2024 Runners-Up',
+                'Haryana State Kabaddi – 3rd Place (2023)',
+                'Table Tennis District Champion – 2024'
+            ]
+        }
     },
     {
         name: 'Language Lab',
+        tagline: 'Speak With Confidence',
         description: 'Modern language lab with audio-visual aids to enhance communication skills and English proficiency.',
         icon: '🗣️',
-        features: ['Audio-Visual Aids', 'Communication Training', 'Personality Development', 'Soft Skills']
+        gradient: 'linear-gradient(135deg, #1A4A5A 0%, #1A7A8A 100%)',
+        accentColor: '#117A8B',
+        features: ['Audio-Visual Aids', 'Communication Training', 'Personality Development', 'Soft Skills'],
+        image: '/images/college-bg-1.jpg',
+        details: {
+            head: {
+                name: 'Ms. Tabassum',
+                designation: 'Language Lab In-charge',
+                contact: '+91-98765-43216',
+                email: 'languagelab@mecw.ac.in'
+            },
+            seatingCapacity: 40,
+            equipment: [
+                '40 individual headphone workstations',
+                'Smart interactive board',
+                'HD projector & screen',
+                'Linguaphone system',
+                'Audio-visual recording setup',
+                'High-speed internet terminals'
+            ],
+            programs: [
+                { name: 'Business Communication', duration: '30 hrs/semester', outcome: 'Workplace communication skills' },
+                { name: 'Spoken English', duration: '20 hrs/semester', outcome: 'Fluency & pronunciation' },
+                { name: 'Group Discussion & GD Training', duration: '10 hrs/semester', outcome: 'Interview preparation' },
+                { name: 'Presentation Skills', duration: '10 hrs/semester', outcome: 'Public speaking confidence' },
+                { name: 'Personality Development', duration: '15 hrs/semester', outcome: 'Soft skills & etiquette' }
+            ],
+            software: [
+                'ORELL Language Learning Software',
+                'British Council learning modules',
+                'Grammar & vocabulary builders',
+                'Mock interview simulation software'
+            ],
+            timings: '9:00 AM – 5:00 PM (Mon–Sat)'
+        }
     }
 ];
 

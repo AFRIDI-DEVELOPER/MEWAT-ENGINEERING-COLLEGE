@@ -1,15 +1,12 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import PageHeader from '../components/PageHeader'
+
 import { admissionInfo } from '../data/content'
 
 export default function Admissions() {
     return (
         <>
-            <PageHeader
-                title="Admissions"
-                subtitle="Join MEC and begin your engineering journey. Applications open for 2026-27 session."
-            />
+
 
             {/* Eligibility */}
             <section className="section">

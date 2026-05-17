@@ -1083,10 +1083,10 @@ main.portal-active {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(88, 129, 87, 0.15); /* Light green tint border */
   border-radius: 32px;
-  width: 63vw; /* Increased by 3vw */
-  max-width: 100%; /* Prevents overflowing the parent container */
-  height: 70vh; /* Increased by 10vh */
-  margin-left: -1.5vw; /* Fine-tuned left margin */
+  width: 100%;
+  max-width: 100%;
+  height: clamp(480px, 70vh, 660px);
+  margin-left: 0;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
@@ -1101,8 +1101,9 @@ main.portal-active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 70vh;
+  height: clamp(480px, 70vh, 660px);
   position: relative;
+  min-width: 0;
 }
 
 @keyframes floatTop {
@@ -1123,10 +1124,10 @@ main.portal-active {
   border: 1px solid rgba(255, 255, 255, 0.704);
   border-top: none;
   border-radius: 0 0 32px 32px;
-  width: 110%;
-  height: 67vh; /* Increased from 55vh */
-  margin-top: 3vh; /* Reduced gap from top to 3vh */
-  margin-right: -3.5vw;
+  width: 100%;
+  height: clamp(420px, 67vh, 620px);
+  margin-top: 3vh;
+  margin-right: 0;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
@@ -1193,6 +1194,16 @@ main.portal-active {
   
   .hero-glass-sidebar {
     animation: none !important;
+  }
+}
+
+/* --- Large screen fine-tuning (1400px+) --- */
+@media (min-width: 1400px) {
+  .home-hero-content {
+    gap: 48px;
+  }
+  .hero-main-column {
+    flex: 0 0 78%;
   }
 }
 
@@ -1668,7 +1679,7 @@ main.portal-active {
 .hero-affiliation-badge {
   animation: floatTop 5s ease-in-out infinite;
   position: relative;
-  margin-right: -3.5vw;
+  margin-right: 0;
   margin-top: 0px;
   z-index: 10;
   display: flex;
@@ -1676,7 +1687,7 @@ main.portal-active {
   justify-content: center;
   gap: 10px;
   padding: 18px 30px;
-  width: 110%;
+  width: 100%;
   background: rgba(201, 200, 200, 0.52);
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -1722,7 +1733,8 @@ main.portal-active {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex-shrink: 0;
+  flex: 0 0 79%;
+  min-width: 0;
 }
 
 .hero-social-horizontal {

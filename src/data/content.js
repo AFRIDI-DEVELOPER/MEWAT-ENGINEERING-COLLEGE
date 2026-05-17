@@ -5,21 +5,21 @@ export const departments = [
         shortName: 'CSE',
         seats: 60,
         description: 'The CSE department offers a cutting-edge curriculum covering algorithms, data structures, AI, machine learning, web development, and software engineering.',
-        icon: '💻',
+        icon: '\uD83D\uDCBB',
         iconImg: '/images/cursor/icon_21.webp',
         highlights: ['Modern Computer Labs', 'Industry Collaborations', 'Coding Bootcamps', 'Smart Classrooms'],
         hod: {
-            name: 'Dr. Shamim Sharma',
+            name: 'Dr. Mohd Shahid',
             designation: 'HOD & Associate Professor',
-            experience: '15+ Years',
+            experience: '18+ Years',
             education: 'Ph.D in Computer Science',
             image: '👨‍💼'
         },
         faculty: [
-            { name: 'Dr. Shamim Sharma', designation: 'Associate Professor', specialization: 'Machine Learning', experience: '15 Years' },
-            { name: 'Mr. Mohd Anas', designation: 'Assistant Professor', specialization: 'Cloud Computing', experience: '8 Years' },
-            { name: 'Ms. Farhat Jahan', designation: 'Assistant Professor', specialization: 'Data Structures', experience: '6 Years' },
-            { name: 'Mr. Salman Khan', designation: 'Assistant Professor', specialization: 'Web Technologies', experience: '5 Years' }
+            { name: 'Dr. Mohd Shahid', designation: 'Associate Professor', specialization: 'Machine Learning', experience: '18 Years' },
+            { name: 'Dr. Pratul Sharma', designation: 'Assistant Professor', specialization: 'Computer Networks', experience: '10 Years' },
+            { name: 'Dr. Aakib Jawed Khan', designation: 'Assistant Professor', specialization: 'Software Engineering', experience: '8 Years' },
+            { name: 'Ms. Farhat Jahan', designation: 'Assistant Professor', specialization: 'Data Structures', experience: '6 Years' }
         ],
         labs: [
             { name: 'Computer Networking Lab', resources: 'Cisco Switches, Routers, LAN Trainers' },
@@ -35,14 +35,14 @@ export const departments = [
         shortName: 'CE',
         seats: 60,
         description: 'Training future civil engineers with hands-on experience in structural design, construction management, surveying, and environmental engineering.',
-        icon: '🏗️',
+        icon: '\uD83C\uDFD7\uFE0F',
         iconImg: '/images/cursor/icon_15.webp',
         highlights: ['Material Testing Lab', 'Survey Instruments', 'CAD Software', 'Site Visits'],
         hod: {
-            name: 'Dr. Vaseem Akram',
+            name: 'Dr. Nina Godhara',
             designation: 'HOD & Professor',
-            experience: '18+ Years',
-            education: 'Ph.D in Structural Engineering',
+            experience: '20+ Years',
+            education: 'Ph.D in Civil Engineering',
             image: '👷‍♂️'
         },
         faculty: [
@@ -64,7 +64,7 @@ export const departments = [
         shortName: 'ME',
         seats: 30,
         description: 'Comprehensive program covering thermodynamics, manufacturing, CAD/CAM, robotics, and automotive engineering with state-of-the-art workshops.',
-        icon: '⚙️',
+        icon: '\u2699\uFE0F',
         iconImg: '/images/cursor/icon_16.webp',
         highlights: ['Workshop Facilities', 'CAD/CAM Lab', 'Thermal Lab', 'Industrial Visits'],
         hod: {
@@ -93,19 +93,19 @@ export const departments = [
         shortName: 'EEE',
         seats: 30,
         description: 'Focuses on power systems, electrical machines, control systems, and electronics, preparing students for careers in energy and electrical sectors.',
-        icon: '⚡',
+        icon: '\u26A1',
         iconImg: '/images/cursor/icon_18.webp',
         highlights: ['Power Systems Lab', 'Electrical Machines Lab', 'Control Systems Lab', 'Smart Grid Training'],
         hod: {
-            name: 'Dr. Shabana Khatoon',
+            name: 'Mr. Mohd Umar Khan',
             designation: 'HOD & Associate Professor',
-            experience: '14+ Years',
-            education: 'Ph.D in Power Systems',
+            experience: '16+ Years',
+            education: 'Ph.D in Power Systems (Pursuing)',
             image: '⚡'
         },
         faculty: [
-            { name: 'Dr. Shabana Khatoon', designation: 'Associate Professor', specialization: 'Power Systems', experience: '14 Years' },
-            { name: 'Mr. Faisal Khan', designation: 'Assistant Professor', specialization: 'Control Systems', experience: '8 Years' }
+            { name: 'Mr. Mohd Umar Khan', designation: 'Associate Professor', specialization: 'Power Systems', experience: '16 Years' },
+            { name: 'Mr. Kamaluddin Khan', designation: 'Assistant Professor', specialization: 'Control Systems', experience: '12 Years' }
         ],
         labs: [
             { name: 'Electrical Machines Lab', resources: 'AC/DC Motors, Transformers' },
@@ -121,7 +121,7 @@ export const departments = [
         shortName: 'ECE',
         seats: 30,
         description: 'Covers communication systems, signal processing, VLSI design, embedded systems, and IoT with well-equipped laboratory infrastructure.',
-        icon: '📡',
+        icon: '\uD83D\uDCE1',
         iconImg: '/images/cursor/icon_12.webp',
         highlights: ['Communication Lab', 'VLSI Lab', 'Embedded Systems Lab', 'IoT Workshop'],
         hod: {
@@ -149,7 +149,7 @@ export const departments = [
         shortName: 'AS&H',
         seats: 60,
         description: 'Provides foundational education in mathematics, physics, chemistry, English, and management to all engineering students.',
-        icon: '📚',
+        icon: '\uD83D\uDCDA',
         iconImg: '/images/cursor/icon_10.webp',
         highlights: ['Physics Lab', 'Chemistry Lab', 'Language Lab', 'Mathematics Resource Center'],
         hod: {
@@ -190,20 +190,25 @@ export const stats = [
     { id: 'gate', label: 'GATE Qualified', value: 50, suffix: '+', icon: '🎓' },
     { id: 'air', label: 'Best GATE AIR', value: 48, suffix: '', icon: '🏆' },
     { id: 'recruiters', label: 'Recruiters', value: 30, suffix: '+', icon: '🤝' },
-    { id: 'books', label: 'Library Books', value: 18000, suffix: '+', icon: '📖' },
-    { id: 'acres', label: 'Campus Acres', value: 15, suffix: '', icon: '🌳' }
+    { id: 'books', label: 'Library Books', value: 40000, suffix: '+', icon: '📖' },
+    { id: 'acres', label: 'Campus Acres', value: 28, suffix: '', icon: '🌳' }
 ];
 
 // Highlights
 export const highlights = [
+    {
+        title: 'WAQF Establishment',
+        description: 'Established by the Haryana Waqf Board, Government of Haryana',
+        icon: '🏛️'
+    },
     {
         title: 'AICTE Approved',
         description: 'All programs are approved by AICTE, New Delhi',
         icon: '✅'
     },
     {
-        title: 'DCRUST Affiliated',
-        description: 'Affiliated to Deenbandhu Chhotu Ram University of Science & Technology, Murthal',
+        title: 'Gurugram University Affiliated',
+        description: 'Affiliated to Gurugram University, Haryana',
         icon: '🎓'
     },
     {
@@ -217,8 +222,8 @@ export const highlights = [
         icon: '👩‍🎓'
     },
     {
-        title: 'GATE Toppers',
-        description: 'Produced GATE toppers with AIR 48 and multiple top ranks',
+        title: 'GATE 2024 Success',
+        description: 'Produced GATE AIR 48 (Dipanshu Garg) and multiple top ranks',
         icon: '🏆'
     },
     {
@@ -234,34 +239,42 @@ export const testimonials = [
         name: 'Mohd Arif',
         branch: 'CSE, Batch 2020',
         quote: 'MEC provided me with excellent education and practical skills. The faculty\'s dedication and modern labs helped me secure a great position at an MNC.',
-        avatar: '👨‍💻'
+        avatar: '👨‍💻',
+        rating: 4.8,
+        currentPosition: 'Software Engineer at Microsoft'
     },
     {
         name: 'Saba Parveen',
         branch: 'Civil Engineering, Batch 2021',
         quote: 'Being a girl from a rural area, the 50% fee concession was a blessing. The supportive environment at MEC helped me grow both personally and professionally.',
-        avatar: '👩‍🔬'
+        avatar: '👩‍🔬',
+        rating: 4.9,
+        currentPosition: 'SDO, Haryana Government'
     },
     {
         name: 'Rahul Sharma',
         branch: 'Mechanical Engineering, Batch 2019',
         quote: 'MEC\'s emphasis on practical learning through workshops and industrial visits gave me hands-on experience that made me job-ready from day one.',
-        avatar: '👨‍🔧'
+        avatar: '👨‍🔧',
+        rating: 4.7,
+        currentPosition: 'Production Manager at Maruti Suzuki'
     },
     {
         name: 'Nazia Khan',
         branch: 'ECE, Batch 2022',
         quote: 'The placement cell at MEC is very active. I got placed in my dream company through campus placement. The training programs were very helpful.',
-        avatar: '👩‍💼'
+        avatar: '👩‍💼',
+        rating: 4.8,
+        currentPosition: 'System Analyst at TCS'
     }
 ];
 
 // Events/News
 export const events = [
     {
-        title: 'Annual Technical Fest - TechMEC 2026',
-        date: 'March 2026',
-        description: 'A grand celebration of technology featuring hackathons, coding competitions, robotics challenges, and expert talks.',
+        title: 'International Conference - RTREAET-2025',
+        date: 'March 15, 2025',
+        description: '4th Online International Conference on Recent Trends & Emerging Advancements in Engineering and Technology.',
         type: 'fest',
         image: '/images/event-fest.png'
     },
@@ -303,7 +316,7 @@ export const facilities = [
         name: 'Hostel',
         tagline: 'Home Away From Home',
         description: 'Separate hostels for boys and girls with mess facility, Wi-Fi, and 24/7 security. Comfortable rooms with modern amenities.',
-        icon: '🏠',
+        icon: '\uD83C\uDFE0',
         gradient: 'linear-gradient(135deg, #3A5A40 0%, #588157 100%)',
         accentColor: '#3A5A40',
         features: ['Wi-Fi Connectivity', 'Mess Facility', '24/7 Security', 'Recreation Room'],
@@ -326,9 +339,9 @@ export const facilities = [
                 { type: 'Double Occupancy', rent: '₹2,500 / month', amenities: ['Common Bathroom', 'Study Tables', 'Wardrobes', 'Fan & Light'] },
                 { type: 'Triple Occupancy', rent: '₹2,000 / month', amenities: ['Common Bathroom', 'Shared Study Area', 'Wardrobes', 'Fan & Light'] }
             ],
-            annualFee: '₹25,000 / year (incl. Mess)',
-            messFee: '₹2,000 / month',
-            securityDeposit: '₹5,000 (refundable)',
+            annualFee: '₹44,000 / year (Boys & Girls)',
+            messFee: 'Included in Annual Fee',
+            securityDeposit: '₹5,000 (One-time, Refundable)',
             security: [
                 '24/7 CCTV Surveillance with 80+ cameras',
                 'Biometric entry/exit system',
@@ -373,13 +386,13 @@ export const facilities = [
         }
     },
     {
-        name: 'Library',
+        name: 'Central Library',
         tagline: 'Knowledge at Your Fingertips',
-        description: 'A well-equipped library with over 18,000 volumes including textbooks, reference books, journals, and digital resources.',
-        icon: '📚',
+        description: 'A well-equipped, computerized, and centrally air-conditioned library with over 40,000 volumes including textbooks, reference books, journals, and a dedicated Book Bank.',
+        icon: '\uD83D\uDCDA',
         gradient: 'linear-gradient(135deg, #5C4033 0%, #8B6347 100%)',
         accentColor: '#7B4F2E',
-        features: ['18,000+ Books', 'E-Journals', 'Reading Hall', 'Digital Library'],
+        features: ['40,000+ Books', 'Book Bank Facility', 'E-Journals', 'Digital Library'],
         image: '/images/college-bg-1.jpg',
         details: {
             head: {
@@ -390,8 +403,8 @@ export const facilities = [
             },
             timings: '8:00 AM – 8:00 PM (Mon–Sat), 10:00 AM – 4:00 PM (Sun)',
             collection: [
-                { category: 'Engineering Textbooks', count: '8,500+' },
-                { category: 'Reference Books', count: '4,200+' },
+                { category: 'Engineering Textbooks', count: '30,000+' },
+                { category: 'Reference Books', count: '5,000+' },
                 { category: 'Journals & Magazines', count: '1,800+' },
                 { category: 'E-Books & E-Journals', count: '3,500+' },
                 { category: 'Question Banks & Past Papers', count: 'All branches' },
@@ -421,7 +434,7 @@ export const facilities = [
         name: 'Laboratories',
         tagline: 'Hands-On Learning Excellence',
         description: 'State-of-the-art labs for all departments equipped with latest instruments and software for practical learning.',
-        icon: '🔬',
+        icon: '\uD83D\uDD2C',
         gradient: 'linear-gradient(135deg, #1A3A5C 0%, #2E6DA4 100%)',
         accentColor: '#1A5276',
         features: ['Department Labs', 'Computer Labs', 'Workshop', 'Language Lab'],
@@ -454,7 +467,7 @@ export const facilities = [
         name: 'Transport',
         tagline: 'Safe & Convenient Commute',
         description: 'College bus service covering major routes in Nuh and surrounding areas for convenient commute.',
-        icon: '🚌',
+        icon: '\uD83D\uDE8C',
         gradient: 'linear-gradient(135deg, #7D4A00 0%, #C47A1A 100%)',
         accentColor: '#B7600C',
         features: ['Multiple Routes', 'GPS Tracked', 'Faculty Bus', 'Affordable Fare'],
@@ -494,7 +507,7 @@ export const facilities = [
         name: 'Sports & Gymnasium',
         tagline: 'Fitness Meets Excellence',
         description: 'Multi-purpose sports ground, indoor gymnasium, and facilities for cricket, football, basketball, and volleyball.',
-        icon: '🏋️',
+        icon: '\uD83C\uDFCB\uFE0F',
         gradient: 'linear-gradient(135deg, #4A235A 0%, #7D3C98 100%)',
         accentColor: '#6C3483',
         features: ['Gymnasium', 'Cricket Ground', 'Basketball Court', 'Indoor Games'],
@@ -543,7 +556,7 @@ export const facilities = [
         name: 'Language Lab',
         tagline: 'Speak With Confidence',
         description: 'Modern language lab with audio-visual aids to enhance communication skills and English proficiency.',
-        icon: '🗣️',
+        icon: '\uD83D\uDDE3\uFE0F',
         gradient: 'linear-gradient(135deg, #1A4A5A 0%, #1A7A8A 100%)',
         accentColor: '#117A8B',
         features: ['Audio-Visual Aids', 'Communication Training', 'Personality Development', 'Soft Skills'],
@@ -601,10 +614,11 @@ export const admissionInfo = {
         'Pay the admission fee and complete registration'
     ],
     feeStructure: {
-        tuitionFee: '₹35,000 / year',
-        hostelFee: '₹25,000 / year',
-        girlsDiscount: '50% concession on tuition fee for girl students',
-        scholarships: 'Various state and central government scholarships available'
+        tuitionFeeBoys: '₹49,500 / year',
+        tuitionFeeGirls: '₹19,750 / year',
+        hostelFee: '₹44,000 / year',
+        girlsDiscount: 'Special concession of ~60% for girl students',
+        scholarships: 'Various state (PMS) and central government (MOMA) scholarships available'
     },
     programs: departments.filter(d => d.seats !== null).map(d => ({
         name: `B.Tech in ${d.name}`,
@@ -615,19 +629,41 @@ export const admissionInfo = {
 
 // About section data
 export const aboutData = {
-    history: 'Mewat Engineering College (WAQF) was established with the vision of providing quality technical education to the students of Mewat region and beyond. Located in the serene village of Palla, District Nuh (Mewat), Haryana, the college has grown to become a premier engineering institution in the region.',
-    vision: 'To be a center of excellence in technical education, producing competent engineers who contribute to the national development and upliftment of the Mewat region.',
+    history: 'Mewat Engineering College (WAQF) was established by the Haryana Waqf Board (Government of Haryana) in 2010 to provide quality technical education to the students of the Mewat region and beyond. Situated on a sprawling 28-acre campus in Palla, Nuh, the college is a pioneer institution in the region, bridging the gap in professional education for underserved communities.',
+    vision: 'To achieve excellence in technical education, research, and innovation while creating a purposeful impact globally.',
     mission: [
-        'To provide quality technical education accessible to all sections of society',
-        'To develop competent engineers with strong ethical values',
-        'To promote research and innovation in engineering and technology',
-        'To foster industry-academia collaboration for practical learning',
-        'To empower women through engineering education with special incentives'
+        'To identify the global needs of industry and society and translate them into academic programs',
+        'To produce motivated professionals and entrepreneurs with strong ethical values',
+        'To provide innovative teaching and learning mechanisms for all students',
+        'To foster collaboration with leading industry and research institutes'
     ],
     coreValues: [
-        { title: 'Excellence', description: 'Striving for the highest standards in education and research', icon: '⭐' },
-        { title: 'Inclusivity', description: 'Welcoming students from all backgrounds, especially underserved communities', icon: '🤝' },
-        { title: 'Innovation', description: 'Encouraging creative thinking and technological advancement', icon: '💡' },
-        { title: 'Integrity', description: 'Maintaining honesty and ethical standards in all endeavors', icon: '🛡️' }
-    ]
+        { title: 'Excellence', description: 'Striving for the highest standards in education and research', icon: '\u2B50' },
+        { title: 'Inclusivity', description: 'Welcoming students from all backgrounds, especially underserved communities', icon: '\uD83E\uDD1D' },
+        { title: 'Innovation', description: 'Encouraging creative thinking and technological advancement', icon: '\uD83D\uDCA1' },
+        { title: 'Integrity', description: 'Maintaining honesty and ethical standards in all endeavors', icon: '\uD83D\uDEE1\uFE0F' }
+    ],
+    preview: {
+        title: 'Empowering Engineers, Transforming Lives',
+        description: 'Mewat Engineering College (WAQF) is a premier engineering institution situated in the serene surroundings of Village Palla, District Nuh. Committed to transforming lives through quality technical education, we offer programs in 5 engineering disciplines.',
+        features: [
+            'AICTE Approved Programs',
+            'Experienced Faculty',
+            'Modern Laboratories',
+            '100% Placement Support'
+        ]
+    }
+};
+
+// Leadership / Director data
+export const directorData = {
+    name: 'Prof. (Dr.) Khwaja M. Rafi',
+    title: 'Director',
+    institution: 'Mewat Engineering College',
+    message: [
+        'Welcome to Mewat Engineering College (WAQF). Our institution is dedicated to providing quality technical education that empowers students from all backgrounds, especially the underserved communities of the Mewat region.',
+        'We believe in nurturing not just engineers, but responsible citizens who can contribute to the nation\'s progress. With our experienced faculty, modern infrastructure, and industry-aligned curriculum, we are committed to shaping the future leaders of technology.',
+        'I invite all aspiring engineers to join our family and embark on a transformative journey of learning and growth.'
+    ],
+    image: '/images/director.png'
 };

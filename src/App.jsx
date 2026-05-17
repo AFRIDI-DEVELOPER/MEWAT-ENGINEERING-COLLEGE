@@ -3,7 +3,8 @@ import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AntiGravityBackground from './components/AntiGravityBackground'
-import CursorTrail from './components/CursorTrail'
+import { getAssetPath } from './utils/assets'
+import { isPortalPage } from './utils/navigation'
 import Home from './pages/Home'
 import About from './pages/About'
 import Departments from './pages/Departments'
@@ -14,6 +15,8 @@ import Contact from './pages/Contact'
 import DepartmentDetail from './pages/DepartmentDetail'
 import StudentPortal from './pages/StudentPortal'
 import Dashboard from './pages/Dashboard'
+import AdminDashboard from './pages/AdminDashboard'
+import Notices from './pages/Notices'
 
 function ScrollToTop() {
     const { pathname } = useLocation()
@@ -25,15 +28,15 @@ function ScrollToTop() {
 
 export default function App() {
     const location = useLocation()
-    const isHomePage = location.pathname === '/'
+    const isPortal = isPortalPage(location.pathname)
 
     return (
         <>
             <AntiGravityBackground />
-            {isHomePage && <CursorTrail />}
             <ScrollToTop />
             <Navbar />
-            <main>
+            <main className={isPortal ? 'portal-active' : ''}>
+                {/* Background Video Removed */}
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
@@ -45,9 +48,11 @@ export default function App() {
                     <Route path="/departments/:id" element={<DepartmentDetail />} />
                     <Route path="/student-portal" element={<StudentPortal />} />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/admin" element={<AdminDashboard />} />
+                    <Route path="/notices" element={<Notices />} />
                 </Routes>
             </main>
-            <Footer />
+            {!isPortal && <Footer />}
         </>
     )
 }

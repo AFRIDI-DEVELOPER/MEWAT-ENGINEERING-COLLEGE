@@ -1,105 +1,34 @@
+import { aboutData } from '../data/content'
+import { getAssetPath } from '../utils/assets'
 import { motion } from 'framer-motion'
-import { aboutData as staticAboutData } from '../data/content'
-import { useCollegeInfo } from '../hooks/useSupabase'
+import DirectorMessage from '../components/DirectorMessage'
+import AboutPreview from '../components/AboutPreview'
+import SEO from '../components/SEO'
 
 export default function About() {
-    const { data: sbInfo } = useCollegeInfo()
-    const aboutData = sbInfo || staticAboutData
-
     return (
         <>
+            <SEO title="About Us" description="Learn about the history, vision, and mission of Mewat Engineering College (WAQF)." />
 
 
-            {/* History */}
+            <AboutPreview showLink={false} />
+            <DirectorMessage />
+
+            {/* History Detail */}
             <section className="section" style={{ background: 'var(--off-white)' }}>
                 <div className="container">
-                    <div className="about-preview-grid">
-                        <motion.div
-                            className="about-preview-img"
-                            initial={{ opacity: 0, x: -40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <div className="about-img-container">
-                                <img src="/images/college-bg-2.png" alt="MEC Campus" className="about-img-main" />
-                            </div>
-                            <div className="experience-badge">
-                                <div className="big-number">15+</div>
-                                <div className="small-text">Years of Excellence</div>
-                            </div>
-                        </motion.div>
-                        <motion.div
-                            initial={{ opacity: 0, x: 40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <span className="about-label">Our Story</span>
-                            <h2>Building a Legacy of Learning</h2>
-                            <p style={{ marginBottom: 20 }}>{aboutData.history}</p>
-                            <p>
-                                Approved by AICTE, New Delhi, and affiliated to Deenbandhu Chhotu Ram University of
-                                Science & Technology (DCRUST), Murthal, MEC offers B.Tech programs in five engineering
-                                disciplines with a total intake of 210 students per year. The college is known for its
-                                inclusive approach, offering 50% fee concession for girl students to promote women in engineering.
-                            </p>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Director's Message */}
-            <section className="section director-section">
-                <div className="container">
                     <div className="section-header">
-                        <span className="section-label">Leadership</span>
-                        <h2>Director's Message</h2>
-                        <p>A vision for excellence in engineering education</p>
+                        <span className="section-label">Our Journey</span>
+                        <h2>Building a Legacy of Learning</h2>
                     </div>
-                    <div className="director-grid">
-                        <motion.div
-                            className="director-image-wrapper"
-                            initial={{ opacity: 0, x: -40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <div className="director-image-frame">
-                                <img src="/images/director.png" alt="Director of Mewat Engineering College" />
-                            </div>
-                            <div className="director-name-card">
-                                <h3>Director</h3>
-                                <div className="director-title">Mewat Engineering College</div>
-                            </div>
-                        </motion.div>
-                        <motion.div
-                            className="director-message-content"
-                            initial={{ opacity: 0, x: 40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                        >
-                            <span className="director-quote-icon">"</span>
-                            <p>
-                                Welcome to Mewat Engineering College (WAQF). Our institution is dedicated to providing
-                                quality technical education that empowers students from all backgrounds, especially the
-                                underserved communities of the Mewat region.
-                            </p>
-                            <p>
-                                We believe in nurturing not just engineers, but responsible citizens who can contribute
-                                to the nation's progress. With our experienced faculty, modern infrastructure, and
-                                industry-aligned curriculum, we are committed to shaping the future leaders of technology.
-                            </p>
-                            <p>
-                                I invite all aspiring engineers to join our family and embark on a transformative journey
-                                of learning and growth.
-                            </p>
-                            <div className="director-signature">
-                                <div className="director-signature-line" />
-                                <span>Director, MEC (WAQF)</span>
-                            </div>
-                        </motion.div>
+                    <div className="about-history-content">
+                        <p style={{ marginBottom: 20, fontSize: '1.1rem', lineHeight: '1.8' }}>{aboutData.history}</p>
+                        <p style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
+                            Approved by AICTE, New Delhi, and affiliated to Deenbandhu Chhotu Ram University of
+                            Science & Technology (DCRUST), Murthal, MEC offers B.Tech programs in five engineering
+                            disciplines with a total intake of 210 students per year. The college is known for its
+                            inclusive approach, offering 50% fee concession for girl students to promote women in engineering.
+                        </p>
                     </div>
                 </div>
             </section>
@@ -119,7 +48,7 @@ export default function About() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5 }}
                         >
-                            <div className="vm-icon">🔭</div>
+                            <div className="vm-icon">{'\uD83D\uDD2D'}</div>
                             <h3>Our Vision</h3>
                             <p>{aboutData.vision}</p>
                         </motion.div>
@@ -130,7 +59,7 @@ export default function About() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: 0.1 }}
                         >
-                            <div className="vm-icon">🎯</div>
+                            <div className="vm-icon">{'\uD83C\uDFAF'}</div>
                             <h3>Our Mission</h3>
                             <ul>
                                 {aboutData.mission.map((item, i) => (

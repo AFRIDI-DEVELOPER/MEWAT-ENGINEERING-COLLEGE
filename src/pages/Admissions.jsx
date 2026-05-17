@@ -1,17 +1,19 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import SEO from '../components/SEO'
 
 import { admissionInfo, departments as staticDepartments } from '../data/content'
 import { useDepartments } from '../hooks/useSupabase'
 
 export default function Admissions() {
     const { data: sbDepts } = useDepartments()
-    const departments = sbDepts?.length > 0 ? sbDepts : staticDepartments
+    const departments = staticDepartments // Use local data for real info
     const programs = departments
         .filter(d => d.seats)
         .map(d => ({ name: `B.Tech in ${d.name}`, seats: d.seats, duration: '4 Years' }))
     return (
         <>
+            <SEO title="Admissions" description="Explore our B.Tech programs and find out how to apply to Mewat Engineering College." />
 
 
             {/* Eligibility */}
@@ -54,8 +56,12 @@ export default function Admissions() {
                         >
                             <h3>Fee Structure</h3>
                             <div className="fee-item">
-                                <span className="fee-label">Tuition Fee</span>
-                                <span className="fee-value">{admissionInfo.feeStructure.tuitionFee}</span>
+                                <span className="fee-label">Tuition Fee (Boys)</span>
+                                <span className="fee-value">{admissionInfo.feeStructure.tuitionFeeBoys}</span>
+                            </div>
+                            <div className="fee-item">
+                                <span className="fee-label">Tuition Fee (Girls)</span>
+                                <span className="fee-value">{admissionInfo.feeStructure.tuitionFeeGirls}</span>
                             </div>
                             <div className="fee-item">
                                 <span className="fee-label">Hostel Fee</span>
@@ -66,7 +72,7 @@ export default function Admissions() {
                                 <span className="fee-value">Available</span>
                             </div>
                             <div className="fee-highlight">
-                                <p>👩‍🎓 {admissionInfo.feeStructure.girlsDiscount}</p>
+                                <p>{'\uD83D\uDC69\u200D\uD83C\uDF93'} {admissionInfo.feeStructure.girlsDiscount}</p>
                             </div>
                         </motion.div>
                     </div>

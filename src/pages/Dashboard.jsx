@@ -1,117 +1,31 @@
 import { useEffect, useState } from 'react'
+import '../styles/dashboard-starfield.css'
+import '../styles/dashboard-dark-theme.css'
 import { useNavigate } from 'react-router-dom'
 import {
     FiUser, FiBook, FiClock, FiLogOut, FiTrendingUp,
     FiChevronRight, FiCalendar, FiAlertCircle, FiAward,
     FiFileText, FiCheckCircle, FiList
 } from 'react-icons/fi'
+import SEO from '../components/SEO'
 
-const syllabusData = [
-    {
-        code: 'CS-201',
-        name: 'Data Structures & Algorithms',
-        credits: 4,
-        faculty: 'Dr. Rajan Sharma',
-        type: 'Core',
-        topics: [
-            'Arrays & Linked Lists', 'Stacks & Queues', 'Trees & Graphs',
-            'Sorting Algorithms', 'Hashing & Heaps', 'Dynamic Programming',
-            'Greedy Algorithms', 'Backtracking'
-        ],
-        assignments: [
-            { title: 'Implement AVL Tree', deadline: '18 Apr', status: 'submitted' },
-            { title: 'Graph BFS/DFS', deadline: '25 Apr', status: 'pending' },
-            { title: 'Sorting Comparison', deadline: '10 Apr', status: 'evaluated' },
-            { title: 'DP Problems Set', deadline: '30 Apr', status: 'in-progress' },
-        ]
-    },
-    {
-        code: 'MA-201',
-        name: 'Discrete Mathematics',
-        credits: 3,
-        faculty: 'Prof. A. K. Singh',
-        type: 'Core',
-        topics: [
-            'Set Theory', 'Relations & Functions', 'Graph Theory',
-            'Combinatorics', 'Logic & Proofs', 'Boolean Algebra'
-        ],
-        assignments: [
-            { title: 'Proof Techniques', deadline: '20 Apr', status: 'completed' },
-            { title: 'Graph Coloring', deadline: '28 Apr', status: 'pending' },
-            { title: 'Combinatorics Problems', deadline: '12 Apr', status: 'evaluated' },
-        ]
-    },
-    {
-        code: 'CS-203',
-        name: 'Object Oriented Programming',
-        credits: 4,
-        faculty: 'Dr. Priya Mehta',
-        type: 'Core',
-        topics: [
-            'Classes & Objects', 'Inheritance', 'Polymorphism',
-            'Encapsulation', 'Abstraction', 'Design Patterns',
-            'Exception Handling', 'File I/O'
-        ],
-        assignments: [
-            { title: 'Design Pattern Demo', deadline: '22 Apr', status: 'in-progress' },
-            { title: 'Inheritance Exercise', deadline: '5 Apr', status: 'evaluated' },
-            { title: 'Mini Project', deadline: '5 May', status: 'pending' },
-        ]
-    },
-    {
-        code: 'EC-201',
-        name: 'Digital Electronics',
-        credits: 3,
-        faculty: 'Prof. M. R. Khan',
-        type: 'Elective',
-        topics: [
-            'Logic Gates', 'Combinational Circuits', 'Sequential Circuits',
-            'Flip-Flops', 'Counters', 'Shift Registers'
-        ],
-        assignments: [
-            { title: 'Logic Circuit Design', deadline: '19 Apr', status: 'submitted' },
-            { title: 'Sequential Circuits Lab', deadline: '26 Apr', status: 'pending' },
-        ]
-    },
-    {
-        code: 'CS-205',
-        name: 'Computer Organization',
-        credits: 3,
-        faculty: 'Dr. S. Kapoor',
-        type: 'Core',
-        topics: [
-            'Number Systems', 'ALU Design', 'Memory Organization',
-            'I/O Interface', 'Instruction Set Architecture', 'Pipelining'
-        ],
-        assignments: [
-            { title: 'ALU Simulation', deadline: '21 Apr', status: 'completed' },
-            { title: 'Memory Mapping', deadline: '29 Apr', status: 'pending' },
-        ]
-    },
-    {
-        code: 'HS-201',
-        name: 'Professional Communication',
-        credits: 2,
-        faculty: 'Dr. Fatima Zaidi',
-        type: 'Humanities',
-        topics: [
-            'Technical Writing', 'Presentation Skills', 'Email Etiquette',
-            'Group Discussion', 'Interview Skills', 'Report Writing'
-        ],
-        assignments: [
-            { title: 'Technical Report', deadline: '17 Apr', status: 'submitted' },
-            { title: 'Mock Interview', deadline: '2 May', status: 'pending' },
-        ]
-    }
-]
+import { fetchSubjects, fetchExams, fetchAttendance, fetchSyllabus } from '../lib/supabase'
 
-const examSchedule = [
-    { date: 'APR 22', subject: 'Data Structures & Algorithms', time: '10:00 AM', venue: 'Hall A', code: 'CS-201' },
-    { date: 'APR 25', subject: 'Discrete Mathematics', time: '02:00 PM', venue: 'Hall B', code: 'MA-201' },
-    { date: 'APR 28', subject: 'Object Oriented Programming', time: '10:00 AM', venue: 'Hall A', code: 'CS-203' },
-    { date: 'MAY 02', subject: 'Digital Electronics', time: '02:00 PM', venue: 'Hall C', code: 'EC-201' },
-    { date: 'MAY 05', subject: 'Computer Organization', time: '10:00 AM', venue: 'Hall B', code: 'CS-205' },
-]
+const MaintenanceView = ({ title, message }) => (
+    <div className="maintenance-view" style={{ 
+        textAlign: 'center', 
+        padding: '40px 20px', 
+        background: 'rgba(255,255,255,0.03)', 
+        borderRadius: '16px', 
+        border: '1px dashed rgba(255,255,255,0.1)' 
+    }}>
+        <FiAlertCircle size={48} style={{ color: 'var(--accent)', marginBottom: '16px', opacity: 0.5 }} />
+        <h3 style={{ color: '#fff', marginBottom: '8px' }}>{title || 'Module Under Construction'}</h3>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem' }}>
+            {message || 'Our administrators are currently updating this module. Please check back later.'}
+        </p>
+    </div>
+);
 
 const VIEWS = {
     OVERVIEW: 'overview',
@@ -123,6 +37,11 @@ export default function Dashboard() {
     const [user, setUser] = useState(null)
     const [activeView, setActiveView] = useState(VIEWS.OVERVIEW)
     const [activeSubject, setActiveSubject] = useState(null)
+    const [syllabus, setSyllabus] = useState([])
+    const [exams, setExams] = useState([])
+    const [attendance, setAttendance] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [unitData, setUnitData] = useState({})
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -130,23 +49,80 @@ export default function Dashboard() {
         if (!authData) {
             navigate('/student-portal')
         } else {
-            setUser(JSON.parse(authData))
+            const student = JSON.parse(authData)
+            setUser(student)
+            loadStudentData(student)
         }
     }, [navigate])
+
+    const loadStudentData = async (student) => {
+        try {
+            setLoading(true)
+            // Fetch subjects for this dept and semester
+            const subjectsData = await fetchSubjects(student.department_id, student.semester)
+            setSyllabus(subjectsData)
+
+            // Fetch exams
+            const examsData = await fetchExams()
+            // Filter exams for student's subjects
+            const studentSubjectIds = subjectsData.map(s => s.id)
+            const filteredExams = examsData.filter(e => studentSubjectIds.includes(e.subject_id))
+            setExams(filteredExams)
+
+            // Fetch attendance
+            const attData = await fetchAttendance(student.rollNo)
+            setAttendance(attData)
+
+        } catch (error) {
+            console.error('Error loading dashboard data:', error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const calculateAttendance = () => {
+        if (!attendance || attendance.length === 0) return 0
+        const totalWorking = attendance.reduce((acc, curr) => acc + (curr.total_working_days || 0), 0);
+        const totalAttended = attendance.reduce((acc, curr) => acc + (curr.days_attended || 0), 0);
+        if (totalWorking === 0) return 0;
+        return Math.round((totalAttended / totalWorking) * 100);
+    }
 
     const handleLogout = () => {
         localStorage.removeItem('student_auth')
         navigate('/')
     }
 
-    const toggleSubject = (code) => {
-        setActiveSubject(prev => prev === code ? null : code)
+    const toggleSubject = async (subjectId) => {
+        if (activeSubject === subjectId) {
+            setActiveSubject(null);
+            return;
+        }
+        
+        setActiveSubject(subjectId);
+        
+        // Fetch syllabus units if not already loaded
+        if (!unitData[subjectId]) {
+            try {
+                const data = await fetchSyllabus(subjectId);
+                setUnitData(prev => ({ ...prev, [subjectId]: data }));
+            } catch (error) {
+                console.error('Error fetching syllabus:', error);
+            }
+        }
     }
 
     if (!user) return null
 
     return (
         <div className="dashboard-page">
+            <SEO title="Dashboard" description="View your academic progress, syllabus, and exam schedule." />
+            {/* CSS Starfield Background */}
+            <div className="dashboard-starfield">
+                <div id="dashboard-stars"></div>
+                <div id="dashboard-stars2"></div>
+                <div id="dashboard-stars3"></div>
+            </div>
             <div className="container">
 
                 {/* Dashboard Grid */}
@@ -166,15 +142,15 @@ export default function Dashboard() {
                             </div>
                             <div className="info-item">
                                 <span className="label">Year</span>
-                                <span className="value">1st Year</span>
+                                <span className="value">{user.year || 1}{user.year === 1 ? 'st' : user.year === 2 ? 'nd' : user.year === 3 ? 'rd' : 'th'} Year</span>
                             </div>
                             <div className="info-item">
                                 <span className="label">Attendance</span>
-                                <span className="value">85%</span>
+                                <span className="value">{calculateAttendance()}%</span>
                             </div>
                             <div className="info-item">
                                 <span className="label">Semester</span>
-                                <span className="value">2nd Sem</span>
+                                <span className="value">{user.semester || 1}{user.semester === 1 ? 'st' : user.semester === 2 ? 'nd' : 'rd'} Sem</span>
                             </div>
                         </div>
 
@@ -243,15 +219,24 @@ export default function Dashboard() {
                                     </button>
                                 </div>
                                 <div className="exam-list">
-                                    {examSchedule.slice(0, 2).map((exam, i) => (
-                                        <div className="exam-item" key={i}>
-                                            <div className="exam-date">{exam.date}</div>
-                                            <div className="exam-info">
-                                                <h4>{exam.subject}</h4>
-                                                <p>Time: {exam.time} &bull; Venue: {exam.venue} &bull; <strong>{exam.code}</strong></p>
+                                    {exams.length > 0 ? (
+                                        exams.slice(0, 2).map((exam, i) => (
+                                            <div className="exam-item" key={i}>
+                                                <div className="exam-date">
+                                                    {new Date(exam.exam_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}
+                                                </div>
+                                                <div className="exam-info">
+                                                    <h4>{exam.subjects?.subject_name}</h4>
+                                                    <p>Time: {exam.start_time} &bull; Venue: {exam.venue} &bull; <strong>{exam.subjects?.subject_code}</strong></p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))
+                                    ) : (
+                                        <MaintenanceView 
+                                            title="No Upcoming Exams" 
+                                            message="Exam schedules for this semester haven't been published yet." 
+                                        />
+                                    )}
                                 </div>
 
                                 <div className="section-title-row" style={{ marginTop: 40 }}>
@@ -261,17 +246,10 @@ export default function Dashboard() {
                                     </button>
                                 </div>
                                 <div className="assignment-grid">
-                                    {syllabusData.slice(0, 4).flatMap(s => s.assignments.slice(0, 1)).map((a, i) => (
-                                        <div className="mini-assign-card" key={i}>
-                                            <div className="assign-header">
-                                                <span className="assign-title">{a.title}</span>
-                                                <span className={`status-badge ${a.status}`}>{a.status}</span>
-                                            </div>
-                                            <div className="deadline">
-                                                <FiAlertCircle size={12} /> Deadline: {a.deadline}
-                                            </div>
-                                        </div>
-                                    ))}
+                                    <MaintenanceView 
+                                        title="Assignments Module" 
+                                        message="Assignment tracking and submission portal is under maintenance." 
+                                    />
                                 </div>
 
                                 <div className="section-title-row" style={{ marginTop: 40 }}>
@@ -300,7 +278,7 @@ export default function Dashboard() {
                                         <div className="assign-header">
                                             <span className="assign-title">Attendance Status</span>
                                         </div>
-                                        <div className="deadline"><FiClock size={12} /> 85% — Above threshold</div>
+                                        <div className="deadline"><FiClock size={12} /> {calculateAttendance()}% — {calculateAttendance() >= 75 ? 'Above' : 'Below'} threshold</div>
                                     </div>
                                 </div>
                             </>
@@ -314,76 +292,57 @@ export default function Dashboard() {
                                     <span style={{ fontSize: '0.82rem', color: 'var(--dark-gray)' }}>Click a subject to expand</span>
                                 </div>
                                 <div className="syllabus-header-info">
-                                    <h4>Semester 2 — Computer Science Engineering</h4>
-                                    <p>6 subjects &bull; 19 credits total &bull; Academic Year 2025–26</p>
+                                    <h4>Semester {user.semester} — {user.dept}</h4>
+                                    <p>{syllabus.length} subjects &bull; Academic Year 2025–26</p>
                                 </div>
                                 <div className="subject-list">
-                                    {syllabusData.map(subj => (
-                                        <div
-                                            key={subj.code}
-                                            className={`subject-item${activeSubject === subj.code ? ' active' : ''}`}
-                                        >
+                                    {syllabus.length > 0 ? (
+                                        syllabus.map(subj => (
                                             <div
-                                                className="subject-summary"
-                                                onClick={() => toggleSubject(subj.code)}
+                                                key={subj.id}
+                                                className={`subject-item${activeSubject === subj.id ? ' active' : ''}`}
                                             >
-                                                <div className="subj-icon-box"><FiBook size={16} /></div>
-                                                <div className="subj-title-box">
-                                                    <span className="subj-code">{subj.code} &bull; {subj.type}</span>
-                                                    <span className="subj-name">{subj.name}</span>
+                                                <div
+                                                    className="subject-summary"
+                                                    onClick={() => toggleSubject(subj.id)}
+                                                >
+                                                    <div className="subj-icon-box"><FiBook size={16} /></div>
+                                                    <div className="subj-title-box">
+                                                        <span className="subj-code">{subj.subject_code} &bull; {subj.is_practical ? 'Practical' : 'Theory'}</span>
+                                                        <span className="subj-name">{subj.subject_name}</span>
+                                                    </div>
+                                                    <FiChevronRight className="chevron" size={18} />
                                                 </div>
-                                                <FiChevronRight className="chevron" size={18} />
-                                            </div>
 
-                                            {activeSubject === subj.code && (
-                                                <div className="subject-details">
-                                                    {/* Meta */}
-                                                    <div className="subject-meta">
-                                                        <div className="meta-tag credits">
-                                                            <span className="label">Credits</span>
-                                                            <span className="value">{subj.credits}</span>
-                                                        </div>
-                                                        <div className="meta-tag faculty">
-                                                            <span className="label">Faculty</span>
-                                                            <span className="value">{subj.faculty}</span>
-                                                        </div>
-                                                        <div className="meta-tag">
-                                                            <span className="label">Type</span>
-                                                            <span className="value">{subj.type}</span>
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Topics */}
-                                                    <div className="topics-section">
-                                                        <h5><FiList size={13} /> Topics Covered</h5>
-                                                        <ul>
-                                                            {subj.topics.map((t, i) => (
-                                                                <li key={i}>{t}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </div>
-
-                                                    {/* Assignments */}
-                                                    <div>
-                                                        <h5><FiFileText size={13} /> Assignments</h5>
-                                                        <div className="assignment-grid">
-                                                            {subj.assignments.map((a, i) => (
-                                                                <div className="mini-assign-card" key={i}>
-                                                                    <div className="assign-header">
-                                                                        <span className="assign-title">{a.title}</span>
-                                                                        <span className={`status-badge ${a.status}`}>{a.status}</span>
-                                                                    </div>
-                                                                    <div className="deadline">
-                                                                        <FiAlertCircle size={12} /> Deadline: {a.deadline}
-                                                                    </div>
+                                                {activeSubject === subj.id && (
+                                                    <div className="subject-details">
+                                                        {unitData[subj.id] && unitData[subj.id].length > 0 ? (
+                                                            unitData[subj.id].map((unit, idx) => (
+                                                                <div key={idx} className="topics-section" style={{ marginBottom: '20px' }}>
+                                                                    <h5><FiList size={13} /> Unit {unit.unit_no}: {unit.title}</h5>
+                                                                    <ul style={{ gridTemplateColumns: '1fr' }}>
+                                                                        {Array.isArray(unit.topics) && unit.topics.map((t, i) => (
+                                                                            <li key={i}>{t}</li>
+                                                                        ))}
+                                                                    </ul>
                                                                 </div>
-                                                            ))}
-                                                        </div>
+                                                            ))
+                                                        ) : (
+                                                            <MaintenanceView 
+                                                                title="Syllabus Details Unavailable" 
+                                                                message="Unit-wise syllabus and topics are currently being updated for this course." 
+                                                            />
+                                                        )}
                                                     </div>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
+                                                )}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <MaintenanceView 
+                                            title="No Course Data" 
+                                            message="Your course subjects haven't been mapped in the portal yet." 
+                                        />
+                                    )}
                                 </div>
                             </div>
                         )}
@@ -397,22 +356,31 @@ export default function Dashboard() {
                                 </div>
                                 <div className="syllabus-header-info">
                                     <h4>End Semester Examinations</h4>
-                                    <p>5 exams scheduled &bull; Refer to hall ticket for latest updates</p>
+                                    <p>{exams.length} exams scheduled &bull; Refer to hall ticket for latest updates</p>
                                 </div>
                                 <div className="exam-list" style={{ flexDirection: 'column' }}>
-                                    {examSchedule.map((exam, i) => (
-                                        <div className="exam-item" key={i} style={{ width: '100%', maxWidth: '100%' }}>
-                                            <div className="exam-date">{exam.date}</div>
-                                            <div className="exam-info" style={{ flex: 1 }}>
-                                                <h4>{exam.subject}</h4>
-                                                <p>
-                                                    Time: <strong>{exam.time}</strong> &bull;&nbsp;
-                                                    Venue: <strong>{exam.venue}</strong> &bull;&nbsp;
-                                                    Code: <strong>{exam.code}</strong>
-                                                </p>
+                                    {exams.length > 0 ? (
+                                        exams.map((exam, i) => (
+                                            <div className="exam-item" key={i} style={{ width: '100%', maxWidth: '100%' }}>
+                                                <div className="exam-date">
+                                                    {new Date(exam.exam_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}
+                                                </div>
+                                                <div className="exam-info" style={{ flex: 1 }}>
+                                                    <h4>{exam.subjects?.subject_name}</h4>
+                                                    <p>
+                                                        Time: <strong>{exam.start_time}</strong> &bull;&nbsp;
+                                                        Venue: <strong>{exam.venue}</strong> &bull;&nbsp;
+                                                        Code: <strong>{exam.subjects?.subject_code}</strong>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        ))
+                                    ) : (
+                                        <MaintenanceView 
+                                            title="Schedules Unavailable" 
+                                            message="There are no upcoming examinations scheduled in the portal for your semester." 
+                                        />
+                                    )}
                                 </div>
                                 <div style={{
                                     marginTop: 28, padding: '16px 20px',

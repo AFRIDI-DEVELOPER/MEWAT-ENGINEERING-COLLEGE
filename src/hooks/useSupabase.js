@@ -6,8 +6,7 @@ import {
     fetchStats,
     fetchTestimonials,
     fetchFacilities,
-    fetchRecruiters,
-    fetchCollegeInfo
+    fetchRecruiters
 } from '../lib/supabase';
 
 // ─── Generic hook factory ─────────────────────────────────────────────────────
@@ -19,17 +18,20 @@ function useSupabaseData(fetchFn, fallback = [], deps = []) {
     useEffect(() => {
         let cancelled = false;
         setLoading(true);
+        console.log(`[useSupabaseData] Fetching started...`);
         fetchFn()
             .then(result => {
                 if (!cancelled) {
-                    setData(result);
+                    console.log(`[useSupabaseData] Fetch success:`, result ? (Array.isArray(result) ? result.length : 'object') : 'null');
+                    setData(result || fallback);
                     setError(null);
                 }
             })
             .catch(err => {
                 if (!cancelled) {
-                    console.warn('Supabase fetch error, using fallback data:', err.message);
+                    console.error('[useSupabaseData] Fetch error:', err.message);
                     setError(err.message);
+                    setData(fallback); // Ensure fallback is used on error
                 }
             })
             .finally(() => {
@@ -86,14 +88,11 @@ export function useTestimonials() {
     return useSupabaseData(fetchTestimonials, []);
 }
 
-export function useFacilities() {
-    return useSupabaseData(fetchFacilities, []);
+export function useFacilities(fallback = []) {
+    const { data: facilities, loading, error } = useSupabaseData(fetchFacilities, fallback);
+    return { facilities, loading, error };
 }
 
 export function useRecruiters() {
     return useSupabaseData(fetchRecruiters, []);
-}
-
-export function useCollegeInfo() {
-    return useSupabaseData(fetchCollegeInfo, null);
 }

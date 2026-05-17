@@ -1,16 +1,21 @@
 import { motion } from 'framer-motion'
+import SEO from '../components/SEO'
 import { Link } from 'react-router-dom'
 
 import { useDepartments } from '../hooks/useSupabase'
 import { departments as staticDepartments } from '../data/content'
 import LoadingSpinner from '../components/LoadingSpinner'
+import { getAssetPath } from '../utils/assets'
+import { FaGraduationCap, FaLocationDot } from 'react-icons/fa6'
 
 export default function Departments() {
     const { data: supabaseDepts, loading } = useDepartments()
-    const departments = supabaseDepts?.length > 0 ? supabaseDepts : staticDepartments
+    // Always use staticDepartments as primary source for accurate "Real Data"
+    const departments = staticDepartments.map(d => ({ ...d, image: getAssetPath(d.image) }))
 
     return (
         <>
+            <SEO title="Departments" description="Explore our 5 engineering departments and their specialized programs." />
             <section className="section departments-section">
                 <div className="container">
                     <div className="section-header">
@@ -30,15 +35,15 @@ export default function Departments() {
                                 transition={{ duration: 0.5, delay: i * 0.08 }}
                             >
                                 <div className="dept-card__header">
-                                    <img className="dept-card__icon" src={dept.iconImg} alt={dept.shortName} />
+                                    <img className="dept-card__icon" src={getAssetPath(dept.iconImg)} alt={dept.shortName} />
                                     <div className="dept-card__shortname">{dept.shortName}</div>
                                 </div>
                                 <div className="dept-card__body">
                                     <h3 className="dept-card__title">{dept.name}</h3>
                                     {dept.seats ? (
-                                        <span className="dept-card__seats">🎓 {dept.seats} Seats</span>
+                                        <span className="dept-card__seats"><FaGraduationCap /> {dept.seats} Seats</span>
                                     ) : (
-                                        <span className="dept-card__seats dept-card__seats--foundation">📌 Foundation Department</span>
+                                        <span className="dept-card__seats dept-card__seats--foundation"><FaLocationDot /> Foundation Department</span>
                                     )}
                                     <p className="dept-card__desc">{dept.description}</p>
                                     <div className="dept-card__tags">

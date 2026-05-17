@@ -1,7 +1,28 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import SEO from '../components/SEO'
 import { facilities as staticFacilities } from '../data/content'
 import { useFacilities } from '../hooks/useSupabase'
+import { getAssetPath } from '../utils/assets'
+import LoadingSpinner from '../components/LoadingSpinner'
+import { 
+    FaHouseChimney, FaBookOpen, FaMicroscope, FaBus, 
+    FaDumbbell, FaHeadset, FaUserTie, FaMars, FaVenus,
+    FaPhone, FaEnvelope, FaMoneyBillWave, FaBed, FaCheck,
+    FaShieldHalved, FaWifi, FaUtensils, FaLeaf, FaBuilding,
+    FaBook, FaLaptopCode, FaWrench, FaMapLocationDot, FaTree,
+    FaTrophy, FaCommentDots, FaHeadphones, FaFloppyDisk, FaGraduationCap
+} from 'react-icons/fa6'
+
+/* ── Icon Mapping for Facilities ── */
+const FACILITY_ICONS = {
+    'Hostel': <FaHouseChimney />,
+    'Library': <FaBookOpen />,
+    'Laboratories': <FaMicroscope />,
+    'Transport': <FaBus />,
+    'Sports & Gymnasium': <FaDumbbell />,
+    'Language Lab': <FaHeadset />
+}
 
 /* ─────────────────────────────────────────
    Campus Gallery Data & Component
@@ -9,49 +30,49 @@ import { useFacilities } from '../hooks/useSupabase'
 ───────────────────────────────────────── */
 const campusImages = [
     {
-        src: '/images/college-bg.png',
+        src: getAssetPath('/images/college-bg.png'),
         title: 'Grand Entrance',
         description: 'The iconic main gateway welcoming future engineers into a world of possibilities',
         category: 'architecture'
     },
     {
-        src: '/images/college-bg-1.jpg',
+        src: getAssetPath('/images/college-bg-1.jpg'),
         title: 'Aerial Campus View',
         description: 'A breathtaking panoramic perspective of our sprawling 15-acre green campus',
         category: 'architecture'
     },
     {
-        src: '/images/college-bg-2.png',
+        src: getAssetPath('/images/college-bg-2.png'),
         title: 'Engineering Block',
         description: 'State-of-the-art engineering labs and smart classrooms powering innovation',
         category: 'academics'
     },
     {
-        src: '/images/college-bg-3.png',
+        src: getAssetPath('/images/college-bg-3.png'),
         title: 'Academic Plaza',
         description: 'Where ideas converge — the central hub of collaboration and campus culture',
         category: 'life'
     },
     {
-        src: '/images/college-bg.png',
+        src: getAssetPath('/images/college-bg.png'),
         title: 'Library Wing',
         description: 'A modern knowledge center with digital resources and quiet study zones',
         category: 'academics'
     },
     {
-        src: '/images/college-bg-1.jpg',
+        src: getAssetPath('/images/college-bg-1.jpg'),
         title: 'Sports Complex',
         description: 'World-class sports facilities nurturing athletic talent alongside academics',
         category: 'life'
     },
     {
-        src: '/images/college-bg-2.png',
+        src: getAssetPath('/images/college-bg-2.png'),
         title: 'Research Center',
         description: 'Cutting-edge laboratories equipped for advanced research and development',
         category: 'academics'
     },
     {
-        src: '/images/college-bg-3.png',
+        src: getAssetPath('/images/college-bg-3.png'),
         title: 'Student Hub',
         description: 'A vibrant social space where campus life and creativity come alive',
         category: 'life'
@@ -112,7 +133,7 @@ function CampusGallery() {
         setActiveIndex(index)
         if (trackRef.current) {
             const card = trackRef.current.children[index]
-            if (card) {
+            if (card && typeof card.offsetLeft !== 'undefined') {
                 const scrollLeft = card.offsetLeft - trackRef.current.offsetWidth / 2 + card.offsetWidth / 2
                 trackRef.current.scrollTo({ left: scrollLeft, behavior: 'smooth' })
             }
@@ -123,10 +144,14 @@ function CampusGallery() {
         if (!trackRef.current) return
         const { scrollLeft, offsetWidth } = trackRef.current
         const cards = trackRef.current.children
+        if (!cards || cards.length === 0) return
+
         let closestIndex = 0
         let closestDistance = Infinity
         for (let i = 0; i < cards.length; i++) {
-            const cardCenter = cards[i].offsetLeft + cards[i].offsetWidth / 2
+            const card = cards[i]
+            if (!card) continue
+            const cardCenter = card.offsetLeft + card.offsetWidth / 2
             const viewCenter = scrollLeft + offsetWidth / 2
             const distance = Math.abs(cardCenter - viewCenter)
             if (distance < closestDistance) {
@@ -274,9 +299,10 @@ function CampusGallery() {
 
 /* ── Helper: render detail modal body based on facility name ── */
 function ModalContent({ facility }) {
+    if (!facility) return null;
     const d = facility.details
-    if (!d) return null
-    const accent = facility.accentColor
+    if (!d) return <div className="modal-no-details">Detailed information for this facility is currently being updated. Please check back soon.</div>
+    const accent = facility.accentColor || 'var(--accent)'
 
     const Section = ({ title, icon, children }) => (
         <div className="modal-section">
@@ -312,30 +338,30 @@ function ModalContent({ facility }) {
             {/* ── HOSTEL ── */}
             {facility.name === 'Hostel' && (
                 <>
-                    <Section title="Warden / Contact" icon="👤">
+                    <Section title="Warden / Contact" icon={<FaUserTie />}>
                         <div className="modal-warden-grid">
                             <div className="modal-warden-card">
-                                <div className="warden-avatar" style={{ background: accent }}>♂</div>
+                                <div className="warden-avatar" style={{ background: accent }}><FaMars /></div>
                                 <div>
                                     <div className="warden-name">{d.head.name}</div>
                                     <div className="warden-desig">{d.head.designation}</div>
-                                    <div className="warden-contact">📞 {d.head.contact}</div>
-                                    <div className="warden-contact">✉ {d.head.email}</div>
+                                    <div className="warden-contact"><FaPhone /> {d.head.contact}</div>
+                                    <div className="warden-contact"><FaEnvelope /> {d.head.email}</div>
                                 </div>
                             </div>
                             <div className="modal-warden-card">
-                                <div className="warden-avatar" style={{ background: '#c0699a' }}>♀</div>
+                                <div className="warden-avatar" style={{ background: '#c0699a' }}><FaVenus /></div>
                                 <div>
                                     <div className="warden-name">{d.headGirls.name}</div>
                                     <div className="warden-desig">{d.headGirls.designation}</div>
-                                    <div className="warden-contact">📞 {d.headGirls.contact}</div>
-                                    <div className="warden-contact">✉ {d.headGirls.email}</div>
+                                    <div className="warden-contact"><FaPhone /> {d.headGirls.contact}</div>
+                                    <div className="warden-contact"><FaEnvelope /> {d.headGirls.email}</div>
                                 </div>
                             </div>
                         </div>
                     </Section>
 
-                    <Section title="Fee Structure" icon="💰">
+                    <Section title="Fee Structure" icon={<FaMoneyBillWave />}>
                         <div className="modal-fee-banner">
                             <div className="fee-item"><span>Annual Fee</span><strong>{d.annualFee}</strong></div>
                             <div className="fee-item"><span>Mess Fee</span><strong>{d.messFee}</strong></div>
@@ -343,25 +369,25 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Room Types & Rent" icon="🛏️">
+                    <Section title="Room Types & Rent" icon={<FaBed />}>
                         <div className="modal-room-grid">
                             {d.roomTypes.map((r, i) => (
                                 <div className="modal-room-card" key={i} style={{ borderTop: `3px solid ${accent}` }}>
                                     <div className="room-type">{r.type}</div>
                                     <div className="room-rent" style={{ color: accent }}>{r.rent}</div>
                                     <ul className="room-amenity-list">
-                                        {r.amenities.map((a, j) => <li key={j}>✓ {a}</li>)}
+                                        {r.amenities.map((a, j) => <li key={j}><FaCheck /> {a}</li>)}
                                     </ul>
                                 </div>
                             ))}
                         </div>
                     </Section>
 
-                    <Section title="Security & Safety" icon="🛡️">
+                    <Section title="Security & Safety" icon={<FaShieldHalved />}>
                         <BulletList items={d.security} />
                     </Section>
 
-                    <Section title="Wi-Fi Details" icon="📶">
+                    <Section title="Wi-Fi Details" icon={<FaWifi />}>
                         <div className="modal-wifi-grid">
                             <InfoBadge label="Provider" value={d.wifi.provider} />
                             <InfoBadge label="Speed" value={d.wifi.speed} />
@@ -371,11 +397,11 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Mess / Dining" icon="🍽️">
+                    <Section title="Mess / Dining" icon={<FaUtensils />}>
                         <div className="modal-mess-info">
                             <div className="mess-meta">
-                                <span>🥗 {d.mess.type}</span>
-                                <span>👨‍🍳 {d.mess.catering}</span>
+                                <span><FaLeaf /> {d.mess.type}</span>
+                                <span><FaUserTie /> {d.mess.catering}</span>
                             </div>
                             <div className="mess-timings">
                                 {d.mess.timings.map((m, i) => (
@@ -388,11 +414,11 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Amenities & Facilities" icon="🏠">
+                    <Section title="Amenities & Facilities" icon={<FaHouseChimney />}>
                         <BulletList items={d.amenities} />
                     </Section>
 
-                    <Section title="Hostel Rules" icon="📋">
+                    <Section title="Hostel Rules" icon={<FaFloppyDisk />}>
                         <BulletList items={d.rules} />
                     </Section>
                 </>
@@ -401,14 +427,14 @@ function ModalContent({ facility }) {
             {/* ── LIBRARY ── */}
             {facility.name === 'Library' && (
                 <>
-                    <Section title="Librarian / Contact" icon="👤">
+                    <Section title="Librarian / Contact" icon={<FaUserTie />}>
                         <div className="modal-warden-card">
-                            <div className="warden-avatar" style={{ background: accent }}>📚</div>
+                            <div className="warden-avatar" style={{ background: accent }}><FaBookOpen /></div>
                             <div>
                                 <div className="warden-name">{d.head.name}</div>
                                 <div className="warden-desig">{d.head.designation}</div>
-                                <div className="warden-contact">📞 {d.head.contact}</div>
-                                <div className="warden-contact">✉ {d.head.email}</div>
+                                <div className="warden-contact"><FaPhone /> {d.head.contact}</div>
+                                <div className="warden-contact"><FaEnvelope /> {d.head.email}</div>
                             </div>
                         </div>
                         <div style={{ marginTop: 12 }}>
@@ -418,7 +444,7 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Collection & Resources" icon="📖">
+                    <Section title="Collection & Resources" icon={<FaBook />}>
                         <div className="modal-collection-grid">
                             {d.collection.map((c, i) => (
                                 <div className="collection-item" key={i} style={{ borderLeft: `3px solid ${accent}` }}>
@@ -429,11 +455,11 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Digital Resources" icon="💻">
+                    <Section title="Digital Resources" icon={<FaLaptopCode />}>
                         <BulletList items={d.digital} />
                     </Section>
 
-                    <Section title="Library Services" icon="🔧">
+                    <Section title="Library Services" icon={<FaWrench />}>
                         <BulletList items={d.services} />
                     </Section>
                 </>
@@ -442,14 +468,14 @@ function ModalContent({ facility }) {
             {/* ── LABORATORIES ── */}
             {facility.name === 'Laboratories' && (
                 <>
-                    <Section title="Lab Coordinator / Contact" icon="👤">
+                    <Section title="Lab Coordinator / Contact" icon={<FaUserTie />}>
                         <div className="modal-warden-card">
-                            <div className="warden-avatar" style={{ background: accent }}>🔬</div>
+                            <div className="warden-avatar" style={{ background: accent }}><FaMicroscope /></div>
                             <div>
                                 <div className="warden-name">{d.head.name}</div>
                                 <div className="warden-desig">{d.head.designation}</div>
-                                <div className="warden-contact">📞 {d.head.contact}</div>
-                                <div className="warden-contact">✉ {d.head.email}</div>
+                                <div className="warden-contact"><FaPhone /> {d.head.contact}</div>
+                                <div className="warden-contact"><FaEnvelope /> {d.head.email}</div>
                             </div>
                         </div>
                         <div style={{ marginTop: 12 }}>
@@ -458,19 +484,19 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Labs by Department" icon="🏛️">
+                    <Section title="Labs by Department" icon={<FaBuilding />}>
                         {d.labs.map((lab, i) => (
                             <div className="lab-dept-block" key={i} style={{ borderLeft: `3px solid ${accent}` }}>
                                 <div className="lab-dept-name" style={{ color: accent }}>{lab.dept}</div>
                                 <div className="lab-names">
                                     {lab.labs.map((l, j) => <span key={j} className="lab-chip">{l}</span>)}
                                 </div>
-                                <div className="lab-software">💾 Software: {lab.software}</div>
+                                <div className="lab-software"><FaFloppyDisk /> Software: {lab.software}</div>
                             </div>
                         ))}
                     </Section>
 
-                    <Section title="Safety Measures" icon="🛡️">
+                    <Section title="Safety Measures" icon={<FaShieldHalved />}>
                         <BulletList items={d.safety} />
                     </Section>
                 </>
@@ -479,14 +505,14 @@ function ModalContent({ facility }) {
             {/* ── TRANSPORT ── */}
             {facility.name === 'Transport' && (
                 <>
-                    <Section title="Transport In-charge / Contact" icon="👤">
+                    <Section title="Transport In-charge / Contact" icon={<FaUserTie />}>
                         <div className="modal-warden-card">
-                            <div className="warden-avatar" style={{ background: accent }}>🚌</div>
+                            <div className="warden-avatar" style={{ background: accent }}><FaBus /></div>
                             <div>
                                 <div className="warden-name">{d.head.name}</div>
                                 <div className="warden-desig">{d.head.designation}</div>
-                                <div className="warden-contact">📞 {d.head.contact}</div>
-                                <div className="warden-contact">✉ {d.head.email}</div>
+                                <div className="warden-contact"><FaPhone /> {d.head.contact}</div>
+                                <div className="warden-contact"><FaEnvelope /> {d.head.email}</div>
                             </div>
                         </div>
                         <div style={{ marginTop: 12 }}>
@@ -494,7 +520,7 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Bus Routes & Timings" icon="🗺️">
+                    <Section title="Bus Routes & Timings" icon={<FaMapLocationDot />}>
                         <div className="modal-routes-table">
                             <div className="routes-header">
                                 <span>Route</span><span>Stops</span><span>Departure / Return</span>
@@ -509,7 +535,7 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Transport Fee (Annual)" icon="💰">
+                    <Section title="Transport Fee (Annual)" icon={<FaMoneyBillWave />}>
                         <div className="modal-room-grid">
                             {d.fees.map((f, i) => (
                                 <div className="modal-room-card" key={i} style={{ borderTop: `3px solid ${accent}` }}>
@@ -520,7 +546,7 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Safety & Standards" icon="🛡️">
+                    <Section title="Safety & Standards" icon={<FaShieldHalved />}>
                         <BulletList items={d.safety} />
                     </Section>
                 </>
@@ -529,14 +555,14 @@ function ModalContent({ facility }) {
             {/* ── SPORTS ── */}
             {facility.name === 'Sports & Gymnasium' && (
                 <>
-                    <Section title="Sports Director / Contact" icon="👤">
+                    <Section title="Sports Director / Contact" icon={<FaUserTie />}>
                         <div className="modal-warden-card">
-                            <div className="warden-avatar" style={{ background: accent }}>🏋️</div>
+                            <div className="warden-avatar" style={{ background: accent }}><FaDumbbell /></div>
                             <div>
                                 <div className="warden-name">{d.head.name}</div>
                                 <div className="warden-desig">{d.head.designation}</div>
-                                <div className="warden-contact">📞 {d.head.contact}</div>
-                                <div className="warden-contact">✉ {d.head.email}</div>
+                                <div className="warden-contact"><FaPhone /> {d.head.contact}</div>
+                                <div className="warden-contact"><FaEnvelope /> {d.head.email}</div>
                             </div>
                         </div>
                         <div style={{ marginTop: 12 }}>
@@ -545,15 +571,15 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Outdoor Facilities" icon="🌿">
+                    <Section title="Outdoor Facilities" icon={<FaTree />}>
                         <BulletList items={d.outdoorFacilities} />
                     </Section>
 
-                    <Section title="Indoor Facilities" icon="🏠">
+                    <Section title="Indoor Facilities" icon={<FaBuilding />}>
                         <BulletList items={d.indoorFacilities} />
                     </Section>
 
-                    <Section title="Gymnasium Equipment" icon="💪">
+                    <Section title="Gymnasium Equipment" icon={<FaDumbbell />}>
                         <div className="modal-wifi-grid">
                             {d.gymEquipment.map((e, i) => (
                                 <InfoBadge key={i} label={`Equipment ${i + 1}`} value={e} />
@@ -561,7 +587,7 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Achievements" icon="🏆">
+                    <Section title="Achievements" icon={<FaTrophy />}>
                         <BulletList items={d.achievements} />
                     </Section>
                 </>
@@ -570,14 +596,14 @@ function ModalContent({ facility }) {
             {/* ── LANGUAGE LAB ── */}
             {facility.name === 'Language Lab' && (
                 <>
-                    <Section title="Lab In-charge / Contact" icon="👤">
+                    <Section title="Lab In-charge / Contact" icon={<FaUserTie />}>
                         <div className="modal-warden-card">
-                            <div className="warden-avatar" style={{ background: accent }}>🗣️</div>
+                            <div className="warden-avatar" style={{ background: accent }}><FaHeadset /></div>
                             <div>
                                 <div className="warden-name">{d.head.name}</div>
                                 <div className="warden-desig">{d.head.designation}</div>
-                                <div className="warden-contact">📞 {d.head.contact}</div>
-                                <div className="warden-contact">✉ {d.head.email}</div>
+                                <div className="warden-contact"><FaPhone /> {d.head.contact}</div>
+                                <div className="warden-contact"><FaEnvelope /> {d.head.email}</div>
                             </div>
                         </div>
                         <div style={{ marginTop: 12 }}>
@@ -586,11 +612,11 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Equipment" icon="🎧">
+                    <Section title="Equipment" icon={<FaHeadphones />}>
                         <BulletList items={d.equipment} />
                     </Section>
 
-                    <Section title="Training Programs" icon="📋">
+                    <Section title="Training Programs" icon={<FaCommentDots />}>
                         <div className="modal-routes-table">
                             <div className="routes-header">
                                 <span>Program</span><span>Duration</span><span>Outcome</span>
@@ -605,7 +631,7 @@ function ModalContent({ facility }) {
                         </div>
                     </Section>
 
-                    <Section title="Software & Tools" icon="💾">
+                    <Section title="Software & Tools" icon={<FaFloppyDisk />}>
                         <BulletList items={d.software} />
                     </Section>
                 </>
@@ -616,10 +642,16 @@ function ModalContent({ facility }) {
 
 export default function Campus() {
     const [selected, setSelected] = useState(null)
-    const { data: sbFacilities } = useFacilities()
-    const facilities = sbFacilities?.length > 0
-        ? sbFacilities.map(f => ({ ...f, image: f.image_url || f.image }))
-        : staticFacilities
+    const { facilities, loading, error } = useFacilities(staticFacilities)
+
+    useEffect(() => {
+        console.log('[Campus] Facilities State:', { 
+            count: facilities ? facilities.length : 'null', 
+            loading, 
+            hasError: !!error 
+        });
+        if (error) console.error('[Campus] Hook Error:', error);
+    }, [facilities, loading, error]);
 
     // Prevent body scroll when modal is open
     useEffect(() => {
@@ -631,8 +663,11 @@ export default function Campus() {
         return () => { document.body.style.overflow = '' }
     }, [selected])
 
+    if (loading) return <LoadingSpinner message="Entering Campus..." />
+
     return (
         <>
+            <SEO title="Campus Life" description="Explore our 15-acre green campus and state-of-the-art infrastructure at Mewat Engineering College." />
             <section className="section fac-section" style={{ background: 'var(--off-white)' }}>
                 <div className="container">
                     <div className="section-header">
@@ -642,7 +677,7 @@ export default function Campus() {
                     </div>
 
                     <div className="fac-grid">
-                        {facilities.map((facility, i) => (
+                        {facilities && facilities.map((facility, i) => (
                             <motion.div
                                 className="fac-card"
                                 key={i}
@@ -652,24 +687,26 @@ export default function Campus() {
                                 transition={{ duration: 0.55, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                             >
                                 {/* Gradient top bar */}
-                                <div className="fac-card-bar" style={{ background: facility.gradient }} />
+                                <div className="fac-card-bar" style={{ background: facility.gradient || 'var(--grad-accent)' }} />
 
                                 {/* Card image (blurred bg) */}
-                                <div className="fac-card-img-bg" style={{ backgroundImage: `url(${facility.image})` }} />
+                                <div className="fac-card-img-bg" style={{ backgroundImage: `url(${getAssetPath(facility.image || '')})` }} />
 
                                 {/* Glass body */}
                                 <div className="fac-card-body">
-                                    <div className="fac-icon-wrap" style={{ background: facility.gradient }}>
-                                        <span className="fac-icon">{facility.icon}</span>
+                                    <div className="fac-icon-wrap" style={{ background: facility.gradient || 'var(--grad-accent)' }}>
+                                        <span className="fac-icon">
+                                            {FACILITY_ICONS[facility.name] || <FaBuilding />}
+                                        </span>
                                     </div>
 
-                                    <div className="fac-tagline" style={{ color: facility.accentColor }}>{facility.tagline}</div>
-                                    <h3 className="fac-name">{facility.name}</h3>
-                                    <p className="fac-desc">{facility.description}</p>
+                                    <div className="fac-tagline" style={{ color: facility.accentColor || 'var(--accent)' }}>{facility.tagline || 'Excellence at MEC'}</div>
+                                    <h3 className="fac-name">{facility.name || 'Campus Facility'}</h3>
+                                    <p className="fac-desc">{facility.description || 'Modern infrastructure for academic and extracurricular growth.'}</p>
 
                                     <div className="fac-features">
-                                        {facility.features.map((f, j) => (
-                                            <span key={j} className="fac-feature-chip" style={{ '--chip-color': facility.accentColor }}>
+                                        {(facility.features || []).map((f, j) => (
+                                            <span key={j} className="fac-feature-chip" style={{ '--chip-color': facility.accentColor || 'var(--accent)' }}>
                                                 {f}
                                             </span>
                                         ))}
@@ -677,7 +714,7 @@ export default function Campus() {
 
                                     <motion.button
                                         className="fac-explore-btn"
-                                        style={{ background: facility.gradient }}
+                                        style={{ background: facility.gradient || 'var(--grad-accent)' }}
                                         onClick={() => setSelected(facility)}
                                         whileHover={{ scale: 1.04 }}
                                         whileTap={{ scale: 0.97 }}
@@ -727,10 +764,10 @@ export default function Campus() {
                                 Our sports teams regularly participate in inter-college tournaments.
                             </p>
                             <div className="about-features">
-                                <div className="about-feature"><span className="check">✓</span> Annual Tech Fest</div>
-                                <div className="about-feature"><span className="check">✓</span> Cultural Programs</div>
-                                <div className="about-feature"><span className="check">✓</span> Technical Clubs</div>
-                                <div className="about-feature"><span className="check">✓</span> Sports Tournaments</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Annual Tech Fest</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Cultural Programs</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Technical Clubs</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Sports Tournaments</div>
                             </div>
                         </motion.div>
                         <motion.div
@@ -740,7 +777,9 @@ export default function Campus() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                         >
-                            <div className="img-placeholder" style={{ background: 'var(--grad-accent)', color: 'rgba(0,0,0,0.1)' }}>🎓</div>
+                            <div className="img-placeholder" style={{ background: 'var(--grad-accent)', color: 'rgba(0,0,0,0.1)' }}>
+                                <FaGraduationCap size="5rem" />
+                            </div>
                         </motion.div>
                     </div>
                 </div>
@@ -772,14 +811,16 @@ export default function Campus() {
                                 <div className="fac-modal-header-img" style={{ backgroundImage: `url(${selected.image})` }} />
                                 <div className="fac-modal-header-overlay" />
                                 <div className="fac-modal-header-content">
-                                    <div className="fac-modal-icon">{selected.icon}</div>
+                                    <div className="fac-modal-icon">
+                                        {FACILITY_ICONS[selected.name] || <FaBuilding />}
+                                    </div>
                                     <div>
                                         <div className="fac-modal-tagline">{selected.tagline}</div>
                                         <h2 className="fac-modal-title">{selected.name}</h2>
                                         <p className="fac-modal-desc">{selected.description}</p>
                                     </div>
                                 </div>
-                                <button className="fac-modal-close" onClick={() => setSelected(null)} aria-label="Close">✕</button>
+                                <button className="fac-modal-close" onClick={() => setSelected(null)} aria-label="Close">{'\u2715'}</button>
                             </div>
 
                             {/* Feature chips */}
@@ -799,11 +840,8 @@ export default function Campus() {
                             {/* Footer */}
                             <div className="fac-modal-footer">
                                 <button className="fac-modal-close-btn" onClick={() => setSelected(null)}>
-                                    Close
+                                    Done
                                 </button>
-                                <a href="/contact" className="fac-modal-contact-btn" style={{ background: selected.gradient }}>
-                                    Contact Admission Office →
-                                </a>
                             </div>
                         </motion.div>
                     </motion.div>

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -10,6 +11,12 @@ import {
 } from '../data/content'
 import AnimatedCounter from '../components/AnimatedCounter'
 import { useDepartments, useStats, useEvents, useTestimonials } from '../hooks/useSupabase'
+import { getAssetPath } from '../utils/assets'
+import { FiBriefcase, FiAward, FiUsers, FiBookOpen, FiMap, FiCheckCircle, FiPercent, FiTrendingUp, FiHome, FiUser, FiBell, FiArrowRight, FiAlertCircle, FiFileText, FiCalendar, FiInfo, FiStar, FiMapPin } from 'react-icons/fi'
+import { FaFacebook, FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa'
+import AboutPreview from '../components/AboutPreview'
+import DirectorMessage from '../components/DirectorMessage'
+import SEO from '../components/SEO'
 
 
 const fadeUp = {
@@ -79,49 +86,49 @@ const TypewriterText = ({ text }) => {
 
 const campusImages = [
     {
-        src: '/images/college-bg.png',
+        src: getAssetPath('/images/college-bg.png'),
         title: 'Grand Entrance',
         description: 'The iconic main gateway welcoming future engineers into a world of possibilities',
         category: 'architecture'
     },
     {
-        src: '/images/college-bg-1.jpg',
+        src: getAssetPath('/images/college-bg-1.jpg'),
         title: 'Aerial Campus View',
-        description: 'A breathtaking panoramic perspective of our sprawling 15-acre green campus',
+        description: 'A breathtaking panoramic perspective of our sprawling 28-acre green campus',
         category: 'architecture'
     },
     {
-        src: '/images/college-bg-2.png',
+        src: getAssetPath('/images/college-bg-2.png'),
         title: 'Engineering Block',
         description: 'State-of-the-art engineering labs and smart classrooms powering innovation',
         category: 'academics'
     },
     {
-        src: '/images/college-bg-3.png',
+        src: getAssetPath('/images/college-bg-3.png'),
         title: 'Academic Plaza',
         description: 'Where ideas converge — the central hub of collaboration and campus culture',
         category: 'life'
     },
     {
-        src: '/images/college-bg.png',
+        src: getAssetPath('/images/college-bg.png'),
         title: 'Library Wing',
         description: 'A modern knowledge center with digital resources and quiet study zones',
         category: 'academics'
     },
     {
-        src: '/images/college-bg-1.jpg',
+        src: getAssetPath('/images/college-bg-1.jpg'),
         title: 'Sports Complex',
         description: 'World-class sports facilities nurturing athletic talent alongside academics',
         category: 'life'
     },
     {
-        src: '/images/college-bg-2.png',
+        src: getAssetPath('/images/college-bg-2.png'),
         title: 'Research Center',
         description: 'Cutting-edge laboratories equipped for advanced research and development',
         category: 'academics'
     },
     {
-        src: '/images/college-bg-3.png',
+        src: getAssetPath('/images/college-bg-3.png'),
         title: 'Student Hub',
         description: 'A vibrant social space where campus life and creativity come alive',
         category: 'life'
@@ -350,6 +357,197 @@ function CampusGallery() {
     )
 }
 
+function NotificationCard() {
+    const [isPaused, setIsPaused] = useState(false)
+    const [activeIndex, setActiveIndex] = useState(0)
+
+    const notices = [
+        { text: 'All students must fill SCF form before 30-06-2026. Late fee penalty of ₹500 will be charged.', type: 'urgent', label: 'URGENT', date: 'Jun 30' },
+        { text: 'End semester examinations start from 15th July 2026. Download your hall tickets from the portal.', type: 'exam', label: 'EXAM', date: 'Jul 15' },
+        { text: 'Tomorrow (3rd May) is declared holiday on account of Eid-ul-Fitr. College will remain closed.', type: 'holiday', label: 'HOLIDAY', date: 'May 3' },
+        { text: 'Post-matric scholarship portal is now open. Eligible students must apply before 20th June 2026.', type: 'scholarship', label: 'SCHOLARSHIP', date: 'Jun 20' },
+        { text: 'TCS & Infosys campus placement drive scheduled for 10th June. Register on placement portal now.', type: 'placement', label: 'PLACEMENT', date: 'Jun 10' },
+        { text: 'Library books must be returned before 25th May. Overdue fine: ₹10/day per book.', type: 'notice', label: 'NOTICE', date: 'May 25' },
+        { text: 'Annual sports meet "Khel Mahakumbh 2026" registrations are open. Last date: 8th June.', type: 'event', label: 'EVENT', date: 'Jun 8' },
+    ]
+
+    useEffect(() => {
+        if (isPaused) return
+        const timer = setInterval(() => {
+            setActiveIndex(prev => (prev + 1) % notices.length)
+        }, 5000)
+        return () => clearInterval(timer)
+    }, [isPaused, notices.length])
+
+    const typeConfig = {
+        urgent:     { color: '#FF4757', bg: 'rgba(255,71,87,0.1)' },
+        exam:       { color: '#FF8C00', bg: 'rgba(255,140,0,0.1)' },
+        holiday:    { color: '#2ED573', bg: 'rgba(46,213,115,0.1)' },
+        scholarship:{ color: '#A855F7', bg: 'rgba(168,85,247,0.1)' },
+        placement:  { color: '#3B82F6', bg: 'rgba(59,130,246,0.1)' },
+        notice:     { color: '#C8A951', bg: 'rgba(200,169,81,0.1)' },
+        event:      { color: '#F97316', bg: 'rgba(249,115,22,0.1)' },
+    }
+
+    const currentNotice = notices[activeIndex]
+    const cfg = typeConfig[currentNotice.type] || typeConfig.notice
+
+    return (
+        <div 
+            className="notification-card"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+        >
+            {/* Premium Header */}
+            <div className="notification-header">
+                <div className="noti-header-title">
+                    <FiBell className="notification-icon-bell" />
+                    <span>Notice Board</span>
+                </div>
+            </div>
+
+            {/* Decorative divider */}
+            <div className="noti-divider">
+                <div className="noti-divider-line" />
+                <div className="noti-divider-diamond" />
+                <div className="noti-divider-line" />
+            </div>
+
+            {/* Futuristic Single Notice View */}
+            <div className="notification-display">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeIndex}
+                        initial={{ opacity: 0, x: 20, filter: 'blur(10px)' }}
+                        animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                        exit={{ opacity: 0, x: -20, filter: 'blur(10px)' }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="notification-active-item"
+                        style={{ '--noti-color': cfg.color, '--noti-bg': cfg.bg }}
+                    >
+                        <div className="noti-accent-bar" />
+                        <div className="noti-content">
+                            <div className="noti-meta">
+                                <span className="noti-label" style={{ color: cfg.color, background: cfg.bg }}>
+                                    {currentNotice.label}
+                                </span>
+                                <span className="noti-date">
+                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                    {currentNotice.date}
+                                </span>
+                            </div>
+                            <p className="noti-text">{currentNotice.text}</p>
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+
+                {/* Progress Indicators */}
+                <div className="noti-progress-container">
+                    {notices.map((_, i) => (
+                        <div 
+                            key={i} 
+                            className={`noti-dot ${i === activeIndex ? 'active' : ''}`}
+                            onClick={() => setActiveIndex(i)}
+                        />
+                    ))}
+                </div>
+            </div>
+
+            {/* Footer */}
+            <div className="noti-footer">
+                <Link to="/notices" className="noti-view-all">
+                    View All Notices
+                    <FiArrowRight size={13} />
+                </Link>
+            </div>
+        </div>
+    )
+}
+
+const GravityParticles = () => {
+    const canvasRef = useRef(null);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animationFrameId;
+
+        let particles = [];
+        const particleCount = 120;
+
+        const resize = () => {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        };
+
+        class Particle {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.angle = Math.random() * Math.PI * 2;
+                this.velocity = Math.random() * 0.2 + 0.1;
+            }
+
+            update() {
+                // Anti-gravity float
+                this.angle += 0.01;
+                this.x += Math.cos(this.angle) * this.velocity + this.speedX;
+                this.y += Math.sin(this.angle) * this.velocity + this.speedY;
+
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 0, 0, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const createParticles = () => {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        };
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        window.addEventListener('resize', resize);
+        resize();
+        createParticles();
+        animate();
+
+        return () => {
+            window.removeEventListener('resize', resize);
+            cancelAnimationFrame(animationFrameId);
+        };
+    }, []);
+
+    return <canvas ref={canvasRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }} />;
+};
+
 export default function Home() {
     // ── Supabase data (falls back to static if Supabase unavailable) ──
     const { data: sbDepts }         = useDepartments()
@@ -357,100 +555,216 @@ export default function Home() {
     const { data: sbEvents }        = useEvents()
     const { data: sbTestimonials }  = useTestimonials()
 
-    const departments  = sbDepts?.length        > 0 ? sbDepts        : staticDepartments
-    const stats        = sbStats?.length        > 0 ? sbStats        : staticStats
-    const events       = sbEvents?.length       > 0 ? sbEvents       : staticEvents
-    const testimonials = sbTestimonials?.length > 0 ? sbTestimonials : staticTestimonials
+    // Always use static data first for verified accuracy
+    const departments  = staticDepartments
+    const stats        = staticStats
+    const events       = staticEvents
+    const testimonials = staticTestimonials
 
-    const videos = [
+    const heroTexts = [
         {
-            src: '/Drone_Video_Generation.mp4',
             title: 'A MODERN <span>CAMPUS</span> BUILT FOR EXCELLENCE',
             desc: 'Nestled in a serene, distraction-free environment, our infrastructure provides the perfect blend of cutting-edge technology and natural tranquility.'
         },
         {
-            src: '/Students_Learning_BTech_North_India.mp4',
             title: 'EMPOWERING MINDS THROUGH <span>KNOWLEDGE</span>',
             desc: 'Step into our world-class library, a beacon of research and learning equipped with extensive resources to fuel your engineering journey.'
         },
         {
-            src: 'https://assets.mixkit.co/videos/preview/mixkit-science-student-in-a-laboratory-looking-at-samples-41130-large.mp4',
             title: 'ADVANCED <span>LABORATORIES</span> FOR RESEARCH',
             desc: 'Our state-of-the-art labs are the breeding ground for the next generation of innovators and researchers.'
-        },
-        {
-            src: 'https://assets.mixkit.co/videos/preview/mixkit-group-of-friends-playing-basketball-in-a-gym-41005-large.mp4',
-            title: 'HOLISTIC <span>DEVELOPMENT</span> & SPORTS',
-            desc: 'Beyond academics, we nurture physical excellence through world-class sports facilities and a vibrant campus life.'
-        },
-        {
-            src: 'https://assets.mixkit.co/videos/preview/mixkit-mechanical-engineer-working-on-a-machine-41125-large.mp4',
-            title: 'HANDS-ON <span>TECHNICAL</span> TRAINING',
-            desc: 'Bridging the gap between theory and practice with sophisticated workshops and industrial-grade machinery.'
         }
     ]
-    const [currentVideo, setCurrentVideo] = useState(0)
+    const [currentText, setCurrentText] = useState(0)
+    
+    // Video Rotation State
+    const videoRef = useRef(null)
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
+    const heroVideos = ['/library.mp4', '/mec college1.mp4', '/mec college2.mp4', '/mec college3.mp4', '/mec college4.mp4']
+    const heroVideoContent = [
+        {
+            title: 'WORLD CLASS LIBRARY',
+            desc: 'Our central library is a beacon of research and learning, equipped with over 40,000 volumes and digital resources.'
+        },
+        {
+            title: 'BEST INFRASTRUCTURE',
+            desc: 'A modern 15-acre green campus designed to provide a world-class engineering education environment.'
+        },
+        {
+            title: 'MODERN LABORATORIES',
+            desc: 'Advanced research facilities equipped with state-of-the-art technology for hands-on technical learning.'
+        },
+        {
+            title: 'ACADEMIC EXCELLENCE',
+            desc: 'Nurturing future innovators through rigorous academic curricula and guidance from expert faculty.'
+        },
+        {
+            title: 'VIBRANT CAMPUS LIFE',
+            desc: 'A diverse and inclusive environment where students learn, collaborate, and create lasting memories.'
+        }
+    ]
 
     const handleVideoEnd = () => {
-        setCurrentVideo((prev) => (prev + 1) % videos.length)
+        setCurrentVideoIndex((prev) => (prev + 1) % heroVideos.length)
     }
 
     useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.play().catch(err => console.log('Video play failed:', err))
+        }
+    }, [currentVideoIndex])
+
+    useEffect(() => {
         const timer = setTimeout(() => {
-            handleVideoEnd()
-        }, 10000) // Fallback timer to ensure text always rotates
+            setCurrentText((prev) => (prev + 1) % heroTexts.length)
+        }, 8000)
         return () => clearTimeout(timer)
-    }, [currentVideo])
+    }, [currentText])
+
+    const DEPT_CURSOR_ICONS = {
+        cse: ['icon_21.webp', 'icon_22.webp', 'icon_23.webp', 'icon_20.webp'].map(i => getAssetPath(`/images/cursor/${i}`)),
+        civil: ['icon_15.webp', 'icon_14.webp', 'icon_13.webp', 'icon_11.webp'].map(i => getAssetPath(`/images/cursor/${i}`)),
+        mechanical: ['icon_16.webp', 'icon_17.webp', 'icon_19.webp', 'icon_1.webp'].map(i => getAssetPath(`/images/cursor/${i}`)),
+        eee: ['icon_18.webp', 'icon_5.webp', 'icon_20.webp', 'icon_11.webp'].map(i => getAssetPath(`/images/cursor/${i}`)),
+        ece: ['icon_12.webp', 'icon_11.webp', 'icon_21.webp', 'icon_6.webp'].map(i => getAssetPath(`/images/cursor/${i}`)),
+        ash: ['icon_10.webp', 'icon_9.webp', 'icon_8.webp', 'icon_7.webp'].map(i => getAssetPath(`/images/cursor/${i}`))
+    }
+
+    const handleDeptMouseEnter = (deptId) => {
+        const icons = DEPT_CURSOR_ICONS[deptId] || []
+        window.dispatchEvent(new CustomEvent('cursor-change', { detail: { icons } }))
+    }
+
+    const handleDeptMouseLeave = () => {
+        window.dispatchEvent(new CustomEvent('cursor-change', { detail: { icons: null } }))
+    }
+
+    const StatIcon = ({ id }) => {
+        const icons = {
+            placed: <FiBriefcase />,
+            gate: <FiAward />,
+            air: <FiAward />,
+            recruiters: <FiUsers />,
+            books: <FiBookOpen />,
+            acres: <FiMap />
+        }
+        return icons[id] || <FiAward />
+    }
+
+    const HighlightIcon = ({ index }) => {
+        const icons = [
+            <FiCheckCircle />,
+            <FiAward />,
+            <FiBriefcase />,
+            <FiPercent />,
+            <FiTrendingUp />,
+            <FiHome />
+        ]
+        return icons[index] || <FiCheckCircle />
+    }
 
     return (
         <>
-            {/* ===== HERO ===== */}
-            <section className="hero">
-                <video
-                    key={videos[currentVideo].src}
-                    className="hero-bg-video"
-                    autoPlay
-                    muted
-                    playsInline
-                    onEnded={handleVideoEnd}
-                    onError={handleVideoEnd}
-                >
-                    <source src={videos[currentVideo].src} type="video/mp4" />
-                </video>
-                <div className="hero-video-overlay" />
-                <div className="hero-bg-pattern" />
-                <div className="hero-grid" />
+            <SEO 
+                title="Home" 
+                description="Mewat Engineering College (WAQF) - A premier engineering institution providing quality technical education and innovation." 
+            />
+            {/* ===== PLAIN WHITE HERO LAYOUT ===== */}
+            <section className="home-layout">
+                {/* Main Grid: Video (left) + Sidebar (right) */}
+                <div className="home-layout-grid">
+                    {/* === ANTI-GRAVITY HERO AREA === */}
+                    <div className="home-hero-antigravity-area">
+                        <div className="antigravity-stars" />
+                        <div className="home-hero-content container">
+                            {/* Main Column: Video + Social Links below */}
+                            <div className="hero-main-column">
+                                <motion.div 
+                                    className="hero-glass-container"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <video 
+                                        ref={videoRef}
+                                        src={getAssetPath(heroVideos[currentVideoIndex])}
+                                        autoPlay
+                                        muted
+                                        playsInline
+                                        onEnded={handleVideoEnd}
+                                        className="hero-video"
+                                    />
 
-                <div className="container">
-                    <div className="hero-content">
-                        <motion.div 
-                            className="hero-badge" 
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                        >
-                            🎓 AICTE Approved · DCRUST Affiliated
-                        </motion.div>
-                        
-                        <motion.div 
-                            key={currentVideo}
-                            initial="hidden" 
-                            animate="visible"
-                        >
-                            <motion.h1 
-                                initial={{ opacity: 1 }}
-                                className="glassy-text"
-                            >
-                                <TypewriterText text={videos[currentVideo].title} />
-                            </motion.h1>
-                            <motion.p variants={fadeUp} custom={1}>
-                                {videos[currentVideo].desc}
-                            </motion.p>
-                            <motion.div className="hero-buttons" variants={fadeUp} custom={2}>
-                                <Link to="/admissions" className="btn btn-accent">Apply Now →</Link>
-                                <Link to="/about" className="btn btn-outline">Explore College</Link>
-                            </motion.div>
-                        </motion.div>
+                                    {/* Video Caption Overlay */}
+                                    <AnimatePresence mode="wait">
+                                        <motion.div 
+                                            key={currentVideoIndex}
+                                            className="hero-video-caption"
+                                            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+                                            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                                            exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
+                                            transition={{ duration: 0.6, ease: "easeOut" }}
+                                        >
+                                            <h2 className="caption-title">{heroVideoContent[currentVideoIndex].title}</h2>
+                                        </motion.div>
+                                    </AnimatePresence>
+                                </motion.div>
+
+                                {/* Social Links - Below the video box */}
+                                <div className="hero-social-horizontal">
+                                    <div className="social-label-horizontal">FOLLOW US</div>
+                                    <div className="social-divider-v"></div>
+                                    <div className="social-btns-row">
+                                        <a href="#" className="hero-social-btn" aria-label="Facebook">
+                                            <FaFacebook />
+                                            <span className="social-tooltip">Facebook</span>
+                                        </a>
+                                        <a href="#" className="hero-social-btn" aria-label="Instagram">
+                                            <FaInstagram />
+                                            <span className="social-tooltip">Instagram</span>
+                                        </a>
+                                        <a href="#" className="hero-social-btn" aria-label="YouTube">
+                                            <FaYoutube />
+                                            <span className="social-tooltip">YouTube</span>
+                                        </a>
+                                        <a href="#" className="hero-social-btn" aria-label="LinkedIn">
+                                            <FaLinkedin />
+                                            <span className="social-tooltip">LinkedIn</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="hero-sidebar-column">
+                                {/* Affiliation Badge - Now outside the box */}
+                                <div className="hero-affiliation-badge">
+                                    <span className="badge-dot"></span>
+                                    AFFILIATED WITH AICTE
+                                </div>
+                                <motion.div 
+                                    className="hero-glass-sidebar"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                                >
+                                    <NotificationCard />
+                                </motion.div>
+                            </div>
+                        </div>
+
+                        {/* Scroll Indicator */}
+                        <div className="scroll-indicator">
+                            <div className="scroll-mouse">
+                                <div className="scroll-wheel"></div>
+                            </div>
+                            <div className="scroll-text-row">
+                                <span className="scroll-text">Scroll Down</span>
+                                <div className="scroll-arrows-stack">
+                                    <span className="scroll-arrow"></span>
+                                    <span className="scroll-arrow"></span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -473,7 +787,9 @@ export default function Home() {
                                 viewport={{ once: true, margin: '-50px' }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
                             >
-                                <div className="highlight-icon">{item.icon}</div>
+                                <div className="highlight-icon">
+                                    <HighlightIcon index={i} />
+                                </div>
                                 <h4>{item.title}</h4>
                                 <p>{item.description}</p>
                             </motion.div>
@@ -482,113 +798,8 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* ===== ABOUT PREVIEW ===== */}
-            <section className="section about-preview">
-                <div className="container">
-                    <div className="about-preview-grid">
-                        <motion.div
-                            className="about-preview-img"
-                            initial={{ opacity: 0, x: -40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <div className="about-img-container">
-                                <img src="/images/college-bg-2.png" alt="MEC Campus" className="about-img-main" />
-                            </div>
-                            <div className="experience-badge">
-                                <div className="big-number">15+</div>
-                                <div className="small-text">Years of Excellence</div>
-                            </div>
-                        </motion.div>
-                        <motion.div
-                            className="about-preview-content"
-                            initial={{ opacity: 0, x: 40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <span className="about-label">About Us</span>
-                            <h2>Empowering Engineers, Transforming Lives</h2>
-                            <p>
-                                Mewat Engineering College (WAQF) is a premier engineering institution situated in the serene
-                                surroundings of Village Palla, District Nuh. Committed to transforming lives through quality
-                                technical education, we offer programs in 5 engineering disciplines.
-                            </p>
-                            <div className="about-features">
-                                <div className="about-feature">
-                                    <span className="check">✓</span> AICTE Approved Programs
-                                </div>
-                                <div className="about-feature">
-                                    <span className="check">✓</span> Experienced Faculty
-                                </div>
-                                <div className="about-feature">
-                                    <span className="check">✓</span> Modern Laboratories
-                                </div>
-                                <div className="about-feature">
-                                    <span className="check">✓</span> 100% Placement Support
-                                </div>
-                            </div>
-                            <Link to="/about" className="btn btn-primary">Learn More →</Link>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ===== DIRECTOR'S MESSAGE ===== */}
-            <section className="section director-section">
-                <div className="container">
-                    <div className="section-header">
-                        <span className="section-label">Leadership</span>
-                        <h2>Director's Message</h2>
-                        <p>A vision for excellence in engineering education</p>
-                    </div>
-                    <div className="director-grid">
-                        <motion.div
-                            className="director-image-wrapper"
-                            initial={{ opacity: 0, x: -40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                        >
-                            <div className="director-image-frame">
-                                <img src="/images/director.png" alt="Director of Mewat Engineering College" />
-                            </div>
-                            <div className="director-name-card">
-                                <h3>Director</h3>
-                                <div className="director-title">Mewat Engineering College</div>
-                            </div>
-                        </motion.div>
-                        <motion.div
-                            className="director-message-content"
-                            initial={{ opacity: 0, x: 40 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                        >
-                            <span className="director-quote-icon">"</span>
-                            <p>
-                                Welcome to Mewat Engineering College (WAQF). Our institution is dedicated to providing
-                                quality technical education that empowers students from all backgrounds, especially the
-                                underserved communities of the Mewat region.
-                            </p>
-                            <p>
-                                We believe in nurturing not just engineers, but responsible citizens who can contribute
-                                to the nation's progress. With our experienced faculty, modern infrastructure, and
-                                industry-aligned curriculum, we are committed to shaping the future leaders of technology.
-                            </p>
-                            <p>
-                                I invite all aspiring engineers to join our family and embark on a transformative journey
-                                of learning and growth.
-                            </p>
-                            <div className="director-signature">
-                                <div className="director-signature-line" />
-                                <span>Director, MEC (WAQF)</span>
-                            </div>
-                        </motion.div>
-                    </div>
-                </div>
-            </section>
+            <AboutPreview />
+            <DirectorMessage />
 
             {/* ===== DEPARTMENTS ===== */}
             <section className="section departments-section">
@@ -607,17 +818,23 @@ export default function Home() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: '-50px' }}
                                 transition={{ duration: 0.5, delay: i * 0.08 }}
+                                onMouseEnter={() => handleDeptMouseEnter(dept.id)}
+                                onMouseLeave={handleDeptMouseLeave}
                             >
                                 <div className="dept-card__header">
-                                    <img className="dept-card__icon" src={dept.iconImg} alt={dept.shortName} />
+                                    <img 
+                                        className="dept-card__icon" 
+                                        src={getAssetPath(dept.iconImg || dept.icon_img)} 
+                                        alt={dept.shortName} 
+                                    />
                                     <div className="dept-card__shortname">{dept.shortName}</div>
                                 </div>
                                 <div className="dept-card__body">
                                     <h3 className="dept-card__title">{dept.name}</h3>
                                     {dept.seats ? (
-                                        <span className="dept-card__seats">🎓 {dept.seats} Seats</span>
+                                        <span className="dept-card__seats" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{dept.seats} Seats</span>
                                     ) : (
-                                        <span className="dept-card__seats dept-card__seats--foundation">📌 Foundation Department</span>
+                                        <span className="dept-card__seats dept-card__seats--foundation" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>Foundation Department</span>
                                     )}
                                     <p className="dept-card__desc">{dept.description}</p>
                                     <div className="dept-card__tags">
@@ -642,7 +859,9 @@ export default function Home() {
                     <div className="stats-track">
                         {[...stats, ...stats].map((s, i) => (
                             <div className={`stat-glass-card stat-${s.id}`} key={i}>
-                                <div className="stat-icon">{s.icon}</div>
+                                <div className="stat-icon">
+                                    <StatIcon id={s.id} />
+                                </div>
                                 <div className="stat-value">
                                     <AnimatedCounter end={s.value} suffix={s.suffix} />
                                 </div>
@@ -672,7 +891,7 @@ export default function Home() {
                                 transition={{ duration: 0.4, delay: i * 0.1 }}
                             >
                                 <div className="event-image">
-                                    <img src={event.image_url || event.image} alt={event.title} />
+                                    <img src={event.image_url || getAssetPath(event.image)} alt={event.title} />
                                     <div className="event-date-badge">
                                         <div className="month">{event.date.split(' ')[0]}</div>
                                         <div className="year">{event.date.split(' ')[1]}</div>
@@ -691,32 +910,128 @@ export default function Home() {
 
             {/* ===== TESTIMONIALS ===== */}
             <section className="section testimonials-section">
+                <GravityParticles />
                 <div className="container">
                     <div className="section-header">
                         <span className="section-label">Testimonials</span>
                         <h2>What Our Students Say</h2>
                         <p>Hear from our alumni about their transformative experience at MEC</p>
                     </div>
-                    <div className="testimonials-grid">
-                        {testimonials.map((t, i) => (
-                            <motion.div
-                                className="testimonial-card"
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: i * 0.1 }}
-                            >
-                                <div className="testimonial-quote">{t.quote}</div>
-                                <div className="testimonial-author">
-                                    <div className="testimonial-avatar">{t.avatar}</div>
-                                    <div>
-                                        <div className="testimonial-name">{t.name}</div>
-                                        <div className="testimonial-branch">{t.branch}</div>
+                    <div className="testimonials-marquee">
+                        <div className="testimonials-track track-right">
+                            {[...testimonials, ...testimonials].map((t, i) => (
+                                <motion.div
+                                    className="testimonial-row-card"
+                                    key={`row1-${i}`}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: (i % testimonials.length) * 0.1 }}
+                                >
+                                    <div className="testimonial-row-avatar">
+                                        {t.avatar || <FiUser />}
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                    <div className="testimonial-row-content">
+                                        <div className="testimonial-row-top">
+                                            <div className="testimonial-row-info">
+                                                <h4 className="testimonial-row-name">{t.name}</h4>
+                                                <span className="testimonial-row-branch">{t.branch}</span>
+                                            </div>
+                                            <div className="testimonial-row-rating">
+                                                <FiStar className="star-filled" fill="currentColor" size={14} />
+                                                <span>{t.rating}</span>
+                                            </div>
+                                        </div>
+                                        <p className="testimonial-row-quote">"{t.quote}"</p>
+                                        {t.currentPosition && (
+                                            <div className="testimonial-row-position">
+                                                <div className="pos-badge">
+                                                    <FiBriefcase size={12} />
+                                                    {t.currentPosition}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {/* NEW THIRD ROW */}
+                        <div className="testimonials-track track-middle">
+                            {[...testimonials, ...testimonials].map((t, i) => (
+                                <motion.div
+                                    className="testimonial-row-card"
+                                    key={`row3-${i}`}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: (i % testimonials.length) * 0.1 }}
+                                >
+                                    <div className="testimonial-row-avatar">
+                                        {t.avatar || <FiUser />}
+                                    </div>
+                                    <div className="testimonial-row-content">
+                                        <div className="testimonial-row-top">
+                                            <div className="testimonial-row-info">
+                                                <h4 className="testimonial-row-name">{t.name}</h4>
+                                                <span className="testimonial-row-branch">{t.branch}</span>
+                                            </div>
+                                            <div className="testimonial-row-rating">
+                                                <FiStar className="star-filled" fill="currentColor" size={14} />
+                                                <span>{t.rating}</span>
+                                            </div>
+                                        </div>
+                                        <p className="testimonial-row-quote">"{t.quote}"</p>
+                                        {t.currentPosition && (
+                                            <div className="testimonial-row-position">
+                                                <div className="pos-badge">
+                                                    <FiBriefcase size={12} />
+                                                    {t.currentPosition}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <div className="testimonials-track track-left">
+                            {[...testimonials, ...testimonials].reverse().map((t, i) => (
+                                <motion.div
+                                    className="testimonial-row-card"
+                                    key={`row2-${i}`}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: (i % testimonials.length) * 0.1 }}
+                                >
+                                    <div className="testimonial-row-avatar">
+                                        {t.avatar || <FiUser />}
+                                    </div>
+                                    <div className="testimonial-row-content">
+                                        <div className="testimonial-row-top">
+                                            <div className="testimonial-row-info">
+                                                <h4 className="testimonial-row-name">{t.name}</h4>
+                                                <span className="testimonial-row-branch">{t.branch}</span>
+                                            </div>
+                                            <div className="testimonial-row-rating">
+                                                <FiStar className="star-filled" fill="currentColor" size={14} />
+                                                <span>{t.rating}</span>
+                                            </div>
+                                        </div>
+                                        <p className="testimonial-row-quote">"{t.quote}"</p>
+                                        {t.currentPosition && (
+                                            <div className="testimonial-row-position">
+                                                <div className="pos-badge">
+                                                    <FiBriefcase size={12} />
+                                                    {t.currentPosition}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>

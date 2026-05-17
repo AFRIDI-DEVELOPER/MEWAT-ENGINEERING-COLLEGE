@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { navLinks, contactInfo } from '../data/content'
 import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi'
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { getAssetPath } from '../utils/assets'
 
 export default function Footer() {
     return (
@@ -10,7 +11,7 @@ export default function Footer() {
                 <div className="footer-grid">
                     <div className="footer-brand">
                         <div className="footer-logo">
-                            <img src="/images/college-logo.png" alt="MEC Logo" />
+                            <img src={getAssetPath('/images/mewatengineering logo.png')} alt="MEC Logo" />
                         </div>
                         <h3>Mewat Engineering College</h3>
                         <p className="footer-tagline">WAQF — Empowering Through Education</p>

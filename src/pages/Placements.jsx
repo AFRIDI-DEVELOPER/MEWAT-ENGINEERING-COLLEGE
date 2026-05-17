@@ -3,28 +3,25 @@ import { motion } from 'framer-motion'
 import AnimatedCounter from '../components/AnimatedCounter'
 import { useRecruiters, useStats } from '../hooks/useSupabase'
 import { recruiters as staticRecruiters } from '../data/content'
+import SEO from '../components/SEO'
 import LoadingSpinner from '../components/LoadingSpinner'
+import { FaBriefcase, FaTrophy, FaBuilding, FaChartLine, FaCheck } from 'react-icons/fa6'
 
 export default function Placements() {
     const { data: supabaseRecruiters, loading: recruitersLoading } = useRecruiters()
     const { data: supabaseStats } = useStats()
 
-    const recruiters = supabaseRecruiters?.length > 0 ? supabaseRecruiters : staticRecruiters
-
-    // Use Supabase stats or local fallback
-    const placedStat  = supabaseStats?.find(s => s.id === 'placed')
-    const gateStat    = supabaseStats?.find(s => s.id === 'air')
-    const recruiterSt = supabaseStats?.find(s => s.id === 'recruiters')
-
+    const recruiters = staticRecruiters // Use local data for real info
     const placementStats = [
-        { icon: '💼', number: placedStat?.value  ?? 500, suffix: '+', text: 'Students Placed' },
-        { icon: '🏆', number: gateStat?.value    ?? 48,  suffix: '',  text: 'Best GATE AIR' },
-        { icon: '🏢', number: recruiterSt?.value ?? 30,  suffix: '+', text: 'Recruiting Companies' },
-        { icon: '📈', number: 100, suffix: '%', text: 'Placement Assistance' }
+        { icon: <FaBriefcase />, number: 500, suffix: '+', text: 'Students Placed' },
+        { icon: <FaTrophy />, number: 48,  suffix: '',  text: 'Best GATE AIR' },
+        { icon: <FaBuilding />, number: 30,  suffix: '+', text: 'Recruiting Companies' },
+        { icon: <FaChartLine />, number: 100, suffix: '%', text: 'Placement Assistance' }
     ]
 
     return (
         <>
+            <SEO title="Placements" description="Discover our placement success stories and the leading companies that recruit from MEC." />
 
 
             {/* Stats */}
@@ -79,10 +76,10 @@ export default function Placements() {
                                 of education at MEC.
                             </p>
                             <div className="about-features">
-                                <div className="about-feature"><span className="check">✓</span> Resume Building Workshops</div>
-                                <div className="about-feature"><span className="check">✓</span> Mock Interview Sessions</div>
-                                <div className="about-feature"><span className="check">✓</span> Industry Expert Talks</div>
-                                <div className="about-feature"><span className="check">✓</span> Soft Skills Training</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Resume Building Workshops</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Mock Interview Sessions</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Industry Expert Talks</div>
+                                <div className="about-feature"><span className="check"><FaCheck /></span> Soft Skills Training</div>
                             </div>
                         </motion.div>
                         <motion.div
@@ -92,7 +89,7 @@ export default function Placements() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                         >
-                            <div className="img-placeholder" style={{ background: 'var(--grad-secondary)', fontSize: '4rem' }}>💼</div>
+                            <div className="img-placeholder" style={{ background: 'var(--grad-secondary)', fontSize: '4rem' }}><FaBriefcase /></div>
                         </motion.div>
                     </div>
                 </div>

@@ -1097,7 +1097,7 @@ main.portal-active {
 }
 
 .hero-sidebar-column {
-  flex: 1;
+  flex: 0 0 270px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1201,9 +1201,6 @@ main.portal-active {
 @media (min-width: 1400px) {
   .home-hero-content {
     gap: 48px;
-  }
-  .hero-main-column {
-    flex: 0 0 78%;
   }
 }
 
@@ -1733,7 +1730,7 @@ main.portal-active {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  flex: 0 0 79%;
+  flex: 1;
   min-width: 0;
 }
 

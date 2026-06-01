@@ -19,10 +19,17 @@ import AdminDashboard from './pages/AdminDashboard'
 import Notices from './pages/Notices'
 
 function ScrollToTop() {
-    const { pathname } = useLocation()
+    const { pathname, hash } = useLocation()
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [pathname])
+        if (!hash) {
+            window.scrollTo(0, 0)
+        } else {
+            setTimeout(() => {
+                const el = document.getElementById(hash.slice(1))
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }, 100)
+        }
+    }, [pathname, hash])
     return null
 }
 

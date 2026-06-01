@@ -10,79 +10,14 @@ import {
     stats as staticStats
 } from '../data/content'
 import AnimatedCounter from '../components/AnimatedCounter'
-import { useDepartments, useStats, useEvents, useTestimonials } from '../hooks/useSupabase'
 import { getAssetPath } from '../utils/assets'
-import { FiBriefcase, FiAward, FiUsers, FiBookOpen, FiMap, FiCheckCircle, FiPercent, FiTrendingUp, FiHome, FiUser, FiBell, FiArrowRight, FiAlertCircle, FiFileText, FiCalendar, FiInfo, FiStar, FiMapPin } from 'react-icons/fi'
+import { FiBriefcase, FiAward, FiUsers, FiBookOpen, FiMap, FiCheckCircle, FiPercent, FiTrendingUp, FiHome, FiUser, FiBell, FiArrowRight, FiStar } from 'react-icons/fi'
 import { FaFacebook, FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa'
 import AboutPreview from '../components/AboutPreview'
 import DirectorMessage from '../components/DirectorMessage'
 import SEO from '../components/SEO'
 
 
-const fadeUp = {
-    hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
-    visible: (i = 0) => ({
-        opacity: 1, y: 0, filter: 'blur(0px)',
-        transition: { 
-            duration: 0.8, 
-            delay: 0.1 + i * 0.15, 
-            ease: [0.22, 1, 0.36, 1] 
-        }
-    })
-}
-
-const TypewriterText = ({ text }) => {
-    // Split text by <span> tags to preserve them
-    const parts = text.split(/(<span.*?>.*?<\/span>)/g);
-    
-    return (
-        <motion.span
-            initial="hidden"
-            animate="visible"
-            className="typewriter-container"
-            variants={{
-                visible: {
-                    transition: {
-                        staggerChildren: 0.05 // Slightly slower for readability
-                    }
-                }
-            }}
-            style={{ whiteSpace: 'pre-wrap' }}
-        >
-            {parts.map((part, i) => {
-                if (part.startsWith('<span')) {
-                    const content = part.replace(/<span.*?>|<\/span>/g, '');
-                    return (
-                        <span key={i} className="typewriter-span" style={{ whiteSpace: 'pre-wrap' }}>
-                            {content.split('').map((char, j) => (
-                                <motion.span
-                                    key={j}
-                                    variants={{
-                                        hidden: { opacity: 0 },
-                                        visible: { opacity: 1 }
-                                    }}
-                                >
-                                    {char}
-                                </motion.span>
-                            ))}
-                        </span>
-                    );
-                }
-                return part.split('').map((char, j) => (
-                    <motion.span
-                        key={`${i}-${j}`}
-                        variants={{
-                            hidden: { opacity: 0 },
-                            visible: { opacity: 1 }
-                        }}
-                    >
-                        {char}
-                    </motion.span>
-                ));
-            })}
-        </motion.span>
-    );
-}
 
 const campusImages = [
     {
@@ -549,12 +484,6 @@ const GravityParticles = () => {
 };
 
 export default function Home() {
-    // ── Supabase data (falls back to static if Supabase unavailable) ──
-    const { data: sbDepts }         = useDepartments()
-    const { data: sbStats }         = useStats()
-    const { data: sbEvents }        = useEvents()
-    const { data: sbTestimonials }  = useTestimonials()
-
     // Always use static data first for verified accuracy
     const departments  = staticDepartments
     const stats        = staticStats
@@ -588,7 +517,7 @@ export default function Home() {
         },
         {
             title: 'BEST INFRASTRUCTURE',
-            desc: 'A modern 15-acre green campus designed to provide a world-class engineering education environment.'
+            desc: 'A modern 28-acre green campus designed to provide a world-class engineering education environment.'
         },
         {
             title: 'MODERN LABORATORIES',
@@ -610,7 +539,7 @@ export default function Home() {
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.play().catch(err => console.log('Video play failed:', err))
+            videoRef.current.play().catch(() => {})
         }
     }, [currentVideoIndex])
 
@@ -824,7 +753,7 @@ export default function Home() {
                                 <div className="dept-card__header">
                                     <img 
                                         className="dept-card__icon" 
-                                        src={getAssetPath(dept.iconImg || dept.icon_img)} 
+                                        src={getAssetPath(dept.iconImg)} 
                                         alt={dept.shortName} 
                                     />
                                     <div className="dept-card__shortname">{dept.shortName}</div>

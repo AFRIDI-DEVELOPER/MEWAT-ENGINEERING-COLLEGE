@@ -276,16 +276,20 @@ button {
 }
 
 .btn-outline {
-  background: transparent;
-  color: var(--white);
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(240, 235, 220, 0.9);
+  border: 1.5px solid rgba(200, 169, 81, 0.35);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 0 0 rgba(200, 169, 81, 0);
+  transition: all 0.35s var(--ease-out);
 }
 
 .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.7);
-  transform: translateY(-2px);
+  background: rgba(200, 169, 81, 0.08);
+  border-color: rgba(200, 169, 81, 0.65);
+  color: #e8d08a;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(200, 169, 81, 0.15);
 }
 
 .btn-outline-primary {
@@ -456,16 +460,14 @@ button {
 
 @media (max-width: 992px) {
   .navbar-wrapper.floating {
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
+    top: 8px !important;
+    left: 8px !important;
+    right: 8px !important;
   }
-  
+
   .navbar-wrapper.floating .main-nav {
-    border-radius: 0 !important;
-    border-left: none !important;
-    border-right: none !important;
-    border-top: none !important;
+    border-radius: 14px !important;
+    border: 0.5px solid rgba(200, 169, 81, 0.4) !important;
   }
 }
 
@@ -954,7 +956,7 @@ button {
 /* Mobile Nav */
 .mobile-nav {
   position: fixed;
-  top: 80px;
+  top: 88px;
   right: 10px;
   width: 50vw;
   height: 70vh;
@@ -962,7 +964,6 @@ button {
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-right: none !important;
   border-radius: 24px;
   z-index: 999;
   display: flex;
@@ -1018,6 +1019,16 @@ main {
 
 main.portal-active {
   padding-top: 0;
+}
+
+/* Anchor offset so fixed navbar doesn't cover jump targets */
+#about-overview,
+#director-message,
+#our-history,
+#vision-mission,
+#core-values,
+#facilities {
+  scroll-margin-top: 100px;
 }
 
 /* --- Homepage Wireframe Layout --- */
@@ -1085,7 +1096,7 @@ main.portal-active {
   border-radius: 32px;
   width: 100%;
   max-width: 100%;
-  height: clamp(480px, 70vh, 660px);
+  height: clamp(480px, calc(100vh - 230px), 920px);
   margin-left: 0;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   display: flex;
@@ -1101,7 +1112,7 @@ main.portal-active {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: clamp(480px, 70vh, 660px);
+  height: clamp(480px, calc(100vh - 230px), 920px);
   position: relative;
   min-width: 0;
 }
@@ -1125,7 +1136,7 @@ main.portal-active {
   border-top: none;
   border-radius: 0 0 32px 32px;
   width: 100%;
-  height: clamp(420px, 67vh, 620px);
+  height: clamp(420px, calc(100vh - 270px), 860px);
   margin-top: 3vh;
   margin-right: 0;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -1201,6 +1212,56 @@ main.portal-active {
 @media (min-width: 1400px) {
   .home-hero-content {
     gap: 48px;
+  }
+}
+
+/* ─── Wide / Large Desktop Responsiveness ─────────────────────────────────── */
+
+/* Container scales up progressively so content fills wide screens */
+@media (min-width: 1440px) {
+  :root { --container-width: 1360px; }
+}
+@media (min-width: 1700px) {
+  :root {
+    --container-width: 1560px;
+    --container-padding: 0 36px;
+  }
+}
+@media (min-width: 2000px) {
+  :root {
+    --container-width: 1800px;
+    --container-padding: 0 48px;
+  }
+}
+@media (min-width: 2400px) {
+  :root {
+    --container-width: 2000px;
+    --container-padding: 0 60px;
+  }
+}
+
+/* Hero sidebar gets wider on large screens */
+@media (min-width: 1600px) {
+  .hero-sidebar-column {
+    flex: 0 0 300px;
+  }
+}
+@media (min-width: 1920px) {
+  .hero-sidebar-column {
+    flex: 0 0 340px;
+  }
+  .home-hero-content {
+    gap: 60px;
+    padding-top: 140px;
+  }
+}
+@media (min-width: 2200px) {
+  .hero-sidebar-column {
+    flex: 0 0 380px;
+  }
+  .home-hero-content {
+    gap: 72px;
+    padding-top: 160px;
   }
 }
 
@@ -2736,6 +2797,649 @@ main.portal-active {
   letter-spacing: 1px;
 }
 
+/* --- Administrator Message --- */
+.admin-section {
+  padding: 140px 0 100px;
+  background: linear-gradient(160deg, #0f1a12 0%, #0a1a10 30%, #12271a 65%, #060d08 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 50%, rgba(200, 169, 81, 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 70% at 10% 25%, rgba(45, 106, 79, 0.18) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.admin-section .section-header .section-label {
+  background: rgba(200, 169, 81, 0.15);
+  border-color: rgba(200, 169, 81, 0.3);
+}
+
+.admin-section .section-header h2 {
+  color: var(--white);
+}
+
+.admin-section .section-header p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 60px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* message card — mirrors director card but image is on the right */
+.admin-message-content {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.025) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 52px 52px 44px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    inset 0 0 24px rgba(255, 255, 255, 0.02);
+}
+
+.admin-message-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 81, 0.7), rgba(230, 200, 110, 1), rgba(200, 169, 81, 0.7), transparent);
+}
+
+.admin-message-content::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.04) 48%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 52%,
+    transparent 55%
+  );
+  pointer-events: none;
+  animation: glass-shine 12s linear infinite;
+}
+
+.admin-quote-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+  font-family: Georgia, serif;
+  display: block;
+}
+
+.admin-message-content p {
+  color: rgba(240, 235, 222, 0.8);
+  font-size: 1.02rem;
+  line-height: 1.9;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.admin-message-content p:last-of-type {
+  margin-bottom: 0;
+}
+
+.admin-signature {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.admin-signature-line {
+  width: 40px;
+  height: 2px;
+  background: var(--grad-gold);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.admin-sig-name {
+  color: var(--gold-light);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.admin-sig-title {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  font-style: normal;
+}
+
+/* photo card */
+.admin-image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: sticky;
+  top: 120px;
+}
+
+.admin-image-frame {
+  position: relative;
+  width: 240px;
+  height: 300px;
+  border-radius: 20px;
+}
+
+.admin-image-frame::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(200, 169, 81, 0.7) 0%, rgba(45, 106, 79, 0.4) 50%, rgba(200, 169, 81, 0.5) 100%);
+  z-index: 0;
+}
+
+.admin-image-frame::after {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 30px;
+  border: 1.5px dashed rgba(200, 169, 81, 0.22);
+  z-index: 0;
+  animation: director-rotate 30s linear infinite;
+}
+
+.admin-image-frame img,
+.admin-image-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 18px;
+  position: relative;
+  z-index: 1;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 50px rgba(200, 169, 81, 0.1);
+  display: block;
+}
+
+.admin-image-placeholder {
+  background: linear-gradient(145deg, #1a3325 0%, #0d1f15 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-image-placeholder span {
+  font-size: 4rem;
+  font-weight: 900;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -2px;
+}
+
+.admin-name-card {
+  text-align: center;
+  padding: 20px 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.025) 100%);
+  border: 1px solid rgba(200, 169, 81, 0.2);
+  border-radius: 16px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-name-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 81, 0.6), transparent);
+}
+
+.admin-name-card h3 {
+  color: var(--white);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.admin-title-badge {
+  display: inline-block;
+  background: rgba(200, 169, 81, 0.15);
+  border: 1px solid rgba(200, 169, 81, 0.35);
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 50px;
+  margin-bottom: 6px;
+}
+
+.admin-org {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
+}
+
+/* --- CEO Message Section --- */
+.ceo-section {
+  padding: 140px 0 100px;
+  background: linear-gradient(155deg, #0b0f1a 0%, #0e1628 25%, #141f35 50%, #0d1426 75%, #080c16 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.ceo-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 50% 50% at 20% 80%, rgba(200, 169, 81, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 85% 20%, rgba(45, 106, 79, 0.14) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(200, 169, 81, 0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.ceo-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 10%, rgba(200, 169, 81, 0.3) 50%, transparent 90%);
+}
+
+.ceo-section .section-header .section-label {
+  background: rgba(200, 169, 81, 0.15);
+  border-color: rgba(200, 169, 81, 0.3);
+}
+
+.ceo-section .section-header h2 {
+  color: var(--white);
+}
+
+.ceo-section .section-header p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.ceo-grid {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 60px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* CEO Image */
+.ceo-image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  position: sticky;
+  top: 120px;
+}
+
+.ceo-image-frame {
+  position: relative;
+  width: 260px;
+  height: 320px;
+  border-radius: 24px;
+}
+
+.ceo-image-frame::before {
+  content: '';
+  position: absolute;
+  inset: -5px;
+  border-radius: 28px;
+  background: linear-gradient(160deg, rgba(200, 169, 81, 0.8) 0%, rgba(45, 106, 79, 0.5) 40%, rgba(200, 169, 81, 0.6) 100%);
+  z-index: 0;
+}
+
+.ceo-image-frame::after {
+  content: '';
+  position: absolute;
+  inset: -16px;
+  border-radius: 34px;
+  border: 1.5px dashed rgba(200, 169, 81, 0.2);
+  z-index: 0;
+  animation: director-rotate 35s linear infinite;
+}
+
+.ceo-image-frame img,
+.ceo-image-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 22px;
+  position: relative;
+  z-index: 1;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.45),
+    0 0 60px rgba(200, 169, 81, 0.08);
+  display: block;
+}
+
+.ceo-image-placeholder {
+  background: linear-gradient(145deg, #1a2540 0%, #0d1526 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ceo-image-placeholder span {
+  font-size: 3rem;
+  font-weight: 900;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.ceo-badge {
+  position: absolute;
+  bottom: -12px;
+  right: -12px;
+  z-index: 2;
+  background: linear-gradient(135deg, rgba(200, 169, 81, 0.95), rgba(180, 150, 60, 0.95));
+  padding: 8px 16px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 20px rgba(200, 169, 81, 0.3);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.ceo-badge-icon {
+  font-size: 0.9rem;
+}
+
+.ceo-badge-text {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.ceo-name-card {
+  text-align: center;
+  padding: 22px 28px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0.025) 100%);
+  border: 1px solid rgba(200, 169, 81, 0.2);
+  border-radius: 16px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.ceo-name-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 81, 0.6), transparent);
+}
+
+.ceo-name-card h3 {
+  color: var(--white);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.ceo-title-badge {
+  display: inline-block;
+  background: rgba(200, 169, 81, 0.15);
+  border: 1px solid rgba(200, 169, 81, 0.35);
+  color: var(--gold-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  border-radius: 50px;
+  margin-bottom: 8px;
+}
+
+.ceo-org {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  letter-spacing: 0.5px;
+}
+
+/* CEO Message Card */
+.ceo-message-content {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 52px 52px 44px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.35),
+    inset 0 0 28px rgba(255, 255, 255, 0.015);
+}
+
+.ceo-message-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(200, 169, 81, 0.7), rgba(230, 200, 110, 1), rgba(200, 169, 81, 0.7), transparent);
+}
+
+.ceo-message-content::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(255, 255, 255, 0.03) 48%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 52%,
+    transparent 55%
+  );
+  pointer-events: none;
+  animation: glass-shine 14s linear infinite;
+}
+
+.ceo-quote-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  background: var(--grad-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+  font-family: Georgia, serif;
+  display: block;
+}
+
+.ceo-message-content > p {
+  color: rgba(235, 230, 218, 0.82);
+  font-size: 1.02rem;
+  line-height: 1.9;
+  margin-bottom: 14px;
+  font-style: italic;
+}
+
+.ceo-message-content > p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* Blessings callout */
+.ceo-blessings {
+  margin-top: 28px;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(200, 169, 81, 0.12) 0%, rgba(200, 169, 81, 0.04) 100%);
+  border: 1px solid rgba(200, 169, 81, 0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ceo-blessings-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.ceo-blessings p {
+  color: var(--gold-light) !important;
+  font-size: 1.05rem !important;
+  font-weight: 600;
+  font-style: italic !important;
+  margin-bottom: 0 !important;
+  line-height: 1.6 !important;
+}
+
+/* Signature */
+.ceo-signature {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.ceo-signature-line {
+  width: 40px;
+  height: 2px;
+  background: var(--grad-gold);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.ceo-sig-name {
+  color: var(--gold-light);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.ceo-sig-title {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 3px;
+  font-style: normal;
+}
+
+/* CEO Responsive */
+@media (max-width: 900px) {
+  .ceo-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .ceo-image-wrapper {
+    position: static;
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .ceo-image-frame {
+    width: 140px;
+    height: 170px;
+    flex-shrink: 0;
+  }
+
+  .ceo-name-card {
+    text-align: left;
+  }
+
+  .ceo-message-content {
+    padding: 32px 28px;
+  }
+
+  .ceo-section {
+    padding: 80px 0 60px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ceo-image-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ceo-name-card {
+    text-align: center;
+  }
+
+  .ceo-image-frame {
+    width: 200px;
+    height: 250px;
+  }
+
+  .ceo-message-content {
+    padding: 28px 20px;
+  }
+
+  .ceo-message-content > p {
+    font-size: 0.95rem;
+  }
+
+  .ceo-blessings {
+    padding: 16px 18px;
+  }
+}
+
 /* --- Departments Section --- */
 .departments-section {
   background: var(--off-white);
@@ -3579,70 +4283,114 @@ main.portal-active {
 }
 
 .cta-card {
-  background: var(--grad-hero);
+  background: linear-gradient(150deg, #101a14 0%, #081C15 30%, #0e2a1c 60%, #060f0b 100%);
   border-radius: var(--radius-xl);
-  padding: 80px 60px;
+  padding: 90px 70px;
   text-align: center;
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(200, 169, 81, 0.18);
+  box-shadow:
+    0 2px 0 0 rgba(200, 169, 81, 0.35) inset,
+    0 40px 100px rgba(0, 0, 0, 0.55),
+    0 0 80px rgba(8, 28, 21, 0.4) inset;
 }
 
+/* layered radial glow orbs */
 .cta-card::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 30% 50%, rgba(200, 169, 81, 0.08) 0%, transparent 50%),
-    radial-gradient(circle at 70% 30%, rgba(163, 177, 138, 0.06) 0%, transparent 50%);
-  top: -50%;
-  left: -20%;
-  width: 100%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(45, 106, 79, 0.3) 0%, transparent 70%);
+    radial-gradient(ellipse 70% 60% at 15% 50%, rgba(200, 169, 81, 0.11) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 70% at 85% 15%, rgba(45, 106, 79, 0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 45% at 55% 85%, rgba(200, 169, 81, 0.07) 0%, transparent 50%);
   pointer-events: none;
+  z-index: 0;
+}
+
+/* gold top-edge shimmer line */
+.cta-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(200, 169, 81, 0.45) 25%,
+    rgba(230, 200, 110, 0.9) 50%,
+    rgba(200, 169, 81, 0.45) 75%,
+    transparent 100%);
+  z-index: 1;
 }
 
 .cta-card h2 {
-  font-size: 3.5rem;
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
   font-weight: 900;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: 1.08;
+  background: linear-gradient(135deg,
+    #ffffff 0%,
+    #f4ede0 30%,
+    #C8A951 58%,
+    #e8d08a 72%,
+    #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 2px 24px rgba(200, 169, 81, 0.22));
 }
 
 .cta-card p {
-  font-size: 1.25rem;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 700px;
-  margin: 0 auto 50px;
-  line-height: 1.6;
+  font-size: 1.2rem;
+  color: rgba(240, 235, 220, 0.72);
+  max-width: 640px;
+  margin: 0 auto 52px;
+  line-height: 1.7;
+  position: relative;
+  z-index: 2;
+  letter-spacing: 0.01em;
 }
 
 .cta-buttons {
   display: flex;
   justify-content: center;
   gap: 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .cta-buttons .btn {
-  padding: 18px 45px;
-  font-size: 1.1rem;
+  padding: 18px 48px;
+  font-size: 1.05rem;
   font-weight: 700;
-  border-radius: 15px;
-  transition: all 0.4s var(--ease-out);
+  border-radius: 14px;
+  transition: all 0.35s var(--ease-out);
+  letter-spacing: 0.02em;
 }
 
 .btn-accent {
-  background: var(--accent);
+  background: linear-gradient(135deg, #d4ae55 0%, #C8A951 40%, #a8863a 100%);
   color: var(--primary-dark);
   border: none;
-  box-shadow: 0 10px 30px rgba(200, 169, 81, 0.3);
+  box-shadow:
+    0 1px 0 rgba(255, 240, 160, 0.5) inset,
+    0 12px 35px rgba(200, 169, 81, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .btn-accent:hover {
-  background: var(--white);
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #e8c868 0%, #d4ae55 50%, #c09640 100%);
+  transform: translateY(-4px);
+  box-shadow:
+    0 1px 0 rgba(255, 240, 160, 0.6) inset,
+    0 20px 50px rgba(200, 169, 81, 0.55),
+    0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* --- Footer --- */
@@ -5603,6 +6351,17 @@ main.portal-active {
     padding: 36px;
   }
 
+  .admin-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .admin-image-wrapper {
+    order: -1;
+    position: static;
+    text-align: center;
+  }
+
   .stats-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -5728,6 +6487,31 @@ main.portal-active {
 
   .director-signature {
     justify-content: center;
+  }
+
+  /* admin section responsive */
+  .admin-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .admin-image-wrapper {
+    order: -1;
+    position: static;
+  }
+
+  .admin-image-frame {
+    width: 200px;
+    height: 250px;
+  }
+
+  .admin-message-content {
+    padding: 28px 24px;
+  }
+
+  .admin-signature {
+    justify-content: center;
+    text-align: center;
   }
 
   .core-values-grid {
@@ -7869,5 +8653,59 @@ main {
   .controls-row { flex-direction: column; align-items: stretch; }
   .filter-tabs { overflow-x: auto; padding-bottom: 5px; }
   .filter-btn { white-space: nowrap; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   WIDE-SCREEN / LARGE DISPLAY RESPONSIVENESS
+   Prevents content from looking like a small island on 27"+ monitors
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Scale up section spacing so sections breathe on large screens */
+@media (min-width: 1600px) {
+  .section { padding: 120px 0; }
+  .section-header { max-width: 860px; margin-bottom: 80px; }
+  .section-header p { font-size: 1.15rem; }
+
+  /* Two-column grids: more gap */
+  .about-preview-grid { gap: 80px; }
+  .director-grid      { gap: 80px; }
+  .ceo-grid           { gap: 80px; }
+  .admin-grid         { gap: 80px; }
+
+  /* Department cards: still 3 cols but bigger gap */
+  .departments-grid { gap: 36px; }
+
+  /* Stats numbers bigger */
+  .stats-section .stat-value { font-size: 3.8rem; }
+
+  /* Bigger recruiters grid cells */
+  .recruiters-grid { gap: 16px; }
+}
+
+@media (min-width: 1920px) {
+  .section { padding: 140px 0; }
+  .section-header { max-width: 960px; margin-bottom: 90px; }
+
+  /* Switch to 4-column dept grid on very wide screens */
+  .departments-grid { grid-template-columns: repeat(4, 1fr); gap: 36px; }
+
+  /* Stats */
+  .stats-section .stat-value { font-size: 4.2rem; }
+
+  /* Buttons slightly larger */
+  .btn { padding: 14px 36px; font-size: 1rem; }
+}
+
+@media (min-width: 2200px) {
+  .section { padding: 160px 0; }
+  .section-header { max-width: 1100px; margin-bottom: 100px; }
+
+  /* 5 columns for departments on ultra-wide */
+  .departments-grid { grid-template-columns: repeat(5, 1fr); gap: 32px; }
+
+  h1 { font-size: clamp(3.8rem, 2.5vw, 5.5rem); }
+  h2 { font-size: clamp(3rem, 2vw, 4.4rem); }
+  h3 { font-size: clamp(1.6rem, 1.4vw, 2.2rem); }
+  p  { font-size: 1.1rem; }
 }
 

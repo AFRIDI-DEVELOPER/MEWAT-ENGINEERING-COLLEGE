@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEO from '../components/SEO'
 import { facilities as staticFacilities } from '../data/content'
@@ -38,7 +38,7 @@ const campusImages = [
     {
         src: getAssetPath('/images/college-bg-1.jpg'),
         title: 'Aerial Campus View',
-        description: 'A breathtaking panoramic perspective of our sprawling 15-acre green campus',
+        description: 'A breathtaking panoramic perspective of our sprawling 28-acre green campus',
         category: 'architecture'
     },
     {
@@ -653,6 +653,17 @@ export default function Campus() {
         if (error) console.error('[Campus] Hook Error:', error);
     }, [facilities, loading, error]);
 
+    // Scroll to hash anchor once loading is done
+    useEffect(() => {
+        if (!loading && window.location.hash) {
+            const id = window.location.hash.slice(1)
+            setTimeout(() => {
+                const el = document.getElementById(id)
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }, 150)
+        }
+    }, [loading])
+
     // Prevent body scroll when modal is open
     useEffect(() => {
         if (selected) {
@@ -667,8 +678,8 @@ export default function Campus() {
 
     return (
         <>
-            <SEO title="Campus Life" description="Explore our 15-acre green campus and state-of-the-art infrastructure at Mewat Engineering College." />
-            <section className="section fac-section" style={{ background: 'var(--off-white)' }}>
+            <SEO title="Campus Life" description="Explore our 28-acre green campus and state-of-the-art infrastructure at Mewat Engineering College." />
+            <section id="facilities" className="section fac-section" style={{ background: 'var(--off-white)' }}>
                 <div className="container">
                     <div className="section-header">
                         <span className="section-label">Infrastructure</span>

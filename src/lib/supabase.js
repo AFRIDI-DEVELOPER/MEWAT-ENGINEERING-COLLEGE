@@ -175,6 +175,13 @@ export async function fetchSyllabus(subjectId) {
     return data;
 }
 
+export async function submitContactForm({ name, email, phone, subject, message }) {
+    const { error } = await supabase
+        .from('contact_submissions')
+        .insert([{ name, email, phone, subject, message }]);
+    if (error) throw error;
+}
+
 export async function studentLogin(rollNo, password) {
     const { data, error } = await supabase
         .from('students')

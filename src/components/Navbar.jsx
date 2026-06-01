@@ -8,7 +8,6 @@ import { isPortalPage } from '../utils/navigation'
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false)
-    const [isHiding, setIsHiding] = useState(false)
     const [isFloating, setIsFloating] = useState(false)
     const [mobileOpen, setMobileOpen] = useState(false)
     const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -21,15 +20,8 @@ export default function Navbar() {
 
     useEffect(() => {
         const onScroll = () => {
-            if (isPortal) return // Skip scroll logic on portal page, keep it floating
-
-            const scrollY = window.scrollY
-            const heroHeight = window.innerHeight
-            
-            // Always scrolled (hide top bar) so floating nav shows
+            if (isPortal) return
             setScrolled(true)
-            
-            // Always floating on homepage for video overlay
             setIsFloating(true)
         }
         // Set initial state immediately
@@ -52,7 +44,7 @@ export default function Navbar() {
     return (
         <>
             <div className={`nav-overlay ${(dropdownOpen || campusDropdownOpen || contactDropdownOpen || placementDropdownOpen || aboutDropdownOpen) ? 'show' : ''}`} />
-            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isHiding ? 'hiding' : ''} ${isFloating ? 'floating' : ''}`}>
+            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isFloating ? 'floating' : ''}`}>
                 <div className="top-bar">
                     <div className="container">
                         <div className="top-bar-left">
@@ -115,16 +107,16 @@ export default function Navbar() {
                                                 </Link>
                                                 
                                                 <div className={`nav-dropdown-menu ${aboutDropdownOpen ? 'show' : ''}`}>
-                                                    <Link to="/about" className="dropdown-item">
+                                                    <Link to="/about#vision-mission" className="dropdown-item">
                                                         <span className="dept-full">Vision & Mission</span>
                                                     </Link>
-                                                    <Link to="/about" className="dropdown-item">
+                                                    <Link to="/about#our-history" className="dropdown-item">
                                                         <span className="dept-full">Our History</span>
                                                     </Link>
-                                                    <Link to="/about" className="dropdown-item">
+                                                    <Link to="/about#director-message" className="dropdown-item">
                                                         <span className="dept-full">Director's Message</span>
                                                     </Link>
-                                                    <Link to="/campus" className="dropdown-item">
+                                                    <Link to="/campus#facilities" className="dropdown-item">
                                                         <span className="dept-full">Institutional Facilities</span>
                                                     </Link>
                                                     <div className="dropdown-footer">
@@ -193,22 +185,22 @@ export default function Navbar() {
                                                 </Link>
                                                 
                                                 <div className={`nav-dropdown-menu ${campusDropdownOpen ? 'show' : ''}`}>
-                                                    <Link to="/campus" className="dropdown-item">
+                                                    <Link to="/campus#facilities" className="dropdown-item">
                                                         <span className="dept-full">Hostel Facility</span>
                                                     </Link>
-                                                    <Link to="/campus" className="dropdown-item">
+                                                    <Link to="/campus#facilities" className="dropdown-item">
                                                         <span className="dept-full">Central Library</span>
                                                     </Link>
-                                                    <Link to="/campus" className="dropdown-item">
+                                                    <Link to="/campus#facilities" className="dropdown-item">
                                                         <span className="dept-full">Modern Labs</span>
                                                     </Link>
-                                                    <Link to="/campus" className="dropdown-item">
+                                                    <Link to="/campus#facilities" className="dropdown-item">
                                                         <span className="dept-full">Transport Service</span>
                                                     </Link>
-                                                    <Link to="/campus" className="dropdown-item">
+                                                    <Link to="/campus#facilities" className="dropdown-item">
                                                         <span className="dept-full">Sports & Gym</span>
                                                     </Link>
-                                                    <Link to="/campus" className="dropdown-item">
+                                                    <Link to="/campus#facilities" className="dropdown-item">
                                                         <span className="dept-full">Language Lab</span>
                                                     </Link>
                                                     <div className="dropdown-footer">

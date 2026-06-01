@@ -18,20 +18,17 @@ function useSupabaseData(fetchFn, fallback = [], deps = []) {
     useEffect(() => {
         let cancelled = false;
         setLoading(true);
-        console.log(`[useSupabaseData] Fetching started...`);
         fetchFn()
             .then(result => {
                 if (!cancelled) {
-                    console.log(`[useSupabaseData] Fetch success:`, result ? (Array.isArray(result) ? result.length : 'object') : 'null');
                     setData(result || fallback);
                     setError(null);
                 }
             })
             .catch(err => {
                 if (!cancelled) {
-                    console.error('[useSupabaseData] Fetch error:', err.message);
                     setError(err.message);
-                    setData(fallback); // Ensure fallback is used on error
+                    setData(fallback);
                 }
             })
             .finally(() => {
@@ -65,7 +62,6 @@ export function useDepartment(id) {
             })
             .catch(err => {
                 if (!cancelled) {
-                    console.warn('Department fetch error:', err.message);
                     setError(err.message);
                 }
             })

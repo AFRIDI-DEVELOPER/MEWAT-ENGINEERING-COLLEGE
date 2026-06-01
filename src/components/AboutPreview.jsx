@@ -6,7 +6,7 @@ import { aboutData } from '../data/content'
 export default function AboutPreview({ showLink = true }) {
     const { preview } = aboutData
     return (
-        <section className="section about-preview">
+        <section id="about-overview" className="section about-preview">
             <div className="container">
                 <div className="about-preview-grid">
                     <motion.div

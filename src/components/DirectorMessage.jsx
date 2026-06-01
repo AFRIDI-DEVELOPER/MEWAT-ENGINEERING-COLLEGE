@@ -4,7 +4,7 @@ import { directorData } from '../data/content'
 
 export default function DirectorMessage() {
     return (
-        <section className="section director-section">
+        <section id="director-message" className="section director-section">
             <div className="container">
                 <div className="section-header">
                     <span className="section-label">Leadership</span>

@@ -3,23 +3,31 @@ import { motion } from 'framer-motion'
 import SEO from '../components/SEO'
 
 import { contactInfo } from '../data/content'
+import { submitContactForm } from '../lib/supabase'
 import { FiMapPin, FiPhone, FiMail, FiGlobe } from 'react-icons/fi'
 
+const EMPTY_FORM = { name: '', email: '', phone: '', subject: '', message: '' }
+
 export default function Contact() {
-    const [formData, setFormData] = useState({
-        name: '', email: '', phone: '', subject: '', message: ''
-    })
-    const [submitted, setSubmitted] = useState(false)
+    const [formData, setFormData] = useState(EMPTY_FORM)
+    const [status, setStatus] = useState(null) // null | 'loading' | 'success' | 'error'
 
     const handleChange = (e) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        setSubmitted(true)
-        setTimeout(() => setSubmitted(false), 3000)
-        setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
+        setStatus('loading')
+        try {
+            await submitContactForm(formData)
+            setStatus('success')
+            setFormData(EMPTY_FORM)
+            setTimeout(() => setStatus(null), 4000)
+        } catch {
+            setStatus('error')
+            setTimeout(() => setStatus(null), 5000)
+        }
     }
 
     const contactCards = [
@@ -45,7 +53,7 @@ export default function Contact() {
                             transition={{ duration: 0.5 }}
                         >
                             <h3>Send a Message</h3>
-                            {submitted && (
+                            {status === 'success' && (
                                 <div style={{
                                     background: 'rgba(0, 132, 61, 0.1)',
                                     border: '1px solid rgba(0, 132, 61, 0.3)',
@@ -56,7 +64,21 @@ export default function Contact() {
                                     fontWeight: 600,
                                     fontSize: '0.9rem'
                                 }}>
-                                    {'\u2705'} Thank you! Your message has been sent successfully.
+                                    \u2705 Thank you! Your message has been sent successfully.
+                                </div>
+                            )}
+                            {status === 'error' && (
+                                <div style={{
+                                    background: 'rgba(220, 38, 38, 0.1)',
+                                    border: '1px solid rgba(220, 38, 38, 0.3)',
+                                    borderRadius: 'var(--radius-sm)',
+                                    padding: '12px 16px',
+                                    marginBottom: 20,
+                                    color: '#dc2626',
+                                    fontWeight: 600,
+                                    fontSize: '0.9rem'
+                                }}>
+                                    \u274c Failed to send. Please email us directly at <a href="mailto:info@mecw.ac.in" style={{ color: 'inherit' }}>info@mecw.ac.in</a>
                                 </div>
                             )}
                             <form onSubmit={handleSubmit}>
@@ -113,8 +135,8 @@ export default function Contact() {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
-                                    Send Message →
+                                <button type="submit" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={status === 'loading'}>
+                                    {status === 'loading' ? 'Sending…' : 'Send Message →'}
                                 </button>
                             </form>
                         </motion.div>
@@ -138,7 +160,7 @@ export default function Contact() {
 
                             <div className="map-container">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3524.3!2d76.99!3d28.12!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sMewat+Engineering+College!5e0!3m2!1sen!2sin!4v1234567890"
+                                    src="https://maps.google.com/maps?q=Mewat+Engineering+College+Palla+Nuh+Haryana&output=embed"
                                     allowFullScreen=""
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"

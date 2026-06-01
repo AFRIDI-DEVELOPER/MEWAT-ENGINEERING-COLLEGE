@@ -1,7 +1,9 @@
 import { aboutData } from '../data/content'
 import { getAssetPath } from '../utils/assets'
 import { motion } from 'framer-motion'
+import CEOMessage from '../components/CEOMessage'
 import DirectorMessage from '../components/DirectorMessage'
+import AdministratorMessage from '../components/AdministratorMessage'
 import AboutPreview from '../components/AboutPreview'
 import SEO from '../components/SEO'
 
@@ -10,12 +12,13 @@ export default function About() {
         <>
             <SEO title="About Us" description="Learn about the history, vision, and mission of Mewat Engineering College (WAQF)." />
 
-
+            <CEOMessage />
             <AboutPreview showLink={false} />
             <DirectorMessage />
+            <AdministratorMessage />
 
             {/* History Detail */}
-            <section className="section" style={{ background: 'var(--off-white)' }}>
+            <section id="our-history" className="section" style={{ background: 'var(--off-white)' }}>
                 <div className="container">
                     <div className="section-header">
                         <span className="section-label">Our Journey</span>
@@ -34,7 +37,7 @@ export default function About() {
             </section>
 
             {/* Vision & Mission */}
-            <section className="section">
+            <section id="vision-mission" className="section">
                 <div className="container">
                     <div className="section-header">
                         <span className="section-label">Our Purpose</span>
@@ -72,7 +75,7 @@ export default function About() {
             </section>
 
             {/* Core Values */}
-            <section className="section" style={{ background: 'var(--off-white)' }}>
+            <section id="core-values" className="section" style={{ background: 'var(--off-white)' }}>
                 <div className="container">
                     <div className="section-header">
                         <span className="section-label">What Drives Us</span>

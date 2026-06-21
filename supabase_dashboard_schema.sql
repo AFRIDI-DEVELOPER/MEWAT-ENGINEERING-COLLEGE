@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS subjects (
 
 -- ─── STUDENTS ───────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS students (
-    id UUID PRIMARY KEY DEFAULT auth.uid(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     roll_no TEXT UNIQUE NOT NULL,
     name TEXT NOT NULL,
     email TEXT UNIQUE,
@@ -95,3 +95,20 @@ CREATE POLICY "Public read exams" ON exams FOR SELECT USING (true);
 CREATE POLICY "Students can read own info" ON students FOR SELECT USING (true); -- Simplified for easy access by roll_no
 CREATE POLICY "Students can read own attendance" ON attendance FOR SELECT USING (true);
 CREATE POLICY "Students can read own practicals" ON practicals FOR SELECT USING (true);
+
+-- Allow Admin Operations (Insert/Update/Delete) for Dashboard
+CREATE POLICY "Allow inserts on students" ON students FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow updates on students" ON students FOR UPDATE USING (true);
+CREATE POLICY "Allow deletes on students" ON students FOR DELETE USING (true);
+
+CREATE POLICY "Allow inserts on subjects" ON subjects FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow updates on subjects" ON subjects FOR UPDATE USING (true);
+CREATE POLICY "Allow deletes on subjects" ON subjects FOR DELETE USING (true);
+
+CREATE POLICY "Allow inserts on exams" ON exams FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow updates on exams" ON exams FOR UPDATE USING (true);
+CREATE POLICY "Allow deletes on exams" ON exams FOR DELETE USING (true);
+
+CREATE POLICY "Allow inserts on syllabus" ON syllabus FOR INSERT WITH CHECK (true);
+CREATE POLICY "Allow updates on syllabus" ON syllabus FOR UPDATE USING (true);
+CREATE POLICY "Allow deletes on syllabus" ON syllabus FOR DELETE USING (true);

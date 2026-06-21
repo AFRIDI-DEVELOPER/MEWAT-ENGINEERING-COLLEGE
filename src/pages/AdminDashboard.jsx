@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase, addStudent, fetchDepartments } from '../lib/supabase';
 import SEO from '../components/SEO';
@@ -9,7 +9,7 @@ import {
 } from 'react-icons/fi';
 import '../styles/admin-dashboard.css';
 
-const ADMIN_PASSWORD = 'mec@admin2024';
+const ADMIN_PASSWORD = 'admin1';
 const AUTH_KEY = 'mec_admin_auth';
 
 const TABS = {
@@ -44,9 +44,17 @@ export default function AdminDashboard() {
     const [editingStudent, setEditingStudent] = useState(null);
     const [studentSearch, setStudentSearch]   = useState('');
     const [confirmModal, setConfirmModal]     = useState({ show: false, title: '', message: '', onConfirm: null, type: 'danger' });
+    const [photoViewer, setPhotoViewer]       = useState(null);
+    const [cropModal, setCropModal]           = useState({ show: false, src: '' });
+    const [zoom, setZoom]                     = useState(1);
+    const [offset, setOffset]                 = useState({ x: 0, y: 0 });
+    const [dragging, setDragging]             = useState(false);
+    const [dragStart, setDragStart]           = useState({ x: 0, y: 0 });
+    const canvasRef                           = useRef(null);
+    const imgRef                              = useRef(null);
 
     const [newStudent, setNewStudent] = useState({
-        roll_no: '', name: '', department_id: '', year: 1, semester: 1, password_text: 'mec@123'
+        roll_no: '', name: '', department_id: '', year: 1, semester: 1, password_text: 'mec@123', photo_url: ''
     });
     const [newSubject, setNewSubject] = useState({
         department_id: '', semester: 1, subject_name: '', subject_code: '', credits: 3, type: 'Core'
@@ -134,6 +142,80 @@ export default function AdminDashboard() {
 
     // ─── HANDLERS ─────────────────────────────────────────────────────────────
 
+    const handlePhotoUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setZoom(1);
+            setOffset({ x: 0, y: 0 });
+            setCropModal({ show: true, src: reader.result });
+        };
+        reader.readAsDataURL(file);
+        // reset input so same file can be re-selected
+        e.target.value = '';
+    };
+
+    const drawCanvas = useCallback(() => {
+        const canvas = canvasRef.current;
+        const img = imgRef.current;
+        if (!canvas || !img) return;
+        const SIZE = 300;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, SIZE, SIZE);
+        // Clip to circle
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(SIZE / 2, SIZE / 2, SIZE / 2, 0, Math.PI * 2);
+        ctx.clip();
+        // Draw image centred + zoomed + offset
+        const scale = zoom;
+        const sw = img.naturalWidth * scale;
+        const sh = img.naturalHeight * scale;
+        const sx = (SIZE - sw) / 2 + offset.x;
+        const sy = (SIZE - sh) / 2 + offset.y;
+        ctx.drawImage(img, sx, sy, sw, sh);
+        ctx.restore();
+        // Border ring
+        ctx.strokeStyle = '#c9a84c';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(SIZE / 2, SIZE / 2, SIZE / 2 - 2, 0, Math.PI * 2);
+        ctx.stroke();
+    }, [zoom, offset]);
+
+    useEffect(() => { if (cropModal.show) drawCanvas(); }, [zoom, offset, cropModal.show, drawCanvas]);
+
+    const handleCropSave = () => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
+        setNewStudent(prev => ({ ...prev, photo_url: dataUrl }));
+        setCropModal({ show: false, src: '' });
+    };
+
+    const handleMouseDown = (e) => {
+        setDragging(true);
+        setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
+    };
+    const handleMouseMove = (e) => {
+        if (!dragging) return;
+        setOffset({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
+    };
+    const handleMouseUp = () => setDragging(false);
+
+    // Touch support
+    const handleTouchStart = (e) => {
+        const t = e.touches[0];
+        setDragging(true);
+        setDragStart({ x: t.clientX - offset.x, y: t.clientY - offset.y });
+    };
+    const handleTouchMove = (e) => {
+        if (!dragging) return;
+        const t = e.touches[0];
+        setOffset({ x: t.clientX - dragStart.x, y: t.clientY - dragStart.y });
+    };
+
     const handleAddStudent = async (e) => {
         e.preventDefault();
         if (!newStudent.roll_no || !newStudent.name) return alert('Please fill in Roll No and Name');
@@ -144,7 +226,8 @@ export default function AdminDashboard() {
                 department_id: newStudent.department_id,
                 year: newStudent.year,
                 semester: newStudent.semester,
-                password_text: newStudent.password_text
+                password_text: newStudent.password_text,
+                photo_url: newStudent.photo_url || null
             };
             if (editingStudent) {
                 const { error } = await supabase.from('students').update(payload).eq('id', editingStudent.id);
@@ -154,7 +237,7 @@ export default function AdminDashboard() {
             }
             setShowAddForm(false);
             setEditingStudent(null);
-            setNewStudent({ roll_no: '', name: '', department_id: departments[0]?.id || '', year: 1, semester: 1, password_text: 'mec@123' });
+            setNewStudent({ roll_no: '', name: '', department_id: departments[0]?.id || '', year: 1, semester: 1, password_text: 'mec@123', photo_url: '' });
             loadData();
         } catch (error) {
             alert(`Error: ${error.message}`);
@@ -244,7 +327,7 @@ export default function AdminDashboard() {
 
     const handleEditStudent = (s) => {
         setEditingStudent(s);
-        setNewStudent({ roll_no: s.roll_no, name: s.name, department_id: s.department_id, year: s.year, semester: s.semester, password_text: s.password_text });
+        setNewStudent({ roll_no: s.roll_no, name: s.name, department_id: s.department_id, year: s.year, semester: s.semester, password_text: s.password_text, photo_url: s.photo_url || '' });
         setShowAddForm(true);
     };
 
@@ -359,6 +442,36 @@ export default function AdminDashboard() {
             {showAddForm && (
                 <div className="admin-form-container">
                     <form onSubmit={handleAddStudent}>
+                        {/* Photo Upload */}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                            <div style={{
+                                width: '90px', height: '90px', borderRadius: '50%',
+                                background: '#f3f4f6', border: '2px dashed #d1d5db',
+                                overflow: 'hidden', flexShrink: 0, display: 'flex',
+                                alignItems: 'center', justifyContent: 'center'
+                            }}>
+                                {newStudent.photo_url
+                                    ? <img src={newStudent.photo_url} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                    : <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                                }
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontWeight: '600', fontSize: '0.875rem', color: '#374151', marginBottom: '6px' }}>Student Photo</label>
+                                <label htmlFor="photo-upload" style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                                    background: '#2563eb', color: '#fff', padding: '8px 16px',
+                                    borderRadius: '8px', fontSize: '0.85rem', fontWeight: '600',
+                                    cursor: 'pointer', transition: 'background 0.2s'
+                                }}>
+                                    📷 Upload Photo
+                                </label>
+                                <input id="photo-upload" type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} />
+                                {newStudent.photo_url && (
+                                    <button type="button" onClick={() => setNewStudent(prev => ({...prev, photo_url: ''}))} style={{ marginLeft: '10px', background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' }}>Remove</button>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="form-grid">
                             <div className="form-group"><label>Roll Number</label><input type="text" required value={newStudent.roll_no} onChange={e => setNewStudent({...newStudent, roll_no: e.target.value})} /></div>
                             <div className="form-group"><label>Full Name</label><input type="text" required value={newStudent.name} onChange={e => setNewStudent({...newStudent, name: e.target.value})} /></div>
@@ -395,11 +508,22 @@ export default function AdminDashboard() {
 
             <div className="admin-table-container">
                 <table className="admin-table">
-                    <thead><tr><th>Roll No</th><th>Name</th><th>Dept</th><th>Sem</th><th>Password</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Photo</th><th>Roll No</th><th>Name</th><th>Dept</th><th>Sem</th><th>Password</th><th>Actions</th></tr></thead>
                     <tbody>
                         {filteredStudents.length > 0 ? filteredStudents.map(s => (
                             <tr key={s.id}>
-                                <td>{s.roll_no}</td><td>{s.name}</td><td>{s.departments?.name}</td><td>{s.semester}</td>
+                                <td>
+                                    <div 
+                                        style={{ width: '42px', height: '42px', borderRadius: '50%', overflow: 'hidden', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, cursor: s.photo_url ? 'pointer' : 'default' }}
+                                        onClick={() => s.photo_url && setPhotoViewer(s.photo_url)}
+                                    >
+                                        {s.photo_url
+                                            ? <img src={s.photo_url} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                                        }
+                                    </div>
+                                </td>
+                                <td>{s.roll_no}</td><td style={{ fontWeight: '600' }}>{s.name}</td><td>{s.departments?.name}</td><td>{s.semester}</td>
                                 <td><code>{s.password_text}</code></td>
                                 <td><div className="action-btns">
                                     <button className="icon-btn edit" onClick={() => handleEditStudent(s)}><FiEdit2 /></button>
@@ -407,7 +531,7 @@ export default function AdminDashboard() {
                                 </div></td>
                             </tr>
                         )) : (
-                            <tr><td colSpan="6" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>
+                            <tr><td colSpan="7" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>
                                 {studentSearch ? 'No students match your search.' : 'No students added yet.'}
                             </td></tr>
                         )}
@@ -761,6 +885,77 @@ export default function AdminDashboard() {
                             </button>
                         </div>
                     </div>
+                </div>
+            )}
+
+            {cropModal.show && (
+                <div className="admin-modal-overlay" style={{ zIndex: 2000 }}>
+                    <div className="admin-modal glass-card" style={{ maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <div className="admin-modal-header" style={{ width: '100%', marginBottom: '1rem' }}>
+                            <h3>Crop Photo</h3>
+                            <p style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '4px' }}>Drag to reposition, use slider to zoom</p>
+                        </div>
+                        
+                        {/* Hidden image used as source for canvas */}
+                        <img 
+                            ref={imgRef} 
+                            src={cropModal.src} 
+                            alt="source" 
+                            style={{ display: 'none' }} 
+                            onLoad={drawCanvas} 
+                        />
+                        
+                        <div 
+                            style={{ width: '300px', height: '300px', cursor: dragging ? 'grabbing' : 'grab', touchAction: 'none' }}
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseUp}
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleMouseUp}
+                        >
+                            <canvas ref={canvasRef} width={300} height={300} style={{ borderRadius: '8px', background: '#000' }} />
+                        </div>
+                        
+                        <div style={{ width: '100%', marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                            <span style={{ fontSize: '0.85rem', color: '#374151', fontWeight: 600 }}>Zoom</span>
+                            <input 
+                                type="range" 
+                                min="0.1" max="3" step="0.05" 
+                                value={zoom} 
+                                onChange={(e) => setZoom(parseFloat(e.target.value))}
+                                style={{ flex: 1, accentColor: '#2563eb' }}
+                            />
+                        </div>
+
+                        <div className="admin-modal-footer" style={{ width: '100%', marginTop: '1.5rem' }}>
+                            <button className="secondary-btn" onClick={() => setCropModal({ show: false, src: '' })}>Cancel</button>
+                            <button className="primary-btn" onClick={handleCropSave}>Save Photo</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {photoViewer && (
+                <div 
+                    className="admin-modal-overlay" 
+                    style={{ zIndex: 3000, background: 'rgba(0,0,0,0.85)', cursor: 'zoom-out' }} 
+                    onClick={() => setPhotoViewer(null)}
+                >
+                    <img 
+                        src={photoViewer} 
+                        alt="Enlarged view" 
+                        style={{ 
+                            maxWidth: '90vw', 
+                            maxHeight: '90vh', 
+                            borderRadius: '16px', 
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+                            objectFit: 'contain',
+                            border: '4px solid #fff'
+                        }} 
+                        onClick={(e) => e.stopPropagation()} 
+                    />
                 </div>
             )}
         </div>

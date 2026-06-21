@@ -25,7 +25,8 @@ export default function StudentPortal() {
                 department_id: data.department_id,
                 id: data.id,
                 year: data.year,
-                semester: data.semester
+                semester: data.semester,
+                photo_url: data.photo_url || ''
             }))
             navigate('/dashboard')
         } catch (err) {

@@ -497,10 +497,6 @@ button {
   text-decoration: none;
 }
 
-.nav-logo:hover .logo-emblem {
-  transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(58, 90, 64, 0.4);
-}
 
 .logo-emblem {
   width: 52px;
@@ -4833,6 +4829,226 @@ main.portal-active {
 
 .programs-table tbody tr:hover {
   background: var(--primary-glow);
+}
+
+/* --- Admission Step Diagram --- */
+.admission-diagram-section {
+  background: linear-gradient(160deg, #f0f5ff 0%, #fafbff 60%, #f0f5ff 100%);
+}
+
+/* ── ROOT TREE ── */
+.root-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-bottom: 24px;
+  margin-bottom: 48px;
+}
+
+/* Vertical trunk line behind everything */
+.tree-trunk {
+  position: absolute;
+  top: 90px;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  background: linear-gradient(180deg, #4f8ef7, #34a853, #f29900, #9334e6, #16a34a);
+  border-radius: 4px;
+  z-index: 0;
+}
+
+/* Root / End nodes */
+.tree-root-node,
+.tree-end-node {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: var(--white);
+  border: 3px solid #4f8ef7;
+  border-radius: 50px;
+  padding: 14px 28px;
+  box-shadow: 0 8px 30px rgba(79, 142, 247, 0.2);
+}
+
+.tree-end-node {
+  border-color: #16a34a;
+  box-shadow: 0 8px 30px rgba(22, 163, 74, 0.2);
+}
+
+.tree-root-icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.tree-root-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--charcoal);
+  letter-spacing: 0.02em;
+}
+
+/* Each row: trunk dot + branch line + card */
+.tree-branch-row {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 130px;
+  margin: 4px 0;
+}
+
+/* Trunk dot (sits on the center line) */
+.trunk-dot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  z-index: 3;
+  flex-shrink: 0;
+}
+
+/* Branch line (horizontal connector from trunk to card) */
+.branch-line {
+  position: absolute;
+  height: 3px;
+  width: 120px;
+  border-radius: 3px;
+  transform-origin: left center;
+  z-index: 2;
+}
+
+/* Step card */
+.tree-step-card {
+  position: absolute;
+  width: 280px;
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 1.5px solid rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+/* LEFT side layout */
+.tree-branch-left .branch-line {
+  right: calc(50% + 9px);
+  transform-origin: right center;
+}
+.tree-branch-left .tree-step-card {
+  right: calc(50% + 120px + 9px);
+}
+
+/* RIGHT side layout */
+.tree-branch-right .branch-line {
+  left: calc(50% + 9px);
+  transform-origin: left center;
+}
+.tree-branch-right .tree-step-card {
+  left: calc(50% + 120px + 9px);
+}
+
+.tree-step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+}
+
+.tree-step-num {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.95);
+}
+
+.tree-step-icon-sm {
+  font-size: 1.1rem;
+}
+
+.tree-step-body {
+  padding: 14px 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.tree-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.tree-step-body h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.tree-step-body p {
+  font-size: 0.75rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.diagram-cta {
+  text-align: center;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 36px 40px;
+  border: 1.5px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.diagram-cta p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 20px;
+}
+
+/* Responsive: stack vertically on mobile */
+@media (max-width: 768px) {
+  .tree-branch-row {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    margin: 8px 0;
+  }
+  .trunk-dot {
+    position: static;
+    transform: none;
+    margin-bottom: 8px;
+  }
+  .branch-line {
+    display: none;
+  }
+  .tree-step-card {
+    position: static;
+    width: 90%;
+    max-width: 320px;
+  }
+  .tree-trunk {
+    display: none;
+  }
 }
 
 /* --- Placements Page --- */

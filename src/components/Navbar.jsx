@@ -92,38 +92,13 @@ export default function Navbar() {
                                 {navLinks.map(link => {
                                     if (link.name === 'About') {
                                         return (
-                                            <div 
+                                            <Link
                                                 key={link.path}
-                                                className="nav-dropdown-wrapper"
-                                                onMouseEnter={() => setAboutDropdownOpen(true)}
-                                                onMouseLeave={() => setAboutDropdownOpen(false)}
+                                                to={link.path}
+                                                className={location.pathname === '/about' ? 'active' : ''}
                                             >
-                                                <Link
-                                                    to={link.path}
-                                                    className={`${location.pathname === '/about' ? 'active' : ''} nav-link-with-dropdown`}
-                                                >
-                                                    {link.name}
-                                                    <svg className={`dropdown-arrow ${aboutDropdownOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                                                </Link>
-                                                
-                                                <div className={`nav-dropdown-menu ${aboutDropdownOpen ? 'show' : ''}`}>
-                                                    <Link to="/about#vision-mission" className="dropdown-item">
-                                                        <span className="dept-full">Vision & Mission</span>
-                                                    </Link>
-                                                    <Link to="/about#our-history" className="dropdown-item">
-                                                        <span className="dept-full">Our History</span>
-                                                    </Link>
-                                                    <Link to="/about#director-message" className="dropdown-item">
-                                                        <span className="dept-full">Director's Message</span>
-                                                    </Link>
-                                                    <Link to="/campus#facilities" className="dropdown-item">
-                                                        <span className="dept-full">Institutional Facilities</span>
-                                                    </Link>
-                                                    <div className="dropdown-footer">
-                                                        <Link to="/about">Learn More About MEC →</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                {link.name}
+                                            </Link>
                                         )
                                     }
                                     if (link.name === 'Departments') {

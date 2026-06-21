@@ -134,8 +134,8 @@ export default function DepartmentDetail() {
                 {/* Glow orb */}
                 <div className="dept-hero-orb" style={{ background: `radial-gradient(circle, ${theme.accentGlow}, transparent 70%)` }} />
 
-                <div className="container" style={{ position: 'relative', zIndex: 5 }}>
-                    <motion.div initial="hidden" animate="visible">
+                <div className="container" style={{ position: 'relative', zIndex: 5, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '2rem' }}>
+                    <motion.div initial="hidden" animate="visible" style={{ flex: 1 }}>
                         <motion.div variants={fadeUp} custom={0}>
                             <Link to="/departments" className="dept-back-link">
                                 <FiArrowLeft /> All Departments
@@ -178,6 +178,19 @@ export default function DepartmentDetail() {
                                 <span className="dept-hero-stat-label">Subjects</span>
                             </div>
                         </motion.div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.5 }}
+                        style={{ flex: '0 0 450px', display: 'flex', justifyContent: 'flex-end', alignSelf: 'flex-end', marginBottom: '-90px' }}
+                    >
+                        <img 
+                            src={getAssetPath(`/dept_${id === 'mechanical' ? 'mech' : id}.png?v=1`)} 
+                            alt={`${dept.name} Professor`} 
+                            style={{ maxWidth: '100%', maxHeight: '480px', objectFit: 'contain', objectPosition: 'bottom' }} 
+                        />
                     </motion.div>
                 </div>
             </section>
@@ -224,21 +237,30 @@ export default function DepartmentDetail() {
                                 </div>
                                 <div className="dept-hod-content">
                                     <div className="dept-hod-avatar" style={{ background: theme.gradient }}>
-                                        <span>{dept.hod.image}</span>
+                                        {dept.hod.image?.startsWith('/') || dept.hod.image?.includes('.') ? (
+                                            <img src={getAssetPath(dept.hod.image)} alt={dept.hod.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
+                                        ) : (
+                                            <span>{dept.hod.image}</span>
+                                        )}
                                     </div>
                                     <div className="dept-hod-info">
                                         <h3>{dept.hod.name}</h3>
                                         <p className="dept-hod-designation">{dept.hod.designation}</p>
-                                        <div className="dept-hod-meta">
-                                            <div className="dept-hod-meta-item">
-                                                <span className="dept-hod-meta-label">Experience</span>
-                                                <span className="dept-hod-meta-value">{dept.hod.experience}</span>
-                                            </div>
-                                            <div className="dept-hod-meta-divider" />
-                                            <div className="dept-hod-meta-item">
-                                                <span className="dept-hod-meta-label">Education</span>
-                                                <span className="dept-hod-meta-value">{dept.hod.education}</span>
-                                            </div>
+                                        <div className="dept-hod-meta" style={{ flexWrap: 'wrap', gap: '10px 0' }}>
+                                            {[
+                                                dept.hod.experience && { label: 'Experience', value: dept.hod.experience },
+                                                dept.hod.education && { label: 'Education', value: dept.hod.education },
+                                                dept.hod.email && { label: 'Email', value: dept.hod.email },
+                                                dept.hod.phone && { label: 'Phone', value: dept.hod.phone }
+                                            ].filter(Boolean).map((item, index, arr) => (
+                                                <div key={item.label} style={{ display: 'contents' }}>
+                                                    <div className="dept-hod-meta-item">
+                                                        <span className="dept-hod-meta-label">{item.label}</span>
+                                                        <span className="dept-hod-meta-value">{item.value}</span>
+                                                    </div>
+                                                    {index < arr.length - 1 && <div className="dept-hod-meta-divider" />}
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </div>
@@ -266,8 +288,11 @@ export default function DepartmentDetail() {
                                             <h4>{f.name}</h4>
                                             <p className="dept-faculty-role">{f.designation}</p>
                                             <div className="dept-faculty-tags">
-                                                <span className="dept-faculty-tag">{f.specialization}</span>
-                                                <span className="dept-faculty-tag">{f.experience}</span>
+                                                {f.specialization && <span className="dept-faculty-tag">{f.specialization}</span>}
+                                                {f.experience && <span className="dept-faculty-tag">{f.experience}</span>}
+                                                {f.education && <span className="dept-faculty-tag">{f.education}</span>}
+                                                {f.email && <span className="dept-faculty-tag">{f.email}</span>}
+                                                {f.phone && <span className="dept-faculty-tag">{f.phone}</span>}
                                             </div>
                                         </motion.div>
                                     ))}

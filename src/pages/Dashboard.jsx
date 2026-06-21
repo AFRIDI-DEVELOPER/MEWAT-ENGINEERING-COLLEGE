@@ -42,6 +42,7 @@ export default function Dashboard() {
     const [attendance, setAttendance] = useState([])
     const [loading, setLoading] = useState(true)
     const [unitData, setUnitData] = useState({})
+    const [photoViewer, setPhotoViewer] = useState(null)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -129,8 +130,15 @@ export default function Dashboard() {
                 <div className="dashboard-grid">
                     {/* Left: Profile Card */}
                     <div className="profile-card glass-card">
-                        <div className="profile-img">
-                            <FiUser size={40} />
+                        <div 
+                            className="profile-img" 
+                            style={{ overflow: 'hidden', background: user.photo_url ? 'transparent' : undefined, cursor: user.photo_url ? 'pointer' : 'default' }}
+                            onClick={() => user.photo_url && setPhotoViewer(user.photo_url)}
+                        >
+                            {user.photo_url
+                                ? <img src={user.photo_url} alt={user.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                                : <FiUser size={40} />
+                            }
                         </div>
                         <h3>{user.name}</h3>
                         <p className="roll-no">{user.rollNo}</p>
@@ -396,6 +404,28 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
+
+            {photoViewer && (
+                <div 
+                    style={{ 
+                        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+                        zIndex: 9999, background: 'rgba(0,0,0,0.85)', cursor: 'zoom-out',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }} 
+                    onClick={() => setPhotoViewer(null)}
+                >
+                    <img 
+                        src={photoViewer} 
+                        alt="Profile Enlarged" 
+                        style={{ 
+                            maxWidth: '90vw', maxHeight: '90vh', borderRadius: '16px', 
+                            boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)',
+                            objectFit: 'contain', border: '4px solid #fff'
+                        }} 
+                        onClick={(e) => e.stopPropagation()} 
+                    />
+                </div>
+            )}
         </div>
     )
 }

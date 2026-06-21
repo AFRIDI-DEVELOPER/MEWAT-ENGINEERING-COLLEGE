@@ -16,7 +16,7 @@ export default function Admissions() {
             <SEO title="Admissions" description="Explore our B.Tech programs and find out how to apply to Mewat Engineering College." />
 
 
-            {/* Eligibility */}
+            {/* Eligibility + Fee Structure */}
             <section className="section">
                 <div className="container">
                     <div className="section-header">
@@ -28,23 +28,6 @@ export default function Admissions() {
                         <div>
                             <h3 style={{ marginBottom: 8 }}>Eligibility</h3>
                             <p style={{ marginBottom: 28 }}>{admissionInfo.eligibility}</p>
-
-                            <h3 style={{ marginBottom: 16 }}>Application Steps</h3>
-                            <div className="admission-steps">
-                                {admissionInfo.process.map((step, i) => (
-                                    <motion.div
-                                        className="admission-step"
-                                        key={i}
-                                        initial={{ opacity: 0, x: -20 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ duration: 0.4, delay: i * 0.1 }}
-                                    >
-                                        <div className="step-number">{i + 1}</div>
-                                        <p style={{ color: 'var(--charcoal)' }}>{step}</p>
-                                    </motion.div>
-                                ))}
-                            </div>
                         </div>
 
                         <motion.div
@@ -76,6 +59,110 @@ export default function Admissions() {
                             </div>
                         </motion.div>
                     </div>
+                </div>
+            </section>
+
+            {/* Root Tree Diagram */}
+            <section className="section admission-diagram-section">
+                <div className="container">
+                    <div className="section-header">
+                        <span className="section-label">How to Apply</span>
+                        <h2>Step-by-Step Guide</h2>
+                        <p>Your journey to MEC in 5 simple steps</p>
+                    </div>
+
+                    <div className="root-tree">
+                        {/* Root Node */}
+                        <motion.div
+                            className="tree-root-node"
+                            initial={{ opacity: 0, scale: 0.7 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <span className="tree-root-icon">🎓</span>
+                            <div className="tree-root-label">Start Your Journey</div>
+                        </motion.div>
+
+                        {/* Trunk */}
+                        <div className="tree-trunk" />
+
+                        {/* Steps alternating left/right */}
+                        {[
+                            { step: 1, icon: '📋', title: 'Fill Application', desc: 'Complete the online application form on the official MEC website with your personal and academic details.', color: '#4f8ef7', bg: '#e8f0fe', side: 'left' },
+                            { step: 2, icon: '📄', title: 'Upload Documents', desc: 'Upload scanned copies of your 10th & 12th marksheets, photograph, and identity proof.', color: '#34a853', bg: '#e6f4ea', side: 'right' },
+                            { step: 3, icon: '🎯', title: 'HSTES Counselling', desc: 'Appear for HSTES counselling or qualify through JEE Main score to get your seat allotment.', color: '#f29900', bg: '#fef7e0', side: 'left' },
+                            { step: 4, icon: '🏫', title: 'Report to College', desc: 'Visit the college campus with all original documents for physical verification.', color: '#9334e6', bg: '#f3e8fd', side: 'right' },
+                            { step: 5, icon: '✅', title: 'Pay & Register', desc: 'Pay the admission fee and complete your registration to officially secure your seat at MEC!', color: '#16a34a', bg: '#dcfce7', side: 'left' },
+                        ].map((item, i) => (
+                            <div key={i} className={`tree-branch-row tree-branch-${item.side}`}>
+                                {/* Trunk dot */}
+                                <motion.div
+                                    className="trunk-dot"
+                                    style={{ background: item.color, boxShadow: `0 0 0 4px ${item.bg}` }}
+                                    initial={{ scale: 0 }}
+                                    whileInView={{ scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: i * 0.15 }}
+                                />
+
+                                {/* Horizontal branch line */}
+                                <motion.div
+                                    className="branch-line"
+                                    style={{ background: item.color }}
+                                    initial={{ scaleX: 0 }}
+                                    whileInView={{ scaleX: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: i * 0.15 + 0.1 }}
+                                />
+
+                                {/* Step Card */}
+                                <motion.div
+                                    className="tree-step-card"
+                                    initial={{ opacity: 0, x: item.side === 'left' ? -40 : 40 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: i * 0.15 + 0.2 }}
+                                    whileHover={{ scale: 1.03, boxShadow: `0 12px 36px ${item.color}25` }}
+                                >
+                                    <div className="tree-step-header" style={{ background: item.color }}>
+                                        <span className="tree-step-num">Step {item.step}</span>
+                                        <span className="tree-step-icon-sm">{item.icon}</span>
+                                    </div>
+                                    <div className="tree-step-body">
+                                        <div className="tree-icon-circle" style={{ background: item.bg }}>
+                                            <span>{item.icon}</span>
+                                        </div>
+                                        <h4 style={{ color: item.color }}>{item.title}</h4>
+                                        <p>{item.desc}</p>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        ))}
+
+                        {/* End Node */}
+                        <motion.div
+                            className="tree-end-node"
+                            initial={{ opacity: 0, scale: 0.7 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.9 }}
+                        >
+                            <span className="tree-root-icon">🏛️</span>
+                            <div className="tree-root-label">Welcome to MEC!</div>
+                        </motion.div>
+                    </div>
+
+                    <motion.div
+                        className="diagram-cta"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 1.0 }}
+                    >
+                        <p>🎓 Ready to begin your journey?</p>
+                        <Link to="/contact" className="btn btn-primary">Contact Admissions Office →</Link>
+                    </motion.div>
                 </div>
             </section>
 

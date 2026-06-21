@@ -10,16 +10,22 @@ export const departments = [
         highlights: ['Modern Computer Labs', 'Industry Collaborations', 'Coding Bootcamps', 'Smart Classrooms'],
         hod: {
             name: 'Dr. Mohd Shahid',
-            designation: 'HOD & Associate Professor',
-            experience: '18+ Years',
-            education: 'Ph.D in Computer Science',
-            image: '👨‍💼'
+            designation: 'HOD & Assistant Professor',
+            experience: '5+ Years',
+            education: 'Ph.D. (JMI)',
+            email: 'shahid27.jmi@gmail.com',
+            phone: '9625855594',
+            image: '/images/dr_mohd_shahid.png'
         },
         faculty: [
-            { name: 'Dr. Mohd Shahid', designation: 'Associate Professor', specialization: 'Machine Learning', experience: '18 Years' },
-            { name: 'Dr. Pratul Sharma', designation: 'Assistant Professor', specialization: 'Computer Networks', experience: '10 Years' },
-            { name: 'Dr. Aakib Jawed Khan', designation: 'Assistant Professor', specialization: 'Software Engineering', experience: '8 Years' },
-            { name: 'Ms. Farhat Jahan', designation: 'Assistant Professor', specialization: 'Data Structures', experience: '6 Years' }
+            { name: 'Dr. Pratul Sharma', designation: 'Professor (Adjunct)', education: 'Ph.D. (IIT, Delhi)', email: 'ceo@vedangsoftware.com' },
+            { name: 'Dr. Aakib Jawed Khan', designation: 'Assistant Professor', education: 'Ph.D. (Pursuing)', experience: '7+ Years', email: 'aakibjawed@gmail.com', phone: '+91-9991946186' },
+            { name: 'Dr. Sher Jung Khan', designation: 'Assistant Professor', education: 'Ph.D. (MDU)', experience: '8.5+ Years', email: 'sherjung2005@gmail.com', phone: '+91-9812437896' },
+            { name: 'Ms. Neeti Malik', designation: 'Assistant Professor (on Leave)', education: 'M.Tech, MBA', experience: '5+ Years', email: 'neemalik@gmail.com' },
+            { name: 'Mr. Azaz Khan', designation: 'Assistant Professor', education: 'M.Tech (MDU)', experience: '3 Years (Industry)', email: 'azazkhancse@gmail.com', phone: '+91-8053945480' },
+            { name: 'Ms. Shariqua Razi', designation: 'Assistant Professor', email: 'shariqua.razi.sr@gmail.com', phone: '8572881384' },
+            { name: 'Mr. Naseem Ahmed', designation: 'Assistant Professor', email: 'naseemahmed0592@gmail.com', phone: '8586954767' },
+            { name: 'Dr. Anam Mobin', designation: 'Assistant Professor', education: 'Ph.D. (JMI)', email: 'anammobin92@gmail.com', phone: '9950716097' }
         ],
         labs: [
             { name: 'Computer Networking Lab', resources: 'Cisco Switches, Routers, LAN Trainers' },
@@ -39,16 +45,21 @@ export const departments = [
         iconImg: '/images/cursor/icon_15.webp',
         highlights: ['Material Testing Lab', 'Survey Instruments', 'CAD Software', 'Site Visits'],
         hod: {
-            name: 'Dr. Nina Godhara',
-            designation: 'HOD & Professor',
-            experience: '20+ Years',
-            education: 'Ph.D in Civil Engineering',
-            image: '👷‍♂️'
+            name: 'Mr. Kaushar Hussain',
+            designation: 'HOD & Assistant Professor',
+            experience: '10+ Years',
+            education: 'M.Tech',
+            image: '/images/civil_hod.png'
         },
         faculty: [
-            { name: 'Dr. Vaseem Akram', designation: 'Professor', specialization: 'Structures', experience: '18 Years' },
-            { name: 'Mr. Irfan Khan', designation: 'Assistant Professor', specialization: 'Geotech', experience: '10 Years' },
-            { name: 'Ms. Sana Malik', designation: 'Assistant Professor', specialization: 'Environmental Engg', experience: '7 Years' }
+            { name: 'Mr. Mansoor Ul Haq Khan', designation: 'Professor (Adjunct)', specialization: 'M.TECH. (J.M.I.)', experience: '', email: 'skylinebuilders2011@gmail.com' },
+            { name: 'Mr. Vimal Gupta', designation: 'Professor (Adjunct)', specialization: 'B.Sc. Engg. (J.M.I.) MBA', experience: '', email: 'vimalgupta@hmctech.co.in' },
+            { name: 'Dr. Nadeem A Khan', designation: 'Assistant Professor (on Leave)', specialization: 'Civil Engineering', experience: '', phone: '91-9813717319', email: 'nadeem.khan@mecw.ac.in' },
+            { name: 'Mr. Syed Emaduddin Ahmed', designation: 'Assistant Professor', specialization: 'B.Tech., M.Tech., Ph.D. (P)', experience: '', phone: '09971773390', email: 'emad.ahmed06@gmail.com' },
+            { name: 'Dr. Tofeeq Aalam', designation: 'Assistant Professor', specialization: '', experience: '4+ Years', email: 'tofeeq.alam@mecw.ac.in' },
+            { name: 'Mr. Zahid Hussain Shapoo', designation: 'Assistant Professor', specialization: '', experience: '', phone: '7006313364' },
+            { name: 'Mr. Asruddin', designation: 'Assistant Professor', specialization: '', experience: '', phone: '9996971754' },
+            { name: 'Mr. Irshad', designation: 'Assistant Professor', specialization: '', experience: '' }
         ],
         labs: [
             { name: 'Structural Engineering Lab', resources: 'UTM Machines, Concrete Testing' },
@@ -68,16 +79,25 @@ export const departments = [
         iconImg: '/images/cursor/icon_16.webp',
         highlights: ['Workshop Facilities', 'CAD/CAM Lab', 'Thermal Lab', 'Industrial Visits'],
         hod: {
-            name: 'Mr. Raffi Khan',
-            designation: 'Head of Department',
-            experience: '12+ Years',
-            education: 'M.Tech, Ph.D (Pursuing)',
-            image: '🔧'
+            name: 'Dr. Gaurav Aggarwal',
+            designation: 'HOD & Assistant Professor',
+            experience: '9+ Years',
+            education: 'Ph.D. (J.C. Bose University)',
+            email: 'gaurav.citm@gmail.com',
+            phone: '98930656646',
+            image: '/images/mech_hod.png'
         },
         faculty: [
-            { name: 'Mr. Raffi Khan', designation: 'Associate Professor', specialization: 'Thermal Engg', experience: '12 Years' },
-            { name: 'Mr. Adil Shah', designation: 'Assistant Professor', specialization: 'Manufacturing', experience: '9 Years' },
-            { name: 'Mr. Zeeshan Ali', designation: 'Assistant Professor', specialization: 'Robotics', experience: '6 Years' }
+            { name: 'Prof. (Dr.) Shamama Ahmed', designation: 'Professor (Adjunct)', education: 'Ph.D. (DU)', email: 'shamama.ahmed@gmail.com' },
+            { name: 'Dr. Mohammad Faris', designation: 'Assistant Professor', education: 'B.Tech. (Mechanical)', email: 'farismecw@gmail.com', phone: '+91-9991030028' },
+            { name: 'Mr. Nazim Ali Khan', designation: 'Assistant Professor', education: 'B.Tech (ME)', email: 'mail2nazim@gmail.com', phone: '9013461834' },
+            { name: 'Mr. Ayaz Mehmood', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'ayaz.amu09@gmail.com', phone: '+91-8059104876' },
+            { name: 'Prof. Vineet Jain', designation: 'Professor', email: 'vjdj2004@gmail.com', phone: '8901510570' },
+            { name: 'Dr. Adnan Akhlaq', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'adnanakhlaq87@gmail.com', phone: '9897342786' },
+            { name: 'Dr. Mohd. Iqbal', designation: 'Assistant Professor', email: 'mohmadiqbal_86@yahoo.com', phone: '+91-9467325101' },
+            { name: 'Dr. Wasim Akram', designation: 'Assistant Professor', education: 'B.Tech.', email: 'wasimakramkhan18@gmail.com', phone: '+91-9717524636' },
+            { name: 'Ms. Sultana', designation: 'Assistant Professor', email: 'sultana9555@gmail.com', phone: '7015971605' },
+            { name: 'Dr. Mohsin Khan', designation: 'Assistant Professor', education: 'Ph.D. (DTU)', email: 'mohsin.deen@gmail.com', phone: '9050816883' }
         ],
         labs: [
             { name: 'Central Workshop', resources: 'Lathe Machines, Milling, Welding' },
@@ -97,15 +117,28 @@ export const departments = [
         iconImg: '/images/cursor/icon_18.webp',
         highlights: ['Power Systems Lab', 'Electrical Machines Lab', 'Control Systems Lab', 'Smart Grid Training'],
         hod: {
-            name: 'Mr. Mohd Umar Khan',
-            designation: 'HOD & Associate Professor',
-            experience: '16+ Years',
-            education: 'Ph.D in Power Systems (Pursuing)',
-            image: '⚡'
+            name: 'Dr. Mohd Faraz Ahmer',
+            designation: 'HOD & Assistant Professor',
+            education: 'B.E., M.Tech.',
+            email: 'farazahmer007@gmail.com',
+            phone: '9837120981',
+            image: '/images/eee_hod.png'
         },
         faculty: [
-            { name: 'Mr. Mohd Umar Khan', designation: 'Associate Professor', specialization: 'Power Systems', experience: '16 Years' },
-            { name: 'Mr. Kamaluddin Khan', designation: 'Assistant Professor', specialization: 'Control Systems', experience: '12 Years' }
+            { name: 'Dr. Mohd Faraz Ahmer', designation: 'Assistant Professor', education: 'B.E., M.Tech.', email: 'farazahmer007@gmail.com', phone: '9837120981' },
+            { name: 'Prof. (Dr.) Khwaja M. Rafi', designation: 'Professor', education: 'Ph.D.', email: 'kmrafi1@gmail.com', phone: '9873717806' },
+            { name: 'Dr. Shamshad Ali', designation: 'Assistant Professor', email: 'shamshad.jmi@gmail.com', phone: '9718184339' },
+            { name: 'Mr. Afroz Khalid', designation: 'Associate Professor (Adjunct)', education: 'M.Tech.(J.M.I.)', email: 'afrozkhalid00@gmail.com' },
+            { name: 'Prof. D. K. Sharma', designation: 'Professor (Adjunct)', education: 'Ph.D. (MDU, Rohtak)' },
+            { name: 'Dr. Tazeem Ahmad Khan', designation: 'Associate Professor', education: 'Ph.D.', email: 'tazeemkhan1991@gmail.com', phone: '9718747468' },
+            { name: 'Mr. Mohd Umar Khan', designation: 'Assistant Professor', education: 'B.Sc., M.Sc.', phone: '9050135552' },
+            { name: 'Mr. Kamaluddin Khan', designation: 'Assistant Professor', education: 'B.Sc., M.Sc.', email: 'kamaluddinkhan1@gmail.com' },
+            { name: 'Dr. Mohd. Junaid Khan (on Leave)', designation: 'Assistant Professor', email: 'mohammad.khan444@gmail.com', phone: '9569365512' },
+            { name: 'Ms. Shahina Bano', designation: 'Assistant Professor', education: 'M.Tech.', phone: '9758233716' },
+            { name: 'Dr. Nina Godhara', designation: 'Assistant Professor', phone: '965058115' },
+            { name: 'Mr. Kamil Hasan', designation: 'Assistant Professor', phone: '9818396251' },
+            { name: 'Mr. Ishrat Jamal Nasir', designation: 'Assistant Professor', email: 'ishratjamaln@gmail.com', phone: '9953238357' },
+            { name: 'Syed Moazzam Ali', designation: 'Assistant Professor', phone: '8954970013' }
         ],
         labs: [
             { name: 'Electrical Machines Lab', resources: 'AC/DC Motors, Transformers' },
@@ -125,15 +158,18 @@ export const departments = [
         iconImg: '/images/cursor/icon_12.webp',
         highlights: ['Communication Lab', 'VLSI Lab', 'Embedded Systems Lab', 'IoT Workshop'],
         hod: {
-            name: 'Dr. Abid Hussain',
-            designation: 'HOD & Professor',
-            experience: '20+ Years',
-            education: 'Ph.D in Electronics',
-            image: '📡'
+            name: 'Dr. Shaheen Khan',
+            designation: 'HOD & Sr. Assistant Professor',
+            education: 'B.Tech.',
+            email: 'test@gmail.com',
+            phone: '1234567890',
+            image: '/images/ece_hod.png'
         },
         faculty: [
-            { name: 'Dr. Abid Hussain', designation: 'Professor', specialization: 'Communication', experience: '20 Years' },
-            { name: 'Ms. Ruqaiya Bano', designation: 'Assistant Professor', specialization: 'Embedded Systems', experience: '7 Years' }
+            { name: 'Dr. Shaheen Khan', designation: 'Sr. Assistant Professor', education: 'B.Tech.', email: 'test@gmail.com', phone: '1234567890' },
+            { name: 'Dr. Naseem Ahmed', designation: 'Assistant Professor', email: 'naseem047@gmail.com', phone: '91-8569803605' },
+            { name: 'Mr. Adil Zaidi', designation: 'Assistant Professor', education: 'B.Tech.', email: 'adil.zaidi@mecw.ac.in', phone: '91-8700023374' },
+            { name: 'Mr. Sajid Hussain', designation: 'Assistant Professor', phone: '9813392062' }
         ],
         labs: [
             { name: 'Analog Communication Lab', resources: 'CROs, Signal Generators' },
@@ -157,12 +193,15 @@ export const departments = [
             designation: 'HOD (Applied Sciences)',
             experience: '10+ Years',
             education: 'Ph.D in Applied Mathematics',
-            image: '📐'
+            image: '/images/ash_hod.png'
         },
         faculty: [
-            { name: 'Dr. Mehwish Alam', designation: 'Associate Professor', specialization: 'Mathematics', experience: '10 Years' },
-            { name: 'Dr. Imran Qureshi', designation: 'Assistant Professor', specialization: 'Physics', experience: '8 Years' },
-            { name: 'Ms. Tabassum', designation: 'Assistant Professor', specialization: 'Professional Ethics', experience: '6 Years' }
+            { name: 'Prof. Ali Mohammad (F.N.A.Sc.)', designation: 'Professor (Adjunct)', education: 'D.Sc. (A.M.U.), Ph.D. (A.M.U.)', email: 'alimohammad08@gmail.com' },
+            { name: 'Dr. Kaleem Ahmed Quraishi', designation: 'Associate Professor', education: 'Ph.D. in Mathematics (JMI)', phone: '+91-9718921060', email: 'kaleemspn@yahoo.co.in' },
+            { name: 'Dr. Afzal Fatima', designation: 'Assistant Professor', education: 'MA (English), M. Phil' },
+            { name: 'Dr. Mohammad Chaman', designation: 'Associate Professor', education: 'M.Sc., M.Phil, Ph.D. (AMU)', phone: '8059370882', email: 'chamanmce@rediffmail.com' },
+            { name: 'Dr. Khalid Hussain', designation: 'Associate Professor', education: 'M.Sc., Ph.D.', phone: '8295564786', email: 'khalidchem83@yahoo.co.in' },
+            { name: 'Dr. Dilshad Ahmad', designation: 'Assistant Professor', email: 'dlshdhmd4@gmail.com' }
         ],
         labs: [
             { name: 'Applied Physics Lab', resources: 'Laser kits, Optical Benches' },

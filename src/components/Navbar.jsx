@@ -9,25 +9,24 @@ import { isPortalPage } from '../utils/navigation'
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false)
     const [isFloating, setIsFloating] = useState(false)
+    const [atTop, setAtTop] = useState(true)   // true = page is at the very top
     const [mobileOpen, setMobileOpen] = useState(false)
-    const [dropdownOpen, setDropdownOpen] = useState(false)
-    const [campusDropdownOpen, setCampusDropdownOpen] = useState(false)
-    const [contactDropdownOpen, setContactDropdownOpen] = useState(false)
-    const [placementDropdownOpen, setPlacementDropdownOpen] = useState(false)
-    const [aboutDropdownOpen, setAboutDropdownOpen] = useState(false)
     const location = useLocation()
     const isPortal = isPortalPage(location.pathname)
 
     useEffect(() => {
         const onScroll = () => {
             if (isPortal) return
+            const y = window.scrollY
             setScrolled(true)
             setIsFloating(true)
+            setAtTop(y < 80)
         }
-        // Set initial state immediately
-        setScrolled(true)
+        // On mount: only float on portal pages or if already scrolled
         setIsFloating(true)
-        window.addEventListener('scroll', onScroll)
+        setScrolled(true)
+        setAtTop(window.scrollY < 80)
+        window.addEventListener('scroll', onScroll, { passive: true })
         return () => window.removeEventListener('scroll', onScroll)
     }, [isPortal])
 
@@ -35,6 +34,7 @@ export default function Navbar() {
     useEffect(() => {
         setIsFloating(true)
         setScrolled(true)
+        setAtTop(window.scrollY < 80)
     }, [isPortal])
 
     useEffect(() => {
@@ -43,8 +43,7 @@ export default function Navbar() {
 
     return (
         <>
-            <div className={`nav-overlay ${(dropdownOpen || campusDropdownOpen || contactDropdownOpen || placementDropdownOpen || aboutDropdownOpen) ? 'show' : ''}`} />
-            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isFloating ? 'floating' : ''}`}>
+            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isFloating ? 'floating' : ''} ${atTop && !isPortal ? 'at-top' : ''}`}>
                 <div className="top-bar">
                     <div className="container">
                         <div className="top-bar-left">
@@ -89,177 +88,15 @@ export default function Navbar() {
                         )}
                         {!isPortal && (
                             <div className="nav-links">
-                                {navLinks.map(link => {
-                                    if (link.name === 'About') {
-                                        return (
-                                            <Link
-                                                key={link.path}
-                                                to={link.path}
-                                                className={location.pathname === '/about' ? 'active' : ''}
-                                            >
-                                                {link.name}
-                                            </Link>
-                                        )
-                                    }
-                                    if (link.name === 'Departments') {
-                                        return (
-                                            <div 
-                                                key={link.path}
-                                                className="nav-dropdown-wrapper"
-                                                onMouseEnter={() => setDropdownOpen(true)}
-                                                onMouseLeave={() => setDropdownOpen(false)}
-                                            >
-                                                <Link
-                                                    to={link.path}
-                                                    className={`${location.pathname.startsWith('/departments') ? 'active' : ''} nav-link-with-dropdown`}
-                                                >
-                                                    {link.name}
-                                                    <svg className={`dropdown-arrow ${dropdownOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                                                </Link>
-                                                
-                                                <div className={`nav-dropdown-menu ${dropdownOpen ? 'show' : ''}`}>
-                                                    <Link to="/departments/cse" className="dropdown-item">
-                                                        <span className="dept-full">Computer Science</span>
-                                                    </Link>
-                                                    <Link to="/departments/civil" className="dropdown-item">
-                                                        <span className="dept-full">Civil Engineering</span>
-                                                    </Link>
-                                                    <Link to="/departments/ash" className="dropdown-item">
-                                                        <span className="dept-full">Applied Sciences</span>
-                                                    </Link>
-                                                    <Link to="/departments/mechanical" className="dropdown-item">
-                                                        <span className="dept-full">Mechanical Engg.</span>
-                                                    </Link>
-                                                    <Link to="/departments/eee" className="dropdown-item">
-                                                        <span className="dept-full">Electrical & Electronics</span>
-                                                    </Link>
-                                                    <Link to="/departments/ece" className="dropdown-item">
-                                                        <span className="dept-full">Electronics & Comm.</span>
-                                                    </Link>
-                                                    <div className="dropdown-footer">
-                                                        <Link to="/departments">View All Departments →</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    if (link.name === 'Campus') {
-                                        return (
-                                            <div 
-                                                key={link.path}
-                                                className="nav-dropdown-wrapper"
-                                                onMouseEnter={() => setCampusDropdownOpen(true)}
-                                                onMouseLeave={() => setCampusDropdownOpen(false)}
-                                            >
-                                                <Link
-                                                    to={link.path}
-                                                    className={`${location.pathname.startsWith('/campus') ? 'active' : ''} nav-link-with-dropdown`}
-                                                >
-                                                    {link.name}
-                                                    <svg className={`dropdown-arrow ${campusDropdownOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                                                </Link>
-                                                
-                                                <div className={`nav-dropdown-menu ${campusDropdownOpen ? 'show' : ''}`}>
-                                                    <Link to="/campus#facilities" className="dropdown-item">
-                                                        <span className="dept-full">Hostel Facility</span>
-                                                    </Link>
-                                                    <Link to="/campus#facilities" className="dropdown-item">
-                                                        <span className="dept-full">Central Library</span>
-                                                    </Link>
-                                                    <Link to="/campus#facilities" className="dropdown-item">
-                                                        <span className="dept-full">Modern Labs</span>
-                                                    </Link>
-                                                    <Link to="/campus#facilities" className="dropdown-item">
-                                                        <span className="dept-full">Transport Service</span>
-                                                    </Link>
-                                                    <Link to="/campus#facilities" className="dropdown-item">
-                                                        <span className="dept-full">Sports & Gym</span>
-                                                    </Link>
-                                                    <Link to="/campus#facilities" className="dropdown-item">
-                                                        <span className="dept-full">Language Lab</span>
-                                                    </Link>
-                                                    <div className="dropdown-footer">
-                                                        <Link to="/campus">Explore Campus Life →</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    if (link.name === 'Contact') {
-                                        return (
-                                            <div 
-                                                key={link.path}
-                                                className="nav-dropdown-wrapper"
-                                                onMouseEnter={() => setContactDropdownOpen(true)}
-                                                onMouseLeave={() => setContactDropdownOpen(false)}
-                                            >
-                                                <Link
-                                                    to={link.path}
-                                                    className={`${location.pathname === '/contact' ? 'active' : ''} nav-link-with-dropdown`}
-                                                >
-                                                    {link.name}
-                                                    <svg className={`dropdown-arrow ${contactDropdownOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                                                </Link>
-                                                
-                                                <div className={`nav-dropdown-menu nav-dropdown-menu--contact ${contactDropdownOpen ? 'show' : ''}`}>
-                                                    <a href="https://maps.google.com/?q=Mewat+Engineering+College" target="_blank" rel="noopener noreferrer" className="dropdown-item">
-                                                        <span className="dept-full">Village Palla, Nuh, Haryana</span>
-                                                    </a>
-                                                    <a href="tel:+911267272045" className="dropdown-item">
-                                                        <span className="dept-full">+91-1267-272045</span>
-                                                    </a>
-                                                    <a href="mailto:info@mecw.ac.in" className="dropdown-item">
-                                                        <span className="dept-full">info@mecw.ac.in</span>
-                                                    </a>
-                                                    <div className="dropdown-footer">
-                                                        <Link to="/contact">Get Full Directions →</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    if (link.name === 'Placements') {
-                                        return (
-                                            <div 
-                                                key={link.path}
-                                                className="nav-dropdown-wrapper"
-                                                onMouseEnter={() => setPlacementDropdownOpen(true)}
-                                                onMouseLeave={() => setPlacementDropdownOpen(false)}
-                                            >
-                                                <Link
-                                                    to={link.path}
-                                                    className={`${location.pathname === '/placements' ? 'active' : ''} nav-link-with-dropdown`}
-                                                >
-                                                    {link.name}
-                                                    <svg className={`dropdown-arrow ${placementDropdownOpen ? 'open' : ''}`} width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                                                </Link>
-                                                
-                                                <div className={`nav-dropdown-menu nav-dropdown-menu--placements ${placementDropdownOpen ? 'show' : ''}`}>
-                                                    <div className="dropdown-header-placements">
-                                                        <span className="dropdown-tagline-placements">Leading companies that trust MEC graduates</span>
-                                                    </div>
-                                                    <div className="recruiters-mini-grid">
-                                                        {recruiters.slice(0, 12).map((company, idx) => (
-                                                            <div key={idx} className="recruiter-chip-mini">{company}</div>
-                                                        ))}
-                                                    </div>
-                                                    <div className="dropdown-footer">
-                                                        <Link to="/placements">View Placement Success Stories →</Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    return (
-                                        <Link
-                                            key={link.path}
-                                            to={link.path}
-                                            className={location.pathname === link.path ? 'active' : ''}
-                                        >
-                                            {link.name}
-                                        </Link>
-                                    )
-                                })}
+                                {navLinks.map(link => (
+                                    <Link
+                                        key={link.path}
+                                        to={link.path}
+                                        className={location.pathname === link.path ? 'active' : ''}
+                                    >
+                                        {link.name}
+                                    </Link>
+                                ))}
                                 <Link to="/student-portal" className="nav-apply-btn">
                                     <span className="btn-text">STUDENT PORTAL</span>
                                 </Link>

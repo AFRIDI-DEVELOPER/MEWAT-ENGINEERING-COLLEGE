@@ -16,6 +16,7 @@ import { FaFacebook, FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa'
 import AboutPreview from '../components/AboutPreview'
 import DirectorMessage from '../components/DirectorMessage'
 import SEO from '../components/SEO'
+import JackPortfolio from '../components/JackPortfolio'
 
 
 
@@ -598,105 +599,73 @@ export default function Home() {
                 title="Home" 
                 description="Mewat Engineering College (WAQF) - A premier engineering institution providing quality technical education and innovation." 
             />
-            {/* ===== PLAIN WHITE HERO LAYOUT ===== */}
+            {/* ===== FULLSCREEN HERO ===== */}
             <section className="home-layout">
-                {/* Main Grid: Video (left) + Sidebar (right) */}
                 <div className="home-layout-grid">
-                    {/* === ANTI-GRAVITY HERO AREA === */}
-                    <div className="home-hero-antigravity-area">
-                        <div className="antigravity-stars" />
-                        <div className="home-hero-content container">
-                            {/* Main Column: Video + Social Links below */}
-                            <div className="hero-main-column">
-                                <motion.div 
-                                    className="hero-glass-container"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                                >
-                                    <video 
-                                        ref={videoRef}
-                                        src={getAssetPath(heroVideos[currentVideoIndex])}
-                                        autoPlay
-                                        muted
-                                        playsInline
-                                        onEnded={handleVideoEnd}
-                                        className="hero-video"
-                                    />
+                    <div className="home-hero-fullscreen">
+                        {/* Full-screen background video */}
+                        <video
+                            ref={videoRef}
+                            src={getAssetPath(heroVideos[currentVideoIndex])}
+                            autoPlay
+                            muted
+                            playsInline
+                            onEnded={handleVideoEnd}
+                            className="hero-video-fullscreen"
+                        />
 
-                                    {/* Video Caption Overlay */}
-                                    <AnimatePresence mode="wait">
-                                        <motion.div 
-                                            key={currentVideoIndex}
-                                            className="hero-video-caption"
-                                            initial={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-                                            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                                            exit={{ opacity: 0, scale: 0.9, filter: 'blur(10px)' }}
-                                            transition={{ duration: 0.6, ease: "easeOut" }}
-                                        >
-                                            <h2 className="caption-title">{heroVideoContent[currentVideoIndex].title}</h2>
-                                        </motion.div>
-                                    </AnimatePresence>
-                                </motion.div>
+                        {/* Cinematic gradient overlay */}
+                        <div className="hero-video-overlay"></div>
 
-                                {/* Social Links - Below the video box */}
-                                <div className="hero-social-horizontal">
-                                    <div className="social-label-horizontal">FOLLOW US</div>
-                                    <div className="social-divider-v"></div>
-                                    <div className="social-btns-row">
-                                        <a href="#" className="hero-social-btn" aria-label="Facebook">
-                                            <FaFacebook />
-                                            <span className="social-tooltip">Facebook</span>
-                                        </a>
-                                        <a href="#" className="hero-social-btn" aria-label="Instagram">
-                                            <FaInstagram />
-                                            <span className="social-tooltip">Instagram</span>
-                                        </a>
-                                        <a href="#" className="hero-social-btn" aria-label="YouTube">
-                                            <FaYoutube />
-                                            <span className="social-tooltip">YouTube</span>
-                                        </a>
-                                        <a href="#" className="hero-social-btn" aria-label="LinkedIn">
-                                            <FaLinkedin />
-                                            <span className="social-tooltip">LinkedIn</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="hero-sidebar-column">
-                                {/* Affiliation Badge - Now outside the box */}
-                                <div className="hero-affiliation-badge">
-                                    <span className="badge-dot"></span>
-                                    AFFILIATED WITH AICTE
-                                </div>
-                                <motion.div 
-                                    className="hero-glass-sidebar"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                                >
-                                    <NotificationCard />
-                                </motion.div>
-                            </div>
+                        {/* Bottom-left hero content */}
+                        <div className="hero-vex-content">
+                            <motion.h1
+                                className="vex-hero-title"
+                                initial={{ opacity: 0, y: 40 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                            >
+                                Shaping tomorrow's<br /><span className="hero-highlight">engineers</span> with vision and<br />purpose.
+                            </motion.h1>
+                            <motion.p
+                                className="vex-hero-desc"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.45 }}
+                            >
+                                We nurture innovators and build careers that define what comes next.
+                            </motion.p>
+                            <motion.div
+                                className="vex-hero-buttons"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.65 }}
+                            >
+                                <Link to="/student-portal" className="vex-btn-primary">Student Portal</Link>
+                                <Link to="/departments" className="vex-btn-secondary">Explore Departments</Link>
+                            </motion.div>
                         </div>
 
-                        {/* Scroll Indicator */}
-                        <div className="scroll-indicator">
-                            <div className="scroll-mouse">
-                                <div className="scroll-wheel"></div>
-                            </div>
-                            <div className="scroll-text-row">
-                                <span className="scroll-text">Scroll Down</span>
-                                <div className="scroll-arrows-stack">
-                                    <span className="scroll-arrow"></span>
-                                    <span className="scroll-arrow"></span>
-                                </div>
-                            </div>
-                        </div>
+
+                        {/* MEC Identity Badge — bottom-right */}
+                        <motion.div
+                            className="hero-vex-pill-badge"
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 1.0 }}
+                        >
+                            <span className="pill-chip">AICTE Approved</span>
+                            <span className="pill-divider" />
+                            <span className="pill-chip">Est. 2014</span>
+                            <span className="pill-divider" />
+                            <span className="pill-chip">Nuh, Haryana</span>
+                        </motion.div>
+
+
                     </div>
                 </div>
             </section>
+
 
             {/* ===== HIGHLIGHTS ===== */}
             <section className="section highlights">
@@ -801,172 +770,8 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* ===== EVENTS ===== */}
-            <section className="section events-section">
-                <div className="container">
-                    <div className="section-header">
-                        <span className="section-label">Happenings</span>
-                        <h2>News & Events</h2>
-                        <p>Stay updated with the latest events, workshops, and activities at MEC</p>
-                    </div>
-                    <div className="events-grid">
-                        {events.map((event, i) => (
-                            <motion.div
-                                className="event-card"
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: i * 0.1 }}
-                            >
-                                <div className="event-image">
-                                    <img src={event.image_url || getAssetPath(event.image)} alt={event.title} />
-                                    <div className="event-date-badge">
-                                        <div className="month">{event.date.split(' ')[0]}</div>
-                                        <div className="year">{event.date.split(' ')[1]}</div>
-                                    </div>
-                                </div>
-                                <div className="event-info">
-                                    <span className={`event-type ${event.type}`}>{event.type}</span>
-                                    <h4>{event.title}</h4>
-                                    <p>{event.description}</p>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ===== TESTIMONIALS ===== */}
-            <section className="section testimonials-section">
-                <GravityParticles />
-                <div className="container">
-                    <div className="section-header">
-                        <span className="section-label">Testimonials</span>
-                        <h2>What Our Students Say</h2>
-                        <p>Hear from our alumni about their transformative experience at MEC</p>
-                    </div>
-                    <div className="testimonials-marquee">
-                        <div className="testimonials-track track-right">
-                            {[...testimonials, ...testimonials].map((t, i) => (
-                                <motion.div
-                                    className="testimonial-row-card"
-                                    key={`row1-${i}`}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: (i % testimonials.length) * 0.1 }}
-                                >
-                                    <div className="testimonial-row-avatar">
-                                        {t.avatar || <FiUser />}
-                                    </div>
-                                    <div className="testimonial-row-content">
-                                        <div className="testimonial-row-top">
-                                            <div className="testimonial-row-info">
-                                                <h4 className="testimonial-row-name">{t.name}</h4>
-                                                <span className="testimonial-row-branch">{t.branch}</span>
-                                            </div>
-                                            <div className="testimonial-row-rating">
-                                                <FiStar className="star-filled" fill="currentColor" size={14} />
-                                                <span>{t.rating}</span>
-                                            </div>
-                                        </div>
-                                        <p className="testimonial-row-quote">"{t.quote}"</p>
-                                        {t.currentPosition && (
-                                            <div className="testimonial-row-position">
-                                                <div className="pos-badge">
-                                                    <FiBriefcase size={12} />
-                                                    {t.currentPosition}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* NEW THIRD ROW */}
-                        <div className="testimonials-track track-middle">
-                            {[...testimonials, ...testimonials].map((t, i) => (
-                                <motion.div
-                                    className="testimonial-row-card"
-                                    key={`row3-${i}`}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: (i % testimonials.length) * 0.1 }}
-                                >
-                                    <div className="testimonial-row-avatar">
-                                        {t.avatar || <FiUser />}
-                                    </div>
-                                    <div className="testimonial-row-content">
-                                        <div className="testimonial-row-top">
-                                            <div className="testimonial-row-info">
-                                                <h4 className="testimonial-row-name">{t.name}</h4>
-                                                <span className="testimonial-row-branch">{t.branch}</span>
-                                            </div>
-                                            <div className="testimonial-row-rating">
-                                                <FiStar className="star-filled" fill="currentColor" size={14} />
-                                                <span>{t.rating}</span>
-                                            </div>
-                                        </div>
-                                        <p className="testimonial-row-quote">"{t.quote}"</p>
-                                        {t.currentPosition && (
-                                            <div className="testimonial-row-position">
-                                                <div className="pos-badge">
-                                                    <FiBriefcase size={12} />
-                                                    {t.currentPosition}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        <div className="testimonials-track track-left">
-                            {[...testimonials, ...testimonials].reverse().map((t, i) => (
-                                <motion.div
-                                    className="testimonial-row-card"
-                                    key={`row2-${i}`}
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.6, delay: (i % testimonials.length) * 0.1 }}
-                                >
-                                    <div className="testimonial-row-avatar">
-                                        {t.avatar || <FiUser />}
-                                    </div>
-                                    <div className="testimonial-row-content">
-                                        <div className="testimonial-row-top">
-                                            <div className="testimonial-row-info">
-                                                <h4 className="testimonial-row-name">{t.name}</h4>
-                                                <span className="testimonial-row-branch">{t.branch}</span>
-                                            </div>
-                                            <div className="testimonial-row-rating">
-                                                <FiStar className="star-filled" fill="currentColor" size={14} />
-                                                <span>{t.rating}</span>
-                                            </div>
-                                        </div>
-                                        <p className="testimonial-row-quote">"{t.quote}"</p>
-                                        {t.currentPosition && (
-                                            <div className="testimonial-row-position">
-                                                <div className="pos-badge">
-                                                    <FiBriefcase size={12} />
-                                                    {t.currentPosition}
-                                                </div>
-                                            </div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* ===== CAMPUS GALLERY ===== */}
-            <CampusGallery />
+            {/* ===== JACK 3D CREATOR PORTFOLIO ===== */}
+            <JackPortfolio />
 
             {/* ===== CTA ===== */}
             <section className="cta-section">

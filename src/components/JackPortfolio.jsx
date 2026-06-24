@@ -1043,7 +1043,7 @@ function ProjectCard({ project, index, totalCards, scrollRef }) {
                             </span>
                         </div>
                     </div>
-                    <button className="jack-live-btn">Live Project</button>
+                    <button className="jack-live-btn">View</button>
                 </div>
 
                 {/* Images grid */}
@@ -1109,7 +1109,7 @@ function ProjectsSection() {
                         marginBottom: 'clamp(48px, 5vw, 80px)',
                     }}
                 >
-                    Project
+                    Gallery
                 </h2>
             </FadeIn>
 
@@ -1137,7 +1137,6 @@ export default function JackPortfolio() {
     return (
         <div className="jack-portfolio-root">
             <HeroSection />
-            <MarqueeSection />
             <AboutSection />
             <ServicesSection />
             <ProjectsSection />

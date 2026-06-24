@@ -13,6 +13,7 @@ export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false)
     const location = useLocation()
     const isPortal = isPortalPage(location.pathname)
+    const isHomePage = location.pathname === '/'
 
     useEffect(() => {
         const onScroll = () => {
@@ -43,7 +44,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isFloating ? 'floating' : ''} ${atTop && !isPortal ? 'at-top' : ''}`}>
+            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isFloating ? 'floating' : ''} ${atTop && !isPortal && isHomePage ? 'at-top' : ''}`}>
                 <div className="top-bar">
                     <div className="container">
                         <div className="top-bar-left">

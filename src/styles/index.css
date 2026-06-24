@@ -1097,11 +1097,11 @@ main.portal-active {
 }
 
 .vex-hero-title {
-  font-family: var(--font-body);
-  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
-  font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: 0.08em;
+  font-family: 'Kanit', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
   margin-bottom: 20px;
   color: #ffffff;

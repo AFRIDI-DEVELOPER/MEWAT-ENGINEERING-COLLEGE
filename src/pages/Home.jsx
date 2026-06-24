@@ -625,7 +625,7 @@ export default function Home() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                Shaping tomorrow's<br /><span className="hero-highlight">engineers</span> with vision and<br />purpose.
+                                Shaping tomorrow's<br />engineers with vision and<br />purpose.
                             </motion.h1>
                             <motion.p
                                 className="vex-hero-desc"

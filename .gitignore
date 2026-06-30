@@ -9,6 +9,9 @@ dist/
 .env.local
 .env.*.local
 
+# Python venv
+venv/
+
 # Editor
 .DS_Store
 .vscode/

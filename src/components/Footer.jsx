@@ -10,10 +10,20 @@ export default function Footer() {
             <div className="container">
                 <div className="footer-grid">
                     <div className="footer-brand">
-                        <div className="footer-logo">
-                            <img src={getAssetPath('/images/mewatengineering logo.png')} alt="MEC Logo" />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '15px', marginBottom: '1rem' }}>
+                            <div className="footer-logo" style={{ marginBottom: 0 }}>
+                                <img src={getAssetPath('/images/mewatengineering logo.png')} alt="MEC Logo" />
+                            </div>
+                            <h3 style={{
+                                fontFamily: "var(--font-heading)",
+                                fontWeight: 900,
+                                color: "white",
+                                fontSize: '7rem',
+                                letterSpacing: '1px',
+                                textTransform: 'uppercase',
+                                margin: 0
+                            }}>MEC</h3>
                         </div>
-                        <h3>Mewat Engineering College</h3>
                         <p className="footer-tagline">WAQF — Empowering Through Education</p>
                         <p>
                             A premier engineering institution committed to providing quality technical education
@@ -64,6 +74,20 @@ export default function Footer() {
                         <div className="footer-contact-item">
                             <FiMail className="contact-icon" />
                             <span>{contactInfo.email[0]}</span>
+                        </div>
+                        <div className="footer-contact-item" style={{ marginTop: '1.5rem', alignItems: 'flex-start' }}>
+                            <div style={{
+                                fontFamily: "'Kanit', sans-serif",
+                                fontWeight: 900,
+                                fontSize: '1.5rem',
+                                letterSpacing: '1px',
+                                textTransform: 'uppercase',
+                                lineHeight: '1.2'
+                            }}>
+                                HEYY,THIS WEBSITE<br />
+                                IS DEVELOPED BY<br />
+                                <a href="https://afrididvlpr.pro/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--gold)', textDecoration: 'none' }}>AFRIDI_DEVELOPER</a>
+                            </div>
                         </div>
                     </div>
                 </div>

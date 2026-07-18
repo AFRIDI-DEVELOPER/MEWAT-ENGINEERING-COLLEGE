@@ -617,8 +617,37 @@ export default function Home() {
                         {/* Cinematic gradient overlay */}
                         <div className="hero-video-overlay"></div>
 
+                        {/* Desktop AICTE Badge - Bottom Right */}
+                        <motion.div
+                            className="hero-vex-pill-badge badge-desktop"
+                            initial={{ opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                        >
+                            <span className="pill-chip">AICTE Approved</span>
+                            <span className="pill-divider" />
+                            <span className="pill-chip">Est. 2014</span>
+                            <span className="pill-divider" />
+                            <span className="pill-chip">Nuh, Haryana</span>
+                        </motion.div>
+
                         {/* Bottom-left hero content */}
                         <div className="hero-vex-content">
+                            {/* Mobile AICTE Badge - Top Left */}
+                            <motion.div
+                                className="hero-vex-pill-badge badge-mobile"
+                                initial={{ opacity: 0, y: 16 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 0.1 }}
+                            >
+                                <span className="pill-chip">AICTE Approved</span>
+                                <span className="pill-divider" />
+                                <span className="pill-chip">Est. 2014</span>
+                                <span className="pill-divider" />
+                                <span className="pill-chip">Nuh, Haryana</span>
+                            </motion.div>
+
+
                             <motion.h1
                                 className="vex-hero-title"
                                 initial={{ opacity: 0, y: 40 }}
@@ -645,22 +674,7 @@ export default function Home() {
                                 <Link to="/departments" className="vex-btn-secondary">Explore Departments</Link>
                             </motion.div>
                         </div>
-
-
-                        {/* MEC Identity Badge — bottom-right */}
-                        <motion.div
-                            className="hero-vex-pill-badge"
-                            initial={{ opacity: 0, y: 16 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 1.0 }}
-                        >
-                            <span className="pill-chip">AICTE Approved</span>
-                            <span className="pill-divider" />
-                            <span className="pill-chip">Est. 2014</span>
-                            <span className="pill-divider" />
-                            <span className="pill-chip">Nuh, Haryana</span>
-                        </motion.div>
-
+                        {/* Badge was moved to top of title */}
 
                     </div>
                 </div>
@@ -678,18 +692,25 @@ export default function Home() {
                     <div className="highlights-grid">
                         {highlights.map((item, i) => (
                             <motion.div
-                                className="highlight-card"
+                                className={`highlight-card ${i === highlights.length - 1 ? 'highlight-card--full' : ''}`}
                                 key={i}
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: '-50px' }}
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
                             >
-                                <div className="highlight-icon">
-                                    <HighlightIcon index={i} />
+                                <div className="highlight-content">
+                                    <div className="highlight-icon">
+                                        <HighlightIcon index={i} />
+                                    </div>
+                                    <h4>{item.title}</h4>
+                                    <p>{item.description}</p>
                                 </div>
-                                <h4>{item.title}</h4>
-                                <p>{item.description}</p>
+                                {item.image && (
+                                    <div className="highlight-image-wrapper">
+                                        <img src={getAssetPath(item.image)} alt={item.title} className="highlight-image" />
+                                    </div>
+                                )}
                             </motion.div>
                         ))}
                     </div>
@@ -751,20 +772,47 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* ===== STATS ===== */}
-            <section className="stats-section">
-                <div className="stats-marquee">
-                    <div className="stats-track">
-                        {[...stats, ...stats].map((s, i) => (
-                            <div className={`stat-glass-card stat-${s.id}`} key={i}>
-                                <div className="stat-icon">
-                                    <StatIcon id={s.id} />
-                                </div>
-                                <div className="stat-value">
-                                    <AnimatedCounter end={s.value} suffix={s.suffix} />
-                                </div>
-                                <div className="stat-label">{s.label}</div>
-                            </div>
+            {/* ===== RECRUITER LOGO TICKER ===== */}
+            <section className="logo-ticker-section">
+                <h2 className="logo-ticker-heading">WE PLACED OUR STUDENTS</h2>
+                <div className="logo-ticker-marquee">
+                    <div className="logo-ticker-track">
+                        {[
+                            { name: 'BAJAJ', sub: 'ELECTRICALS', style: 'ticker-bold' },
+                            { name: 'Godrej', sub: '', style: 'ticker-italic' },
+                            { name: 'JINDAL', sub: 'STAINLESS', style: 'ticker-spaced' },
+                            { name: 'amazon', sub: '', style: 'ticker-amazon' },
+                            { name: 'Flipkart', sub: 'EXPLORE PLUS', style: 'ticker-medium' },
+                            { name: 'blinkit', sub: '', style: 'ticker-lower' },
+                            { name: 'HERO', sub: 'MOTORS', style: 'ticker-hero' },
+                            { name: 'SIEMENS', sub: '', style: 'ticker-light' },
+                            { name: 'DECATHLON', sub: '', style: 'ticker-spaced' },
+                            { name: 'L&T', sub: '', style: 'ticker-bold' },
+                            { name: 'TCS', sub: '', style: 'ticker-bold' },
+                            { name: 'INFOSYS', sub: '', style: 'ticker-light' },
+                            { name: 'WIPRO', sub: '', style: 'ticker-spaced' },
+                            { name: 'NHPC', sub: '', style: 'ticker-bold' },
+                            { name: 'ONGC', sub: '', style: 'ticker-bold' },
+                            { name: 'BAJAJ', sub: 'ELECTRICALS', style: 'ticker-bold' },
+                            { name: 'Godrej', sub: '', style: 'ticker-italic' },
+                            { name: 'JINDAL', sub: 'STAINLESS', style: 'ticker-spaced' },
+                            { name: 'amazon', sub: '', style: 'ticker-amazon' },
+                            { name: 'Flipkart', sub: 'EXPLORE PLUS', style: 'ticker-medium' },
+                            { name: 'blinkit', sub: '', style: 'ticker-lower' },
+                            { name: 'HERO', sub: 'MOTORS', style: 'ticker-hero' },
+                            { name: 'SIEMENS', sub: '', style: 'ticker-light' },
+                            { name: 'DECATHLON', sub: '', style: 'ticker-spaced' },
+                            { name: 'L&T', sub: '', style: 'ticker-bold' },
+                            { name: 'TCS', sub: '', style: 'ticker-bold' },
+                            { name: 'INFOSYS', sub: '', style: 'ticker-light' },
+                            { name: 'WIPRO', sub: '', style: 'ticker-spaced' },
+                            { name: 'NHPC', sub: '', style: 'ticker-bold' },
+                            { name: 'ONGC', sub: '', style: 'ticker-bold' },
+                        ].map((brand, i) => (
+                            <span className={`logo-ticker-item ${brand.style}`} key={i}>
+                                <span className="ticker-name">{brand.name}</span>
+                                {brand.sub && <span className="ticker-sub">{brand.sub}</span>}
+                            </span>
                         ))}
                     </div>
                 </div>

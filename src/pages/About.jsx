@@ -44,14 +44,17 @@ export default function About() {
                 borderBottom: '1px solid rgba(201,168,76,0.2)',
                 boxShadow: '0 4px 30px rgba(0,0,0,0.35)',
             }}>
-                <div style={{
+                <div className="about-tabs-container" style={{
                     maxWidth: '1200px',
                     margin: '0 auto',
                     padding: '0 1rem',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     gap: '0',
+                    overflowX: 'auto',
+                    WebkitOverflowScrolling: 'touch',
+                    scrollbarWidth: 'none',
                 }}>
                     {TABS.map((tab) => {
                         const isActive = activeTab === tab.id
@@ -157,7 +160,7 @@ export default function About() {
                                     <span className="section-label">Our Advantages</span>
                                     <h2>Why Choose MEC?</h2>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginTop: '1rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginTop: '1rem' }}>
                                     {[
                                         { icon: '🏠', title: 'Affordable Hostel Facility', desc: 'Hostel facility at the most affordable cost of Rs. 40,000 per annum which includes food and lodging both.' },
                                         { icon: '🎓', title: 'Excellent GATE Results', desc: 'Students secured good ranks in GATE with the highest being 51 All India Rank.' },

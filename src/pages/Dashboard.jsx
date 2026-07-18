@@ -146,7 +146,19 @@ export default function Dashboard() {
                         <div className="profile-info">
                             <div className="info-item">
                                 <span className="label">Department</span>
-                                <span className="value">{user.dept}</span>
+                                <span className="value">
+                                    {(() => {
+                                        if (!user.dept) return '';
+                                        const d = user.dept.toLowerCase();
+                                        if (d.includes('computer science')) return 'B.Tech (CSE)';
+                                        if (d.includes('civil')) return 'B.Tech (CE)';
+                                        if (d.includes('mechanical')) return 'B.Tech (ME)';
+                                        if (d.includes('electrical') && !d.includes('electronics')) return 'B.Tech (EE)';
+                                        if (d.includes('electrical') && d.includes('electronics')) return 'B.Tech (EEE)';
+                                        if (d.includes('electronics') && d.includes('communication')) return 'B.Tech (ECE)';
+                                        return user.dept;
+                                    })()}
+                                </span>
                             </div>
                             <div className="info-item">
                                 <span className="label">Year</span>

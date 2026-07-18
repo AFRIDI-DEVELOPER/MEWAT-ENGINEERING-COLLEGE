@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import SEO from '../components/SEO'
-
+import { getAssetPath } from '../utils/assets'
 import { admissionInfo, departments as staticDepartments } from '../data/content'
 import { useDepartments } from '../hooks/useSupabase'
 
@@ -25,9 +25,19 @@ export default function Admissions() {
                         <p>Follow these simple steps to secure your seat at MEC</p>
                     </div>
                     <div className="admission-content">
-                        <div>
-                            <h3 style={{ marginBottom: 8 }}>Eligibility</h3>
+                        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+                            <h3 style={{ marginBottom: 12, fontFamily: "'Kanit', sans-serif", fontSize: '2.2rem', fontWeight: 800, color: 'var(--primary-dark)', letterSpacing: '-0.01em', lineHeight: 1.1 }}>Eligibility</h3>
                             <p style={{ marginBottom: 28 }}>{admissionInfo.eligibility}</p>
+                            
+                            <motion.img 
+                                src={getAssetPath('/images/admission-illustration-parents.png')} 
+                                alt="Admission Illustration"
+                                style={{ width: '100%', maxWidth: '450px', marginTop: '30px', alignSelf: 'center' }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.6, delay: 0.2 }}
+                            />
                         </div>
 
                         <motion.div

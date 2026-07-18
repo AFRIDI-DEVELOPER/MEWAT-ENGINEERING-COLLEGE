@@ -225,12 +225,12 @@ export const navLinks = [
 
 // Statistics
 export const stats = [
-    { id: 'placed', label: 'Students Placed', value: 500, suffix: '+', icon: '💼' },
-    { id: 'gate', label: 'GATE Qualified', value: 50, suffix: '+', icon: '🎓' },
-    { id: 'air', label: 'Best GATE AIR', value: 48, suffix: '', icon: '🏆' },
-    { id: 'recruiters', label: 'Recruiters', value: 30, suffix: '+', icon: '🤝' },
-    { id: 'books', label: 'Library Books', value: 40000, suffix: '+', icon: '📖' },
-    { id: 'acres', label: 'Campus Acres', value: 28, suffix: '', icon: '🌳' }
+    { id: 'placed', label: 'Students Placed', value: 500, suffix: '+', icon: '💼', image: '/images/stat-placed.png' },
+    { id: 'gate', label: 'GATE Qualified', value: 50, suffix: '+', icon: '🎓', image: '/images/stat-gate.png' },
+    { id: 'air', label: 'Best GATE AIR', value: 48, suffix: '', icon: '🏆', image: '/images/stat-air.png' },
+    { id: 'recruiters', label: 'Recruiters', value: 30, suffix: '+', icon: '🤝', image: '/images/stat-recruiters.png' },
+    { id: 'books', label: 'Library Books', value: 40000, suffix: '+', icon: '📖', image: '/images/stat-books.png' },
+    { id: 'acres', label: 'Campus Acres', value: 28, suffix: '', icon: '🌳', image: '/images/stat-acres.png' }
 ];
 
 // Highlights
@@ -238,37 +238,44 @@ export const highlights = [
     {
         title: 'WAQF Establishment',
         description: 'Established by the Haryana Waqf Board, Government of Haryana',
-        icon: '🏛️'
+        icon: '🏛️',
+        image: '/images/waqf-illustration.png'
     },
     {
         title: 'AICTE Approved',
         description: 'All programs are approved by AICTE, New Delhi',
-        icon: '✅'
+        icon: '✅',
+        image: '/images/aicte-illustration-v2.png'
     },
     {
         title: 'Gurugram University Affiliated',
         description: 'Affiliated to Gurugram University, Haryana',
-        icon: '🎓'
+        icon: '🎓',
+        image: '/images/gurugram-illustration-v2.png'
     },
     {
         title: '100% Placement Assistance',
         description: 'Dedicated placement cell with 100% placement assistance',
-        icon: '💼'
+        icon: '💼',
+        image: '/images/placement-illustration.png'
     },
     {
         title: '50% Fee Concession for Girls',
         description: 'Special fee concession for girl students to promote women in engineering',
-        icon: '👩‍🎓'
+        icon: '👩‍🎓',
+        image: '/images/girls-illustration.png'
     },
     {
         title: 'GATE 2024 Success',
         description: 'Produced GATE AIR 48 (Dipanshu Garg) and multiple top ranks',
-        icon: '🏆'
+        icon: '🏆',
+        image: '/images/gate-illustration.png'
     },
     {
         title: 'Modern Infrastructure',
         description: 'State-of-the-art labs, library, hostel, and sports facilities',
-        icon: '🏛️'
+        icon: '🏛️',
+        image: '/images/infrastructure-illustration.png'
     }
 ];
 

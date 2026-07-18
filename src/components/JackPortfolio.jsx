@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
+import ScrollStack, { ScrollStackItem } from './ScrollStack'
 
 // ─── GLOBAL STYLES ───────────────────────────────────────────────────────────
 const injectStyles = () => {
@@ -954,10 +955,10 @@ const projects = [
     {
         num: '01',
         category: 'Facilities',
-        name: 'Library & Resources',
-        col1img1: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=800&q=80',
-        col1img2: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80',
-        col2img: 'https://images.unsplash.com/photo-1568667256549-094345857637?w=800&q=80',
+        name: 'Events',
+        col1img1: '/event1.png',
+        col1img2: '/event2.png',
+        col2img: '/event3.jpg',
     },
     {
         num: '02',
@@ -975,33 +976,38 @@ const projects = [
         col1img2: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80',
         col2img: 'https://images.unsplash.com/photo-1628165039572-c2e35fbb2c46?w=800&q=80',
     },
+    {
+        num: '04',
+        category: 'Facilities',
+        name: 'Sports Complex',
+        col1img1: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&q=80',
+        col1img2: 'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=800&q=80',
+        col2img: 'https://images.unsplash.com/photo-1519315901367-f34f815b2444?w=800&q=80',
+    },
+    {
+        num: '05',
+        category: 'Facilities',
+        name: 'Central Library',
+        col1img1: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80',
+        col1img2: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=800&q=80',
+        col2img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800&q=80',
+    },
 ]
 
-function ProjectCard({ project, index, totalCards, scrollRef }) {
-    const { scrollYProgress } = useScroll({
-        target: scrollRef,
-        offset: ['start start', 'end end'],
-    })
-
-    const targetScale = 1 - (totalCards - 1 - index) * 0.03
-    const scaleRange = [index / totalCards, 1]
-    const scale = useTransform(scrollYProgress, scaleRange, [targetScale, targetScale])
-
+function ProjectCard({ project, index }) {
     const imgRadius = 'clamp(28px, 4vw, 50px)'
 
     return (
-        <div style={{ height: '85vh', display: 'flex', alignItems: 'flex-start', justifyContent: 'center' }}>
-            <motion.div
-                className="jack-project-card"
-                style={{
-                    scale,
-                    position: 'sticky',
-                    top: `calc(96px + ${index * 28}px)`,
-                    width: '100%',
-                    maxWidth: 1100,
-                }}
-            >
-                {/* Top row */}
+        <ScrollStackItem>
+            <div className="jack-project-wrapper" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center' }}>
+                <div
+                    className="jack-project-card"
+                    style={{
+                        width: '100%',
+                        maxWidth: 1100,
+                    }}
+                >
+                    {/* Top row */}
                 <div style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -1085,16 +1091,15 @@ function ProjectCard({ project, index, totalCards, scrollRef }) {
                         }}
                     />
                 </div>
-            </motion.div>
-        </div>
+                </div>
+            </div>
+        </ScrollStackItem>
     )
 }
 
 function ProjectsSection() {
-    const sectionRef = useRef(null)
-
     return (
-        <section id="jack-projects" className="jack-projects-section" ref={sectionRef}>
+        <section id="jack-projects" className="jack-projects-section">
             <FadeIn delay={0} y={40}>
                 <h2
                     className="hero-heading"
@@ -1113,17 +1118,23 @@ function ProjectsSection() {
                 </h2>
             </FadeIn>
 
-            <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-                {projects.map((project, i) => (
-                    <ProjectCard
-                        key={project.num}
-                        project={project}
-                        index={i}
-                        totalCards={projects.length}
-                        scrollRef={sectionRef}
-                    />
-                ))}
-            </div>
+            <ScrollStack
+                useWindowScroll={true}
+                itemScale={0.03}
+                itemStackDistance={30}
+                stackPosition="20%"
+                scaleEndPosition="10%"
+            >
+                <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+                    {projects.map((project, i) => (
+                        <ProjectCard
+                            key={project.num}
+                            project={project}
+                            index={i}
+                        />
+                    ))}
+                </div>
+            </ScrollStack>
         </section>
     )
 }

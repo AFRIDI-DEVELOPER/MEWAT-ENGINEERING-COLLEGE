@@ -44,7 +44,8 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isFloating ? 'floating' : ''} ${atTop && !isPortal && isHomePage ? 'at-top' : ''}`}>
+            <nav className={`navbar-wrapper ${scrolled ? 'scrolled' : ''} ${isFloating ? 'floating' : ''} ${atTop && !isPortal && isHomePage ? 'at-top' : ''} ${isPortal ? 'portal-mode' : ''}`}>
+                {!isPortal && (
                 <div className="top-bar">
                     <div className="container">
                         <div className="top-bar-left">
@@ -60,6 +61,7 @@ export default function Navbar() {
                         </div>
                     </div>
                 </div>
+                )}
                 <div className="main-nav">
                     <div className="container">
                         <Link to="/" className="nav-logo">
@@ -75,7 +77,7 @@ export default function Navbar() {
                             </div>
                         </Link>
                         {isPortal && (
-                            <div className="nav-links" style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+                            <div className="portal-nav-actions">
                                 {location.pathname === '/student-portal' && (
                                     <Link to="/admin" className="portal-nav-btn admin-btn">
                                         <FiShield size={14} />
@@ -103,6 +105,7 @@ export default function Navbar() {
                                 </Link>
                             </div>
                         )}
+                        {!isPortal && (
                         <button
                             className={`hamburger ${mobileOpen ? 'open' : ''}`}
                             onClick={() => setMobileOpen(!mobileOpen)}
@@ -112,6 +115,7 @@ export default function Navbar() {
                             <span></span>
                             <span></span>
                         </button>
+                        )}
                     </div>
                 </div>
             </nav>

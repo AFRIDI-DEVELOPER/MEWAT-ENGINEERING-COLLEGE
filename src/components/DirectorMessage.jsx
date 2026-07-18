@@ -4,8 +4,9 @@ import { directorData } from '../data/content'
 
 export default function DirectorMessage() {
     return (
-        <section id="director-message" className="section director-section">
-            <div className="container">
+        <section id="director-message" className="section director-section" style={{ position: 'relative', overflow: 'hidden' }}>
+            <div className="director-color-bends" />
+            <div className="container" style={{ position: 'relative', zIndex: 1 }}>
                 <div className="section-header">
                     <span className="section-label">Leadership</span>
                     <h2>Director's Message</h2>
@@ -48,3 +49,4 @@ export default function DirectorMessage() {
         </section>
     )
 }
+

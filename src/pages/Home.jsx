@@ -20,86 +20,120 @@ import JackPortfolio from '../components/JackPortfolio'
 
 
 
-const campusImages = [
+const galleryCards = [
     {
-        src: getAssetPath('/images/college-bg.png'),
-        title: 'Grand Entrance',
-        description: 'The iconic main gateway welcoming future engineers into a world of possibilities',
-        category: 'architecture'
+        title: 'Freshers Welcome 2025',
+        description: 'Jashn-e-Aaghaz — A vibrant celebration welcoming new students with awards, performances, and unforgettable memories',
+        images: [
+            getAssetPath('/gallery/gallery1.jpg'),
+            getAssetPath('/gallery/gallery.1.jpg'),
+            getAssetPath('/gallery/gallery..1.jpg'),
+        ]
     },
     {
-        src: getAssetPath('/images/college-bg-1.jpg'),
-        title: 'Aerial Campus View',
-        description: 'A breathtaking panoramic perspective of our sprawling 28-acre green campus',
-        category: 'architecture'
+        title: 'Campus Life & Community',
+        description: 'From the canteen to classrooms and open roads — everyday moments that define the MEC experience',
+        images: [
+            getAssetPath('/gallery/gallery2.jpg'),
+            getAssetPath('/gallery/gallery.2.jpg'),
+            getAssetPath('/gallery/gallery..2.jpg'),
+        ]
     },
     {
-        src: getAssetPath('/images/college-bg-2.png'),
-        title: 'Engineering Block',
-        description: 'State-of-the-art engineering labs and smart classrooms powering innovation',
-        category: 'academics'
+        title: 'National Day Celebrations',
+        description: 'Flag hoisting ceremonies and patriotic gatherings — honoring the spirit of the nation at MEC campus',
+        images: [
+            getAssetPath('/gallery/gallery3.jpg'),
+            getAssetPath('/gallery/gallery.3.jpg'),
+            getAssetPath('/gallery/gallery..3.jpg'),
+        ]
     },
     {
-        src: getAssetPath('/images/college-bg-3.png'),
-        title: 'Academic Plaza',
-        description: 'Where ideas converge — the central hub of collaboration and campus culture',
-        category: 'life'
+        title: 'Seminars & Guest Lectures',
+        description: 'Interactive sessions with industry experts and inspiring speakers shaping the minds of future engineers',
+        images: [
+            getAssetPath('/gallery/gallery4.jpg'),
+            getAssetPath('/gallery/gallery.4.jpg'),
+            getAssetPath('/gallery/gallery..4.jpg'),
+        ]
     },
     {
-        src: getAssetPath('/images/college-bg.png'),
-        title: 'Library Wing',
-        description: 'A modern knowledge center with digital resources and quiet study zones',
-        category: 'academics'
+        title: 'Labs & Infrastructure',
+        description: 'State-of-the-art laboratories and research facilities — where innovation meets hands-on learning',
+        images: [
+            getAssetPath('/gallery/gallery5.jpg'),
+            getAssetPath('/gallery/gallery.5.jpg'),
+            getAssetPath('/gallery/gallery..5.jpg'),
+        ]
     },
-    {
-        src: getAssetPath('/images/college-bg-1.jpg'),
-        title: 'Sports Complex',
-        description: 'World-class sports facilities nurturing athletic talent alongside academics',
-        category: 'life'
-    },
-    {
-        src: getAssetPath('/images/college-bg-2.png'),
-        title: 'Research Center',
-        description: 'Cutting-edge laboratories equipped for advanced research and development',
-        category: 'academics'
-    },
-    {
-        src: getAssetPath('/images/college-bg-3.png'),
-        title: 'Student Hub',
-        description: 'A vibrant social space where campus life and creativity come alive',
-        category: 'life'
-    }
 ]
 
-const categories = [
-    { id: 'all', label: 'All Spaces' },
-    { id: 'architecture', label: 'Architecture' },
-    { id: 'academics', label: 'Academics' },
-    { id: 'life', label: 'Campus Life' }
-]
+function GalleryMosaicCard({ card, index, isActive }) {
+    const [heroIdx, setHeroIdx] = useState(0)
+
+    // Auto-rotate hero image within each card
+    useEffect(() => {
+        if (!isActive) return
+        const timer = setInterval(() => {
+            setHeroIdx(prev => (prev + 1) % card.images.length)
+        }, 3000)
+        return () => clearInterval(timer)
+    }, [isActive, card.images.length])
+
+    return (
+        <div className="gallery-mosaic-card">
+            {/* Hero image — large */}
+            <div className="mosaic-hero">
+                <AnimatePresence mode="wait">
+                    <motion.img
+                        key={heroIdx}
+                        src={card.images[heroIdx]}
+                        alt={card.title}
+                        draggable="false"
+                        initial={{ opacity: 0, scale: 1.08 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.6 }}
+                    />
+                </AnimatePresence>
+                <div className="mosaic-hero-gradient" />
+                <span className="frame-corner frame-tl" />
+                <span className="frame-corner frame-tr" />
+                <span className="frame-corner frame-bl" />
+                <span className="frame-corner frame-br" />
+            </div>
+            {/* Thumbnails strip */}
+            <div className="mosaic-thumbs">
+                {card.images.map((img, i) => (
+                    <button
+                        key={i}
+                        className={`mosaic-thumb ${heroIdx === i ? 'active' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); setHeroIdx(i) }}
+                    >
+                        <img src={img} alt={`${card.title} - ${i + 1}`} draggable="false" />
+                        <div className="thumb-active-ring" />
+                    </button>
+                ))}
+            </div>
+            {/* Text */}
+            <div className="mosaic-card-text">
+                <div className="mosaic-card-number">{String(index + 1).padStart(2, '0')}</div>
+                <h4 className="mosaic-card-title">{card.title}</h4>
+                <p className="mosaic-card-desc">{card.description}</p>
+            </div>
+        </div>
+    )
+}
 
 function CampusGallery() {
     const [activeIndex, setActiveIndex] = useState(0)
-    const [activeCategory, setActiveCategory] = useState('all')
     const [isPaused, setIsPaused] = useState(false)
     const trackRef = useRef(null)
     const autoScrollRef = useRef(null)
 
-    const filteredImages = activeCategory === 'all'
-        ? campusImages
-        : campusImages.filter(img => img.category === activeCategory)
+    const totalSlides = galleryCards.length
 
-    const totalSlides = filteredImages.length
-
-    // Reset active index when category changes
-    useEffect(() => {
-        setActiveIndex(0)
-        if (trackRef.current) {
-            trackRef.current.scrollTo({ left: 0, behavior: 'smooth' })
-        }
-    }, [activeCategory])
-
-    // Auto-scroll — scrolls forward, then smoothly back to first when reaching the end
+    // Auto-scroll
     useEffect(() => {
         if (isPaused || totalSlides <= 1) return
         autoScrollRef.current = setInterval(() => {
@@ -108,7 +142,6 @@ function CampusGallery() {
                 const next = isLast ? 0 : prev + 1
                 if (trackRef.current) {
                     if (isLast) {
-                        // Scroll straight back to the first card
                         trackRef.current.scrollTo({ left: 0, behavior: 'smooth' })
                     } else {
                         const card = trackRef.current.children[next]
@@ -120,9 +153,9 @@ function CampusGallery() {
                 }
                 return next
             })
-        }, 4000)
+        }, 5000)
         return () => clearInterval(autoScrollRef.current)
-    }, [isPaused, totalSlides, activeCategory])
+    }, [isPaused, totalSlides])
 
     const goToSlide = useCallback((index) => {
         setActiveIndex(index)
@@ -165,27 +198,7 @@ function CampusGallery() {
                 >
                     <span className="section-label">Campus Life</span>
                     <h2>Explore Our Campus</h2>
-                    <p>A cinematic glimpse into the state-of-the-art infrastructure and serene environment at MEC</p>
-                </motion.div>
-
-                {/* Category Filters */}
-                <motion.div
-                    className="gallery-filters"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                    {categories.map(cat => (
-                        <button
-                            key={cat.id}
-                            className={`gallery-filter-btn ${activeCategory === cat.id ? 'active' : ''}`}
-                            onClick={() => setActiveCategory(cat.id)}
-                        >
-                            <span className="filter-dot" />
-                            {cat.label}
-                        </button>
-                    ))}
+                    <p>A cinematic glimpse into the vibrant life, events, and infrastructure at MEC</p>
                 </motion.div>
             </div>
 
@@ -200,44 +213,19 @@ function CampusGallery() {
                     ref={trackRef}
                     onScroll={handleScroll}
                 >
-                    <AnimatePresence mode="popLayout">
-                        {filteredImages.map((img, i) => (
-                            <motion.div
-                                key={`${activeCategory}-${i}`}
-                                className={`gallery-carousel-card ${activeIndex === i ? 'active' : ''}`}
-                                initial={{ opacity: 0, scale: 0.85 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.85 }}
-                                transition={{ duration: 0.5, delay: i * 0.06 }}
-                                onClick={() => goToSlide(i)}
-                            >
-                                {/* Frame */}
-                                <div className="gallery-card-frame">
-                                    <div className="gallery-card-inner">
-                                        <img src={img.src} alt={img.title} draggable="false" />
-                                        {/* Film grain overlay */}
-                                        <div className="gallery-film-grain" />
-                                        {/* Gradient overlay */}
-                                        <div className="gallery-card-gradient" />
-                                        {/* Corner accents */}
-                                        <span className="frame-corner frame-tl" />
-                                        <span className="frame-corner frame-tr" />
-                                        <span className="frame-corner frame-bl" />
-                                        <span className="frame-corner frame-br" />
-                                    </div>
-                                </div>
-                                {/* Text overlay */}
-                                <div className="gallery-card-text">
-                                    <span className="gallery-card-category">{img.category}</span>
-                                    <h4 className="gallery-card-title">{img.title}</h4>
-                                    <p className="gallery-card-desc">{img.description}</p>
-                                    <div className="gallery-card-number">
-                                        {String(i + 1).padStart(2, '0')}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
+                    {galleryCards.map((card, i) => (
+                        <motion.div
+                            key={i}
+                            className={`gallery-carousel-card ${activeIndex === i ? 'active' : ''}`}
+                            initial={{ opacity: 0, scale: 0.85 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: i * 0.08 }}
+                            onClick={() => goToSlide(i)}
+                        >
+                            <GalleryMosaicCard card={card} index={i} isActive={activeIndex === i} />
+                        </motion.div>
+                    ))}
                 </div>
 
                 {/* Navigation Arrows */}
@@ -261,7 +249,7 @@ function CampusGallery() {
             <div className="container">
                 <div className="gallery-pagination">
                     <div className="gallery-dots">
-                        {filteredImages.map((_, i) => (
+                        {galleryCards.map((_, i) => (
                             <button
                                 key={i}
                                 className={`gallery-dot ${activeIndex === i ? 'active' : ''}`}
@@ -670,7 +658,7 @@ export default function Home() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.65 }}
                             >
-                                <Link to="/student-portal" className="vex-btn-primary">Student Portal</Link>
+                                <Link to="/examination-cell" className="vex-btn-primary">Examination Cell</Link>
                                 <Link to="/departments" className="vex-btn-secondary">Explore Departments</Link>
                             </motion.div>
                         </div>

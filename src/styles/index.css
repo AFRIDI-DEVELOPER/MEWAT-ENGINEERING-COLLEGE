@@ -5433,8 +5433,9 @@ main.portal-active {
 
 /* Gallery Card */
 .gallery-carousel-card {
-  flex: 0 0 80vw;
-  max-width: 80vw;
+  flex: 0 0 420px;
+  max-width: 420px;
+  height: 520px;
   scroll-snap-align: center;
   cursor: pointer;
   transition: transform 0.5s var(--ease-out), filter 0.5s var(--ease-out);
@@ -5622,6 +5623,164 @@ main.portal-active {
   color: rgba(200, 169, 81, 0.2);
 }
 
+/* ========== Gallery Mosaic Card ========== */
+.gallery-mosaic-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Hero Image Container */
+.mosaic-hero {
+  position: relative;
+  flex: 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--near-black);
+  min-height: 0;
+}
+
+.mosaic-hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mosaic-hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(28, 27, 24, 0.6) 0%,
+    transparent 40%,
+    transparent 70%,
+    rgba(28, 27, 24, 0.15) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.mosaic-hero .frame-corner {
+  z-index: 2;
+}
+
+.gallery-carousel-card.active .mosaic-hero .frame-corner {
+  opacity: 0.6;
+}
+
+/* Thumbnail Strip */
+.mosaic-thumbs {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.mosaic-thumb {
+  position: relative;
+  flex: 1;
+  height: 70px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: var(--near-black);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mosaic-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease, filter 0.3s ease;
+  filter: brightness(0.6) saturate(0.5);
+}
+
+.mosaic-thumb.active img {
+  filter: brightness(1) saturate(1);
+}
+
+.mosaic-thumb:hover img {
+  transform: scale(1.1);
+  filter: brightness(0.85) saturate(0.8);
+}
+
+.mosaic-thumb.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 12px rgba(200, 169, 81, 0.3);
+}
+
+.thumb-active-ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--gold-light);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.mosaic-thumb.active .thumb-active-ring {
+  opacity: 1;
+}
+
+/* Card Text Below */
+.mosaic-card-text {
+  position: relative;
+  padding: 8px 4px 4px;
+  flex-shrink: 0;
+}
+
+.mosaic-card-number {
+  position: absolute;
+  top: -2px;
+  right: 4px;
+  font-family: var(--font-heading);
+  font-size: 2.8rem;
+  font-weight: 900;
+  color: rgba(200, 169, 81, 0.08);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.4s ease;
+}
+
+.gallery-carousel-card.active .mosaic-card-number {
+  color: rgba(200, 169, 81, 0.18);
+}
+
+.mosaic-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.gallery-carousel-card.active .mosaic-card-title {
+  color: var(--gold);
+}
+
+.mosaic-card-desc {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease, max-height 0.4s ease;
+}
+
+.gallery-carousel-card.active .mosaic-card-desc {
+  opacity: 1;
+  max-height: 80px;
+}
+
 /* Navigation Buttons */
 .gallery-nav-btn {
   position: absolute;
@@ -5761,8 +5920,9 @@ main.portal-active {
 /* Responsive */
 @media (max-width: 1024px) {
   .gallery-carousel-card {
-    flex: 0 0 80vw;
-    max-width: 80vw;
+    flex: 0 0 380px;
+    max-width: 380px;
+    height: 480px;
   }
 
   .gallery-nav-prev {
@@ -5776,8 +5936,9 @@ main.portal-active {
 
 @media (max-width: 768px) {
   .gallery-carousel-card {
-    flex: 0 0 85vw;
-    max-width: 85vw;
+    flex: 0 0 80vw;
+    max-width: 80vw;
+    height: 440px;
   }
 
   .gallery-carousel-track {
@@ -5785,14 +5946,8 @@ main.portal-active {
     gap: 16px;
   }
 
-  .gallery-filters {
-    gap: 6px;
-    margin-bottom: 32px;
-  }
-
-  .gallery-filter-btn {
-    padding: 8px 16px;
-    font-size: 0.75rem;
+  .mosaic-thumb {
+    height: 56px;
   }
 
   .gallery-nav-btn {
@@ -5803,12 +5958,12 @@ main.portal-active {
   .gallery-nav-prev { left: 8px; }
   .gallery-nav-next { right: 8px; }
 
-  .gallery-card-title {
-    font-size: 1.05rem;
+  .mosaic-card-title {
+    font-size: 1rem;
   }
 
-  .gallery-card-desc {
-    font-size: 0.78rem;
+  .mosaic-card-desc {
+    font-size: 0.75rem;
   }
 
   .gallery-pagination {
@@ -5838,8 +5993,9 @@ main.portal-active {
 
 @media (max-width: 480px) {
   .gallery-carousel-card {
-    flex: 0 0 90vw;
-    max-width: 90vw;
+    flex: 0 0 85vw;
+    max-width: 85vw;
+    height: 400px;
   }
 
   .gallery-carousel-track {
@@ -5847,18 +6003,24 @@ main.portal-active {
     padding-right: 5vw;
   }
 
-  .gallery-card-text {
-    padding: 16px 14px 14px;
+  .mosaic-thumb {
+    height: 48px;
   }
 
-  .gallery-card-title {
-    font-size: 0.95rem;
+  .mosaic-thumbs {
+    gap: 5px;
   }
 
-  .gallery-card-number {
-    font-size: 2.5rem;
-    top: -44px;
-    right: 14px;
+  .mosaic-card-text {
+    padding: 6px 2px 2px;
+  }
+
+  .mosaic-card-title {
+    font-size: 0.9rem;
+  }
+
+  .mosaic-card-number {
+    font-size: 2rem;
   }
 }
 

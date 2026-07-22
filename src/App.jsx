@@ -13,7 +13,7 @@ import Placements from './pages/Placements'
 import Campus from './pages/Campus'
 import Contact from './pages/Contact'
 import DepartmentDetail from './pages/DepartmentDetail'
-import StudentPortal from './pages/StudentPortal'
+import ExaminationCell from './pages/ExaminationCell'
 import Dashboard from './pages/Dashboard'
 import AdminDashboard from './pages/AdminDashboard'
 import Notices from './pages/Notices'
@@ -53,7 +53,7 @@ export default function App() {
                     <Route path="/campus" element={<Campus />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/departments/:id" element={<DepartmentDetail />} />
-                    <Route path="/student-portal" element={<StudentPortal />} />
+                    <Route path="/examination-cell" element={<ExaminationCell />} />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/notices" element={<Notices />} />

@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import ScrollStack, { ScrollStackItem } from './ScrollStack'
+import { getAssetPath } from '../utils/assets'
 
 // ─── GLOBAL STYLES ───────────────────────────────────────────────────────────
 const injectStyles = () => {
@@ -954,43 +955,43 @@ function ServicesSection() {
 const projects = [
     {
         num: '01',
-        category: 'Facilities',
-        name: 'Events',
-        col1img1: '/event1.png',
-        col1img2: '/event2.png',
-        col2img: '/event3.jpg',
+        category: 'Campus Life',
+        name: 'Freshers Welcome 2025',
+        col1img1: '/gallery/gallery1.jpg',
+        col1img2: '/gallery/gallery.1.jpg',
+        col2img: '/gallery/gallery..1.jpg',
     },
     {
         num: '02',
-        category: 'Facilities',
-        name: 'Campus Life',
-        col1img1: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80',
-        col1img2: 'https://images.unsplash.com/photo-1525926477800-7a3afacbe188?w=800&q=80',
-        col2img: 'https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80',
+        category: 'Campus Life',
+        name: 'Campus Life & Community',
+        col1img1: '/gallery/gallery2.jpg',
+        col1img2: '/gallery/gallery.2.jpg',
+        col2img: '/gallery/gallery..2.jpg',
     },
     {
         num: '03',
-        category: 'Facilities',
-        name: 'Transport Facility',
-        col1img1: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&q=80',
-        col1img2: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?w=800&q=80',
-        col2img: 'https://images.unsplash.com/photo-1628165039572-c2e35fbb2c46?w=800&q=80',
+        category: 'Events',
+        name: 'National Day Celebrations',
+        col1img1: '/gallery/gallery3.jpg',
+        col1img2: '/gallery/gallery.3.jpg',
+        col2img: '/gallery/gallery..3.jpg',
     },
     {
         num: '04',
-        category: 'Facilities',
-        name: 'Sports Complex',
-        col1img1: 'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&q=80',
-        col1img2: 'https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=800&q=80',
-        col2img: 'https://images.unsplash.com/photo-1519315901367-f34f815b2444?w=800&q=80',
+        category: 'Academics',
+        name: 'Seminars & Guest Lectures',
+        col1img1: '/gallery/gallery4.jpg',
+        col1img2: '/gallery/gallery.4.jpg',
+        col2img: '/gallery/gallery..4.jpg',
     },
     {
         num: '05',
-        category: 'Facilities',
-        name: 'Central Library',
-        col1img1: 'https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=800&q=80',
-        col1img2: 'https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=800&q=80',
-        col2img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=800&q=80',
+        category: 'Infrastructure',
+        name: 'Labs & Infrastructure',
+        col1img1: '/gallery/gallery5.jpg',
+        col1img2: '/gallery/gallery.5.jpg',
+        col2img: '/gallery/gallery..5.jpg',
     },
 ]
 
@@ -1057,7 +1058,7 @@ function ProjectCard({ project, index }) {
                     {/* Col 1 — 40% width, 2 stacked */}
                     <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap: 12 }}>
                         <img
-                            src={project.col1img1}
+                            src={getAssetPath(project.col1img1)}
                             alt={project.name}
                             style={{
                                 width: '100%',
@@ -1068,7 +1069,7 @@ function ProjectCard({ project, index }) {
                             }}
                         />
                         <img
-                            src={project.col1img2}
+                            src={getAssetPath(project.col1img2)}
                             alt={project.name}
                             style={{
                                 width: '100%',
@@ -1081,7 +1082,7 @@ function ProjectCard({ project, index }) {
                     </div>
                     {/* Col 2 — 60% width, tall */}
                     <img
-                        src={project.col2img}
+                        src={getAssetPath(project.col2img)}
                         alt={project.name}
                         style={{
                             width: '60%',

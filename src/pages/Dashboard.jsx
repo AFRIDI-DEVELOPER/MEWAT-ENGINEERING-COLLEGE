@@ -48,7 +48,7 @@ export default function Dashboard() {
     useEffect(() => {
         const authData = localStorage.getItem('student_auth')
         if (!authData) {
-            navigate('/student-portal')
+            navigate('/examination-cell')
         } else {
             const student = JSON.parse(authData)
             setUser(student)

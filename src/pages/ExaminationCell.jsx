@@ -5,7 +5,7 @@ import SEO from '../components/SEO'
 import { getAssetPath } from '../utils/assets'
 import '../styles/dashboard-starfield.css'
 
-export default function StudentPortal() {
+export default function ExaminationCell() {
     const [rollNo, setRollNo] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
@@ -38,7 +38,7 @@ export default function StudentPortal() {
 
     return (
         <div className="login-page">
-            <SEO title="Student Portal" description="Access your student account and campus resources." />
+            <SEO title="Examination Cell" description="Access examination resources and results." />
             {/* CSS Starfield Background */}
             <div className="dashboard-starfield">
                 <div id="dashboard-stars"></div>
@@ -50,8 +50,8 @@ export default function StudentPortal() {
                     <div className="portal-icon">
                         <img src={getAssetPath('/images/mewatengineering logo.png')} alt="MEC Logo" className="portal-logo-img" />
                     </div>
-                    <h2>Student Portal</h2>
-                    <p>Enter your credentials to access the dashboard</p>
+                    <h2>Examination Cell</h2>
+                    <p>Enter your credentials to access the examination dashboard</p>
                 </div>
                 <div className="login-form-side">
                     <form onSubmit={handleLogin} className="login-form">
@@ -79,7 +79,7 @@ export default function StudentPortal() {
                         </div>
                         {error && <p className="error-msg">{error}</p>}
                         <button type="submit" className="login-btn" disabled={isLoading}>
-                            {isLoading ? 'Authenticating...' : 'Access Portal'}
+                            {isLoading ? 'Authenticating...' : 'Access Examination Cell'}
                         </button>
                     </form>
                     <div className="login-footer">

@@ -3,12 +3,11 @@
  */
 
 /**
- * Determines if a given pathname belongs to the Student Portal or Dashboard.
- * @param {string} pathname - The current URL path.
- * @returns {boolean} - True if it's a portal/dashboard page.
+ * Determines if a given pathname belongs to the Examination Cell or Dashboard.
+ * These pages share the portal layout (hidden regular navbar, anti-gravity bg).
  */
-export const isPortalPage = (pathname) => {
-    if (!pathname) return false;
-    const path = pathname.toLowerCase();
-    return path.startsWith('/student-portal') || path.startsWith('/dashboard') || path.startsWith('/admin');
+export function isPortalPage(path) {
+    if (!path) return false;
+    // Include all portal-related routes here
+    return path.startsWith('/examination-cell') || path.startsWith('/dashboard') || path.startsWith('/admin');
 };

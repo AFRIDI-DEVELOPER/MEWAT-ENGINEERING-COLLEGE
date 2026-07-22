@@ -78,7 +78,7 @@ export default function Navbar() {
                         </Link>
                         {isPortal && (
                             <div className="portal-nav-actions">
-                                {location.pathname === '/student-portal' && (
+                                {location.pathname === '/examination-cell' && (
                                     <Link to="/admin" className="portal-nav-btn admin-btn">
                                         <FiShield size={14} />
                                         <span>Admin</span>
@@ -100,8 +100,8 @@ export default function Navbar() {
                                         {link.name}
                                     </Link>
                                 ))}
-                                <Link to="/student-portal" className="nav-apply-btn">
-                                    <span className="btn-text">STUDENT PORTAL</span>
+                                <Link to="/examination-cell" className="nav-apply-btn">
+                                    <span className="btn-text">EXAMINATION CELL</span>
                                 </Link>
                             </div>
                         )}
@@ -131,8 +131,8 @@ export default function Navbar() {
                                 {link.name}
                             </Link>
                         ))}
-                        <Link to="/student-portal" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
-                            <span className="btn-text">STUDENT PORTAL</span>
+                        <Link to="/examination-cell" className="btn btn-primary" onClick={() => setMobileOpen(false)}>
+                            <span className="btn-text">EXAMINATION CELL</span>
                         </Link>
                     </>
                 ) : (

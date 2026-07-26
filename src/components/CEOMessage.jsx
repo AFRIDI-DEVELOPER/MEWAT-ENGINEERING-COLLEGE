@@ -3,17 +3,14 @@ import { motion } from 'framer-motion'
 import { getAssetPath } from '../utils/assets'
 
 const ceoData = {
-    name: 'CEO, Haryana Waqf Board',
-    title: 'Chief Executive Officer',
+    name: 'Sh. Mohammed Shayin, IAS',
+    title: 'The Chief Executive Officer',
     organization: 'Haryana Waqf Board',
     image: '/images/ceo.png',
     message: [
-        "I am extremely delighted to know that Mewat Engineering college has successfully completed a decade of its existence. This college laid its humble foundation in the year 2010. It has been established and run by Haryana Waqf board. This college is a unique initiative of Haryana Waqf Board and only one of its kind in the country, where the Waqf Board of a state has come forward to set up an institution for providing professionals education with the latest specialized knowledge and skills in the field of engineering and technology.",
-        "Our institution is committed to impart quality education with good human values, so that the prospective engineers can contribute in diversified fields of science and technology and come forward to serve the nation with technical knowledge, professional skills, practical experience and human values. Besides, our aim is to prepare them future ready to encounter with the challenges of global competitive arena.",
-        "Mewat Engineering College (Waqf) has the status of minority institution but it is open to all sections of the society. It aims to impart quality higher technical education primarily to the deprived students belonging to Muslim minority community concentrated in backward area of Mewat region. The College is located 85 km from Delhi and 50 km south of millennium city of Gurgaon.",
-        "The College has a majestic building having three-lac sq ft super area in the foothills of Aravallis with affordable fee structure. The state of the art infrastructure, well equipped laboratories, world class faculty and best hostel facilities for both boys and girls are at par with any reputed engineering college of the country.",
-        "The College is progressing steadily, and in the last few years we have constantly been working towards taking this institution even to greater heights. We would like you to consider joining us as the institution of your choice to further your goal of getting a higher professional degree.",
-        "I am confident that Mewat Engineering College will go a long way in achieving Board's mission of providing quality higher education to the students belonging to the most deprived sections of the society. I want to realize its dream of emerging as a center of excellence in various fields both in academia and non academia. For which, I solicit the participation from one and all.",
+        "I am extremely delighted to know that Mewat Engineering College has successfully completed a decade of its existence. This college is a unique initiative of Haryana Waqf Board and only one of its kinds in the country, where the Waqf Board of a state has come forward to set up an institution for providing professionals education with the latest specialized knowledge and skills in the field of engineering and technology. Our institution is committed to impart quality education with good human values, so that the prospective engineers can contribute in diversified fields of science and technology and come forward to serve the nation with technical knowledge, professional skills, practical experience and human values.",
+        "The college is progressing steadily, and in the last few years, we have constantly been working towards taking this institution even to greater heights. We would like you to consider joining us as the institution of your choice to further your goal of getting a higher professional degree.",
+        "I am confident that Mewat Engineering College will go a long way in achieving Board's mission of providing quality higher education to the students belonging to the most deprived sections of the society. I want to realize its dream of emerging as a center of excellence in various fields both in academia and non-academia. For which, I solicit the participation from one and all."
     ],
     blessings: "My blessings and best wishes are with the students of this college!"
 }
@@ -46,7 +43,7 @@ export default function CEOMessage() {
                             ) : (
                                 <img
                                     src={getAssetPath(ceoData.image)}
-                                    alt="CEO, Haryana Waqf Board"
+                                    alt="CEO Sh. Mohammed Shayin, IAS"
                                     onError={() => setImgError(true)}
                                 />
                             )}

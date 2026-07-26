@@ -1,9 +1,10 @@
+import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { departments as staticDepartments } from '../data/content'
 import { useDepartment } from '../hooks/useSupabase'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { FiArrowLeft, FiUser, FiBookOpen, FiCpu, FiLayers, FiAward, FiUsers, FiGrid, FiChevronRight } from 'react-icons/fi'
+import { FiArrowLeft, FiUser, FiBookOpen, FiCpu, FiLayers, FiAward, FiUsers, FiGrid, FiChevronRight, FiHelpCircle, FiChevronDown } from 'react-icons/fi'
 import { getAssetPath } from '../utils/assets'
 
 const fadeUp = {
@@ -82,6 +83,7 @@ export default function DepartmentDetail() {
     const { id } = useParams()
     const { data: sbDept, loading } = useDepartment(id)
     const staticDept = staticDepartments.find(d => d.id === id)
+    const [openFaq, setOpenFaq] = useState(null)
 
     // Normalize Supabase flat fields into nested shape used by UI
     const normalizeDept = (raw) => {
@@ -117,6 +119,83 @@ export default function DepartmentDetail() {
             </div>
         )
     }
+
+    // Estimate column heights to determine FAQ placement dynamically
+    const facultyCount = dept?.faculty?.length || 0
+    const labsCount = dept?.labs?.length || 0
+    const subjectsCount = dept?.subjects?.length || 0
+    const hasDetailedDesc = !!dept?.detailedDescription
+
+    const leftScore = 250 + (facultyCount * 150) + (hasDetailedDesc ? 200 : 0)
+    const rightScore = (subjectsCount * 15) + (labsCount * 70) + 220
+    const renderFaqsInLeft = leftScore < rightScore
+
+    const faqSection = dept.faqs && dept.faqs.length > 0 && (
+        <motion.div
+            className="dept-faq-card"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            style={{ marginTop: '45px' }}
+        >
+            <div className="dept-section-label">
+                <FiHelpCircle /> Frequently Asked Questions
+            </div>
+            <div className="dept-faq-list" style={{ marginTop: '20px' }}>
+                {dept.faqs.map((faq, index) => {
+                    const isOpen = openFaq === index
+                    return (
+                        <div key={index} className={`dept-faq-item ${isOpen ? 'active' : ''}`} style={{
+                            borderBottom: index < dept.faqs.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+                            padding: '16px 0'
+                        }}>
+                            <button
+                                onClick={() => setOpenFaq(isOpen ? null : index)}
+                                style={{
+                                    width: '100%',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    background: 'none',
+                                    border: 'none',
+                                    padding: 0,
+                                    cursor: 'pointer',
+                                    textAlign: 'left',
+                                    fontWeight: '600',
+                                    fontSize: '1rem',
+                                    color: 'var(--near-black)',
+                                    gap: '15px'
+                                }}
+                            >
+                                <span>{faq.q}</span>
+                                <FiChevronDown style={{
+                                    transform: isOpen ? 'rotate(180deg)' : 'none',
+                                    transition: 'transform 0.2s',
+                                    color: 'var(--dept-primary)',
+                                    flexShrink: 0
+                                }} />
+                            </button>
+                            {isOpen && (
+                                <motion.p 
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: 'auto' }}
+                                    style={{
+                                        marginTop: '10px',
+                                        fontSize: '0.92rem',
+                                        color: '#4a5568',
+                                        lineHeight: '1.6'
+                                    }}
+                                >
+                                    {faq.a}
+                                </motion.p>
+                            )}
+                        </div>
+                    )
+                })}
+            </div>
+        </motion.div>
+    )
 
     return (
         <div className="dept-detail-page" style={{
@@ -216,6 +295,7 @@ export default function DepartmentDetail() {
                 </div>
             </section>
 
+
             {/* ═══ MAIN CONTENT ═══ */}
             <section className="section dept-content-section">
                 <div className="container">
@@ -246,7 +326,7 @@ export default function DepartmentDetail() {
                                     <div className="dept-hod-info">
                                         <h3>{dept.hod.name}</h3>
                                         <p className="dept-hod-designation">{dept.hod.designation}</p>
-                                        <div className="dept-hod-meta" style={{ flexWrap: 'wrap', gap: '10px 0' }}>
+                                        <div className="dept-hod-meta" style={{ flexWrap: 'wrap', gap: '15px 24px' }}>
                                             {[
                                                 dept.hod.experience && { label: 'Experience', value: dept.hod.experience },
                                                 dept.hod.education && { label: 'Education', value: dept.hod.education },
@@ -298,10 +378,47 @@ export default function DepartmentDetail() {
                                     ))}
                                 </div>
                             </div>
+
+                            {/* Department Overview - placed after faculty to fill space */}
+                            {dept.detailedDescription && (
+                                <motion.div
+                                    className="dept-overview-card"
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.7 }}
+                                    style={{ marginTop: '45px' }}
+                                >
+                                    <div className="dept-overview-glow" style={{ background: `radial-gradient(ellipse at top left, ${theme.primaryLight}, transparent 60%)` }} />
+                                    <div className="dept-section-label">
+                                        <FiLayers /> Department Overview
+                                    </div>
+                                    <p className="dept-overview-text">{dept.detailedDescription}</p>
+                                </motion.div>
+                            )}
+                            {renderFaqsInLeft && faqSection}
                         </div>
 
                         {/* ── RIGHT SIDEBAR ── */}
                         <div className="dept-sidebar">
+
+                            {/* Subjects Card */}
+                            <motion.div
+                                className="dept-sidebar-card"
+                                initial={{ opacity: 0, x: 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.1 }}
+                            >
+                                <div className="dept-section-label">
+                                    <FiBookOpen /> Core Subjects
+                                </div>
+                                <div className="dept-subject-grid">
+                                    {dept.subjects.map((sub, i) => (
+                                        <span key={i} className="dept-subject-tag">{sub}</span>
+                                    ))}
+                                </div>
+                            </motion.div>
 
                             {/* Labs Card */}
                             <motion.div
@@ -309,6 +426,7 @@ export default function DepartmentDetail() {
                                 initial={{ opacity: 0, x: 30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
+                                transition={{ delay: 0.15 }}
                             >
                                 <div className="dept-section-label">
                                     <FiCpu /> Laboratory Infrastructure
@@ -333,23 +451,7 @@ export default function DepartmentDetail() {
                                 </div>
                             </motion.div>
 
-                            {/* Subjects Card */}
-                            <motion.div
-                                className="dept-sidebar-card"
-                                initial={{ opacity: 0, x: 30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: 0.15 }}
-                            >
-                                <div className="dept-section-label">
-                                    <FiBookOpen /> Core Subjects
-                                </div>
-                                <div className="dept-subject-grid">
-                                    {dept.subjects.map((sub, i) => (
-                                        <span key={i} className="dept-subject-tag">{sub}</span>
-                                    ))}
-                                </div>
-                            </motion.div>
+                            {!renderFaqsInLeft && faqSection}
 
                             {/* CTA */}
                             <motion.div

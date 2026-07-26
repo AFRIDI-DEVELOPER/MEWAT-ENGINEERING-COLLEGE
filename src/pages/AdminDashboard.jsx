@@ -1,28 +1,44 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase, addStudent, fetchDepartments } from '../lib/supabase';
 import SEO from '../components/SEO';
 import {
-    FiUsers, FiCalendar, FiClock, FiPlus, FiTrash2,
-    FiEdit2, FiSearch, FiGrid, FiBook, FiFileText,
-    FiLogOut, FiMail, FiLock
+    FiCalendar, FiPlus, FiTrash2, FiSearch, FiBook, FiFileText, FiLogOut, FiLock
 } from 'react-icons/fi';
+import { storeFile, deleteFile } from '../utils/db';
 import '../styles/admin-dashboard.css';
 
 const ADMIN_PASSWORD = 'admin1';
 const AUTH_KEY = 'mec_admin_auth';
 
 const TABS = {
-    OVERVIEW:   'overview',
-    STUDENTS:   'students',
-    SUBJECTS:   'subjects',
-    EXAMS:      'exams',
-    ATTENDANCE: 'attendance',
-    SYLLABUS:   'syllabus',
-    MESSAGES:   'messages',
+    DATESHEETS: 'datesheets',
+    NOTIFICATIONS: 'notifications',
+    QUESTION_PAPERS: 'question_papers',
 };
 
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DEFAULT_DATESHEETS = [
+    { id: 'ds1', title: 'B.Tech End Semester Theory Examination Datesheet (Regular/Re-appear) - Dec 2025', date: '05 Dec 2025', size: '240 KB', department: 'All B.Tech' },
+    { id: 'ds2', title: 'B.Tech Regular & Re-appear Practical/Viva-Voce Examination Schedule - Nov 2025', date: '28 Nov 2025', size: '180 KB', department: 'All B.Tech' },
+    { id: 'ds3', title: 'Diploma in Engineering Semester Examination Datesheet - Dec 2025', date: '02 Dec 2025', size: '215 KB', department: 'Diploma' },
+    { id: 'ds4', title: 'B.Tech Special Mercy Chance Examination Schedule - Jan 2026', date: '20 Dec 2025', size: '145 KB', department: 'All B.Tech' }
+];
+
+const DEFAULT_NOTIFICATIONS = [
+    { id: 'not1', title: 'Instructions to Candidates for End Semester Written Examinations', date: '10 Dec 2025', urgent: true, refNo: 'MEC/EXAM/2025/112' },
+    { id: 'not2', title: 'Online Submission of Regular/Re-appear Examination Forms - June 2026 Cycle', date: '12 May 2026', urgent: true, refNo: 'MEC/EXAM/2026/045' },
+    { id: 'not3', title: 'Application Form for Re-evaluation & Photocopy of Evaluated Answer Scripts', date: '18 Jul 2025', urgent: false, refNo: 'MEC/EXAM/REVAL/98' },
+    { id: 'not4', title: 'Corrigendum: Revision in Friday Examination Session Timings (Afternoon Shift)', date: '08 Dec 2025', urgent: false, refNo: 'MEC/EXAM/2025/118' }
+];
+
+const DEFAULT_QUESTION_PAPERS = [
+    { id: 'qp1', title: 'Data Structures (CSE-201) - B.Tech CSE (3rd Sem) - Dec 2024', subject: 'Data Structures', code: 'CSE-201', dept: 'CSE', sem: '3rd', year: '2024' },
+    { id: 'qp2', title: 'Thermodynamics (ME-203) - B.Tech ME (3rd Sem) - Dec 2024', subject: 'Thermodynamics', code: 'ME-203', dept: 'ME', sem: '3rd', year: '2024' },
+    { id: 'qp3', title: 'Fluid Mechanics (CE-205) - B.Tech CE (3rd Sem) - Dec 2024', subject: 'Fluid Mechanics', code: 'CE-205', dept: 'CE', sem: '3rd', year: '2024' },
+    { id: 'qp4', title: 'Analog Electronics (ECE-202) - B.Tech ECE (4th Sem) - May 2025', subject: 'Analog Electronics', code: 'ECE-202', dept: 'ECE', sem: '4th', year: '2025' },
+    { id: 'qp5', title: 'Engineering Physics (AS-101) - B.Tech (1st Sem) - Dec 2024', subject: 'Engineering Physics', code: 'AS-101', dept: 'Applied Sciences', sem: '1st', year: '2024' },
+    { id: 'qp6', title: 'Database Management Systems (CSE-301) - B.Tech CSE (5th Sem) - Dec 2024', subject: 'DBMS', code: 'CSE-301', dept: 'CSE', sem: '5th', year: '2024' },
+    { id: 'qp7', title: 'Power Systems (EE-302) - B.Tech EE (6th Sem) - May 2025', subject: 'Power Systems', code: 'EE-302', dept: 'EE', sem: '6th', year: '2025' }
+];
 
 export default function AdminDashboard() {
     const [isAuthenticated, setIsAuthenticated] = useState(() =>
@@ -31,52 +47,28 @@ export default function AdminDashboard() {
     const [loginPassword, setLoginPassword] = useState('');
     const [loginError, setLoginError] = useState('');
 
-    const [activeTab, setActiveTab]           = useState(TABS.OVERVIEW);
-    const [students, setStudents]             = useState([]);
-    const [departments, setDepartments]       = useState([]);
-    const [subjects, setSubjects]             = useState([]);
-    const [exams, setExams]                   = useState([]);
-    const [attendanceData, setAttendanceData] = useState([]);
-    const [syllabusData, setSyllabusData]     = useState([]);
-    const [messages, setMessages]             = useState([]);
-    const [isLoading, setIsLoading]           = useState(true);
-    const [showAddForm, setShowAddForm]       = useState(false);
-    const [editingStudent, setEditingStudent] = useState(null);
-    const [studentSearch, setStudentSearch]   = useState('');
-    const [confirmModal, setConfirmModal]     = useState({ show: false, title: '', message: '', onConfirm: null, type: 'danger' });
-    const [photoViewer, setPhotoViewer]       = useState(null);
-    const [cropModal, setCropModal]           = useState({ show: false, src: '' });
-    const [zoom, setZoom]                     = useState(1);
-    const [offset, setOffset]                 = useState({ x: 0, y: 0 });
-    const [dragging, setDragging]             = useState(false);
-    const [dragStart, setDragStart]           = useState({ x: 0, y: 0 });
-    const canvasRef                           = useRef(null);
-    const imgRef                              = useRef(null);
+    const [activeTab, setActiveTab] = useState(TABS.DATESHEETS);
+    const [showAddForm, setShowAddForm] = useState(false);
+    
+    // Exam cell data
+    const [datesheets, setDatesheets] = useState([]);
+    const [notifications, setNotifications] = useState([]);
+    const [questionPapers, setQuestionPapers] = useState([]);
 
-    const [newStudent, setNewStudent] = useState({
-        roll_no: '', name: '', department_id: '', year: 1, semester: 1, password_text: 'mec@123', photo_url: ''
-    });
-    const [newSubject, setNewSubject] = useState({
-        department_id: '', semester: 1, subject_name: '', subject_code: '', credits: 3, type: 'Core'
-    });
-    const [newExam, setNewExam] = useState({
-        subject_id: '', exam_date: '', start_time: '', duration: '3 Hours', venue: 'Main Hall', exam_type: 'End-Sem'
-    });
-    const [newAttendance, setNewAttendance] = useState({
-        student_roll_no: '',
-        month_name: MONTHS[new Date().getMonth()],
-        year: new Date().getFullYear(),
-        total_working_days: 26,
-        days_attended: 0
-    });
-    const [newSyllabus, setNewSyllabus] = useState({
-        subject_id: '', unit_no: 1, title: '', topics: ''
-    });
+    // File Upload States
+    const [datesheetFile, setDatesheetFile] = useState(null);
+    const [notificationFile, setNotificationFile] = useState(null);
+    const [qpFile, setQpFile] = useState(null);
+
+    const [newDatesheet, setNewDatesheet] = useState({ title: '', department: 'All B.Tech' });
+    const [newNotification, setNewNotification] = useState({ title: '', refNo: '', urgent: false });
+    const [newQP, setNewQP] = useState({ subject: '', code: '', dept: 'CSE', sem: '1st', year: String(new Date().getFullYear()) });
+
+    const [confirmModal, setConfirmModal] = useState({ show: false, title: '', message: '', onConfirm: null, type: 'danger' });
 
     const navigate = useNavigate();
 
     // ─── AUTH ─────────────────────────────────────────────────────────────────
-
     const handleLogin = (e) => {
         e.preventDefault();
         if (loginPassword === ADMIN_PASSWORD) {
@@ -95,272 +87,507 @@ export default function AdminDashboard() {
         navigate('/');
     };
 
-    // ─── DATA ─────────────────────────────────────────────────────────────────
-
+    // ─── DATA SYNC ────────────────────────────────────────────────────────────
     useEffect(() => {
-        if (isAuthenticated) loadData();
-    }, [isAuthenticated]);
+        if (isAuthenticated) {
+            const localDS = localStorage.getItem('mec_datesheets');
+            const localNot = localStorage.getItem('mec_notifications');
+            const localQP = localStorage.getItem('mec_qpapers');
 
-    const loadData = async () => {
-        setIsLoading(true);
-        try {
-            const [studentsRes, subjectsRes, examsRes, attRes, syllabusRes, deptsData, messagesRes] = await Promise.all([
-                supabase.from('students').select('*, departments(name)'),
-                supabase.from('subjects').select('*, departments(name)'),
-                supabase.from('exams').select('*, subjects(subject_name, subject_code)'),
-                supabase.from('monthly_attendance').select('*, students(name)'),
-                supabase.from('syllabus').select('*, subjects(subject_name)').order('unit_no', { ascending: true }),
-                fetchDepartments(),
-                supabase.from('contact_submissions').select('*').order('created_at', { ascending: false })
-            ]);
+            if (localDS) setDatesheets(JSON.parse(localDS));
+            else {
+                setDatesheets(DEFAULT_DATESHEETS);
+                localStorage.setItem('mec_datesheets', JSON.stringify(DEFAULT_DATESHEETS));
+            }
 
-            setStudents(studentsRes.data || []);
-            setSubjects(subjectsRes.data || []);
-            setExams(examsRes.data || []);
-            setAttendanceData(attRes.data || []);
-            setSyllabusData(syllabusRes.data || []);
-            setDepartments(deptsData || []);
-            setMessages(messagesRes.data || []);
+            if (localNot) setNotifications(JSON.parse(localNot));
+            else {
+                setNotifications(DEFAULT_NOTIFICATIONS);
+                localStorage.setItem('mec_notifications', JSON.stringify(DEFAULT_NOTIFICATIONS));
+            }
 
-            const firstDeptId = deptsData?.[0]?.id || '';
-            setNewStudent(prev => prev.department_id ? prev : { ...prev, department_id: firstDeptId });
-            setNewSubject(prev => prev.department_id ? prev : { ...prev, department_id: firstDeptId });
-        } catch {
-            // data stays empty; tables will show empty state
-        } finally {
-            setIsLoading(false);
+            if (localQP) setQuestionPapers(JSON.parse(localQP));
+            else {
+                setQuestionPapers(DEFAULT_QUESTION_PAPERS);
+                localStorage.setItem('mec_qpapers', JSON.stringify(DEFAULT_QUESTION_PAPERS));
+            }
         }
-    };
+    }, [isAuthenticated]);
 
     const switchTab = (tab) => {
         setActiveTab(tab);
         setShowAddForm(false);
-        setEditingStudent(null);
     };
 
     const closeModal = () => setConfirmModal(prev => ({ ...prev, show: false }));
 
-    // ─── HANDLERS ─────────────────────────────────────────────────────────────
-
-    const handlePhotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setZoom(1);
-            setOffset({ x: 0, y: 0 });
-            setCropModal({ show: true, src: reader.result });
-        };
-        reader.readAsDataURL(file);
-        // reset input so same file can be re-selected
-        e.target.value = '';
-    };
-
-    const drawCanvas = useCallback(() => {
-        const canvas = canvasRef.current;
-        const img = imgRef.current;
-        if (!canvas || !img) return;
-        const SIZE = 300;
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, SIZE, SIZE);
-        // Clip to circle
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(SIZE / 2, SIZE / 2, SIZE / 2, 0, Math.PI * 2);
-        ctx.clip();
-        // Draw image centred + zoomed + offset
-        const scale = zoom;
-        const sw = img.naturalWidth * scale;
-        const sh = img.naturalHeight * scale;
-        const sx = (SIZE - sw) / 2 + offset.x;
-        const sy = (SIZE - sh) / 2 + offset.y;
-        ctx.drawImage(img, sx, sy, sw, sh);
-        ctx.restore();
-        // Border ring
-        ctx.strokeStyle = '#c9a84c';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(SIZE / 2, SIZE / 2, SIZE / 2 - 2, 0, Math.PI * 2);
-        ctx.stroke();
-    }, [zoom, offset]);
-
-    useEffect(() => { if (cropModal.show) drawCanvas(); }, [zoom, offset, cropModal.show, drawCanvas]);
-
-    const handleCropSave = () => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.92);
-        setNewStudent(prev => ({ ...prev, photo_url: dataUrl }));
-        setCropModal({ show: false, src: '' });
-    };
-
-    const handleMouseDown = (e) => {
-        setDragging(true);
-        setDragStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
-    };
-    const handleMouseMove = (e) => {
-        if (!dragging) return;
-        setOffset({ x: e.clientX - dragStart.x, y: e.clientY - dragStart.y });
-    };
-    const handleMouseUp = () => setDragging(false);
-
-    // Touch support
-    const handleTouchStart = (e) => {
-        const t = e.touches[0];
-        setDragging(true);
-        setDragStart({ x: t.clientX - offset.x, y: t.clientY - offset.y });
-    };
-    const handleTouchMove = (e) => {
-        if (!dragging) return;
-        const t = e.touches[0];
-        setOffset({ x: t.clientX - dragStart.x, y: t.clientY - dragStart.y });
-    };
-
-    const handleAddStudent = async (e) => {
+    // ─── EXAMINATION CELL CRUD HANDLERS ───────────────────────────────────────
+    const handleAddDatesheet = async (e) => {
         e.preventDefault();
-        if (!newStudent.roll_no || !newStudent.name) return alert('Please fill in Roll No and Name');
+        if (!datesheetFile) return alert('Please select a PDF file to upload.');
+
+        const dsId = 'ds_' + Date.now();
+        const size = Math.round(datesheetFile.size / 1024) + ' KB';
+
         try {
-            const payload = {
-                roll_no: newStudent.roll_no,
-                name: newStudent.name,
-                department_id: newStudent.department_id,
-                year: newStudent.year,
-                semester: newStudent.semester,
-                password_text: newStudent.password_text,
-                photo_url: newStudent.photo_url || null
+            await storeFile('file_' + dsId, datesheetFile);
+            
+            const ds = {
+                id: dsId,
+                title: newDatesheet.title,
+                department: newDatesheet.department,
+                size: size,
+                date: new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
+                hasFile: true
             };
-            if (editingStudent) {
-                const { error } = await supabase.from('students').update(payload).eq('id', editingStudent.id);
-                if (error) throw error;
-            } else {
-                await addStudent(payload);
-            }
+            const updated = [ds, ...datesheets];
+            setDatesheets(updated);
+            localStorage.setItem('mec_datesheets', JSON.stringify(updated));
+            setNewDatesheet({ title: '', department: 'All B.Tech' });
+            setDatesheetFile(null);
             setShowAddForm(false);
-            setEditingStudent(null);
-            setNewStudent({ roll_no: '', name: '', department_id: departments[0]?.id || '', year: 1, semester: 1, password_text: 'mec@123', photo_url: '' });
-            loadData();
-        } catch (error) {
-            alert(`Error: ${error.message}`);
+        } catch (err) {
+            alert('Error storing file: ' + err.message);
         }
     };
 
-    const handleAddSubject = async (e) => {
-        e.preventDefault();
-        try {
-            const { error } = await supabase.from('subjects').insert([newSubject]);
-            if (error) throw error;
-            setShowAddForm(false);
-            loadData();
-        } catch (error) {
-            alert(`Error: ${error.message}`);
-        }
+    const handleDeleteDatesheet = async (id) => {
+        const updated = datesheets.filter(d => d.id !== id);
+        setDatesheets(updated);
+        localStorage.setItem('mec_datesheets', JSON.stringify(updated));
+        await deleteFile('file_' + id);
     };
 
-    const handleAddExam = async (e) => {
+    const handleAddNotification = async (e) => {
         e.preventDefault();
-        try {
-            const { error } = await supabase.from('exams').insert([newExam]);
-            if (error) throw error;
-            setShowAddForm(false);
-            loadData();
-        } catch (error) {
-            alert(`Error: ${error.message}`);
-        }
-    };
+        if (!notificationFile) return alert('Please select a PDF file to upload.');
 
-    const handleAddAttendance = async (e) => {
-        e.preventDefault();
-        if (!newAttendance.student_roll_no) return alert('Please select a student first');
-        try {
-            const { error } = await supabase.from('monthly_attendance').upsert(newAttendance, {
-                onConflict: 'student_roll_no,month_name,year'
-            });
-            if (error) throw error;
-            loadData();
-        } catch (error) {
-            alert(`Error: ${error.message}`);
-        }
-    };
+        const notId = 'not_' + Date.now();
+        const size = Math.round(notificationFile.size / 1024) + ' KB';
 
-    const handleAddSyllabus = async (e) => {
-        e.preventDefault();
-        if (!newSyllabus.subject_id) return alert('Please select a subject first');
-        if (!newSyllabus.title) return alert('Please enter a unit title');
         try {
-            const { data: currentUnits, error: fetchError } = await supabase
-                .from('syllabus')
-                .select('unit_no')
-                .eq('subject_id', newSyllabus.subject_id)
-                .order('unit_no', { ascending: false })
-                .limit(1);
-            if (fetchError) throw fetchError;
+            await storeFile('file_' + notId, notificationFile);
 
-            const nextUnitNo = currentUnits?.length > 0 ? currentUnits[0].unit_no + 1 : 1;
-            const formattedSyllabus = {
-                ...newSyllabus,
-                unit_no: nextUnitNo,
-                topics: newSyllabus.topics.split(',').map(t => t.trim()).filter(t => t !== '')
+            const not = {
+                id: notId,
+                title: newNotification.title,
+                refNo: newNotification.refNo || `MEC/EXAM/${new Date().getFullYear()}/${Math.floor(100 + Math.random() * 900)}`,
+                urgent: newNotification.urgent,
+                size: size,
+                date: new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
+                hasFile: true
             };
-            const { error: insertError } = await supabase.from('syllabus').insert([formattedSyllabus]);
-            if (insertError) throw insertError;
-            setNewSyllabus({ ...newSyllabus, title: '', topics: '' });
-            loadData();
-        } catch (error) {
-            alert(`Error: ${error.message}`);
+            const updated = [not, ...notifications];
+            setNotifications(updated);
+            localStorage.setItem('mec_notifications', JSON.stringify(updated));
+            setNewNotification({ title: '', refNo: '', urgent: false });
+            setNotificationFile(null);
+            setShowAddForm(false);
+        } catch (err) {
+            alert('Error storing file: ' + err.message);
         }
     };
 
-    const handleDeleteStudent = (studentId) => {
-        setConfirmModal({
-            show: true, title: 'Delete Student',
-            message: 'Are you sure you want to delete this student? This action cannot be undone.',
-            type: 'danger',
-            onConfirm: async () => {
-                try {
-                    const { error } = await supabase.from('students').delete().eq('id', studentId);
-                    if (error) throw error;
-                    loadData(); closeModal();
-                } catch (error) { alert(`Error: ${error.message}`); }
-            }
-        });
+    const handleDeleteNotification = async (id) => {
+        const updated = notifications.filter(n => n.id !== id);
+        setNotifications(updated);
+        localStorage.setItem('mec_notifications', JSON.stringify(updated));
+        await deleteFile('file_' + id);
     };
 
-    const handleEditStudent = (s) => {
-        setEditingStudent(s);
-        setNewStudent({ roll_no: s.roll_no, name: s.name, department_id: s.department_id, year: s.year, semester: s.semester, password_text: s.password_text, photo_url: s.photo_url || '' });
-        setShowAddForm(true);
+    const handleAddQP = async (e) => {
+        e.preventDefault();
+        if (!qpFile) return alert('Please select a PDF file to upload.');
+
+        const qpId = 'qp_' + Date.now();
+        const size = Math.round(qpFile.size / 1024) + ' KB';
+
+        try {
+            await storeFile('file_' + qpId, qpFile);
+
+            const qp = {
+                id: qpId,
+                title: `${newQP.subject} (${newQP.code}) - B.Tech ${newQP.dept} (${newQP.sem} Sem) - Dec ${newQP.year}`,
+                subject: newQP.subject,
+                code: newQP.code,
+                dept: newQP.dept,
+                sem: newQP.sem,
+                year: newQP.year,
+                size: size,
+                hasFile: true
+            };
+            const updated = [qp, ...questionPapers];
+            setQuestionPapers(updated);
+            localStorage.setItem('mec_qpapers', JSON.stringify(updated));
+            setNewQP({ subject: '', code: '', dept: 'CSE', sem: '1st', year: String(new Date().getFullYear()) });
+            setQpFile(null);
+            setShowAddForm(false);
+        } catch (err) {
+            alert('Error storing file: ' + err.message);
+        }
     };
+
+    const handleDeleteQP = async (id) => {
+        const updated = questionPapers.filter(q => q.id !== id);
+        setQuestionPapers(updated);
+        localStorage.setItem('mec_qpapers', JSON.stringify(updated));
+        await deleteFile('file_' + id);
+    };
+
+    // ─── RENDERS ──────────────────────────────────────────────────────────────
+    const renderDatesheetsTab = () => (
+        <div className="admin-tab-content">
+            <div className="admin-header-row">
+                <h1>Datesheet Management</h1>
+                <button className="primary-btn" onClick={() => setShowAddForm(!showAddForm)}>
+                    <FiPlus /> {showAddForm ? 'Cancel' : 'Add Datesheet'}
+                </button>
+            </div>
+
+            {showAddForm && (
+                <div className="admin-form-container">
+                    <form onSubmit={handleAddDatesheet}>
+                        <div className="form-grid">
+                            <div className="form-group">
+                                <label>Datesheet Title</label>
+                                <input 
+                                    type="text" 
+                                    value={newDatesheet.title} 
+                                    onChange={e => setNewDatesheet({...newDatesheet, title: e.target.value})} 
+                                    placeholder="e.g. B.Tech Theory Datesheet Dec 2025" 
+                                    required 
+                                />
+                            </div>
+                            <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', gridColumn: 'span 2' }}>
+                                <div className="form-group">
+                                    <label>Target Department / Stream</label>
+                                    <select 
+                                        value={newDatesheet.department} 
+                                        onChange={e => setNewDatesheet({...newDatesheet, department: e.target.value})} 
+                                        required
+                                    >
+                                        {['All B.Tech', 'Diploma', 'CSE', 'ME', 'CE', 'ECE', 'EE', 'Applied Sciences'].map(d => (
+                                            <option key={d} value={d}>{d}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Upload PDF Document</label>
+                                    <input 
+                                        type="file" 
+                                        accept="application/pdf"
+                                        onChange={e => setDatesheetFile(e.target.files[0])}
+                                        style={{ border: 'none', background: 'none', padding: '8px 0' }}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Upload & Save Datesheet</button>
+                    </form>
+                </div>
+            )}
+
+            <div className="admin-table-container">
+                <table className="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Department</th>
+                            <th>Publish Date</th>
+                            <th>Size</th>
+                            <th style={{ width: '100px' }}>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {datesheets.length > 0 ? datesheets.map(ds => (
+                            <tr key={ds.id}>
+                                <td style={{ fontWeight: '600' }}>{ds.title}</td>
+                                <td><span className="dept-tag">{ds.department}</span></td>
+                                <td>{ds.date}</td>
+                                <td>{ds.size}</td>
+                                <td>
+                                    <button 
+                                        className="icon-btn delete" 
+                                        onClick={() => {
+                                            setConfirmModal({
+                                                show: true, title: 'Delete Datesheet',
+                                                message: `Are you sure you want to delete datesheet "${ds.title}"?`,
+                                                type: 'danger',
+                                                onConfirm: () => { handleDeleteDatesheet(ds.id); closeModal(); }
+                                            });
+                                        }}
+                                    >
+                                        <FiTrash2 />
+                                    </button>
+                                </td>
+                            </tr>
+                        )) : (
+                            <tr><td colSpan="5" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>No datesheets added yet.</td></tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+
+    const renderNotificationsTab = () => (
+        <div className="admin-tab-content">
+            <div className="admin-header-row">
+                <h1>Exam Notification Management</h1>
+                <button className="primary-btn" onClick={() => setShowAddForm(!showAddForm)}>
+                    <FiPlus /> {showAddForm ? 'Cancel' : 'Add Notification'}
+                </button>
+            </div>
+
+            {showAddForm && (
+                <div className="admin-form-container">
+                    <form onSubmit={handleAddNotification}>
+                        <div className="form-grid">
+                            <div className="form-group">
+                                <label>Notification Title</label>
+                                <input 
+                                    type="text" 
+                                    value={newNotification.title} 
+                                    onChange={e => setNewNotification({...newNotification, title: e.target.value})} 
+                                    placeholder="e.g. Online Submission of Exam Forms Regular/Re-appear" 
+                                    required 
+                                />
+                            </div>
+                            <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', gridColumn: 'span 2' }}>
+                                <div className="form-group">
+                                    <label>Reference Number (Optional)</label>
+                                    <input 
+                                        type="text" 
+                                        value={newNotification.refNo} 
+                                        onChange={e => setNewNotification({...newNotification, refNo: e.target.value})} 
+                                        placeholder="e.g. MEC/EXAM/2026/045" 
+                                    />
+                                </div>
+                                <div className="form-group">
+                                    <label>Upload PDF Document</label>
+                                    <input 
+                                        type="file" 
+                                        accept="application/pdf"
+                                        onChange={e => setNotificationFile(e.target.files[0])}
+                                        style={{ border: 'none', background: 'none', padding: '8px 0' }}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '8px', gridColumn: 'span 2', marginTop: '6px' }}>
+                                <input 
+                                    type="checkbox" 
+                                    id="urgent"
+                                    checked={newNotification.urgent} 
+                                    onChange={e => setNewNotification({...newNotification, urgent: e.target.checked})} 
+                                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                                />
+                                <label htmlFor="urgent" style={{ cursor: 'pointer', margin: 0, fontWeight: '600' }}>Mark as Urgent Notification</label>
+                            </div>
+                        </div>
+                        <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Publish Notification</button>
+                    </form>
+                </div>
+            )}
+
+            <div className="admin-table-container">
+                <table className="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Ref Number</th>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Publish Date</th>
+                            <th style={{ width: '100px' }}>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {notifications.length > 0 ? notifications.map(not => (
+                            <tr key={not.id}>
+                                <td style={{ fontWeight: '600', fontFamily: 'monospace' }}>{not.refNo}</td>
+                                <td>{not.title}</td>
+                                <td>
+                                    {not.urgent ? (
+                                        <span style={{ background: '#fef2f2', color: '#dc2626', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '700' }}>URGENT</span>
+                                    ) : (
+                                        <span style={{ background: '#f8fafc', color: '#64748b', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600' }}>Standard</span>
+                                    )}
+                                </td>
+                                <td>{not.date}</td>
+                                <td>
+                                    <button 
+                                        className="icon-btn delete" 
+                                        onClick={() => {
+                                            setConfirmModal({
+                                                show: true, title: 'Delete Notification',
+                                                message: `Are you sure you want to delete notification "${not.title}"?`,
+                                                type: 'danger',
+                                                onConfirm: () => { handleDeleteNotification(not.id); closeModal(); }
+                                            });
+                                        }}
+                                    >
+                                        <FiTrash2 />
+                                    </button>
+                                </td>
+                            </tr>
+                        )) : (
+                            <tr><td colSpan="5" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>No notifications added yet.</td></tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
+
+    const renderQuestionPapersTab = () => (
+        <div className="admin-tab-content">
+            <div className="admin-header-row">
+                <h1>Question Paper Repository</h1>
+                <button className="primary-btn" onClick={() => setShowAddForm(!showAddForm)}>
+                    <FiPlus /> {showAddForm ? 'Cancel' : 'Add Question Paper'}
+                </button>
+            </div>
+
+            {showAddForm && (
+                <div className="admin-form-container">
+                    <form onSubmit={handleAddQP}>
+                        <div className="form-grid">
+                            <div className="form-group">
+                                <label>Subject / Course Title</label>
+                                <input 
+                                    type="text" 
+                                    value={newQP.subject} 
+                                    onChange={e => setNewQP({...newQP, subject: e.target.value})} 
+                                    placeholder="e.g. Data Structures, Thermodynamics" 
+                                    required 
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Subject Code</label>
+                                <input 
+                                    type="text" 
+                                    value={newQP.code} 
+                                    onChange={e => setNewQP({...newQP, code: e.target.value})} 
+                                    placeholder="e.g. CSE-201, ME-203" 
+                                    required 
+                                />
+                            </div>
+                            <div className="form-grid-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', gridColumn: 'span 2' }}>
+                                <div className="form-group">
+                                    <label>Department</label>
+                                    <select value={newQP.dept} onChange={e => setNewQP({...newQP, dept: e.target.value})} required>
+                                        {['CSE', 'ME', 'CE', 'ECE', 'EE', 'Applied Sciences'].map(d => <option key={d} value={d}>{d}</option>)}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Semester</label>
+                                    <select value={newQP.sem} onChange={e => setNewQP({...newQP, sem: e.target.value})} required>
+                                        {['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'].map(s => <option key={s} value={s}>{s}</option>)}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label>Session / Examination Year</label>
+                                    <input 
+                                        type="number" 
+                                        value={newQP.year} 
+                                        onChange={e => setNewQP({...newQP, year: e.target.value})} 
+                                        min="2010" 
+                                        max="2035" 
+                                        required 
+                                    />
+                                </div>
+                            </div>
+                            <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                                <label>Upload PDF Document</label>
+                                <input 
+                                    type="file" 
+                                    accept="application/pdf"
+                                    onChange={e => setQpFile(e.target.files[0])}
+                                    style={{ border: 'none', background: 'none', padding: '8px 0' }}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Upload Question Paper Details</button>
+                    </form>
+                </div>
+            )}
+
+            <div className="admin-table-container">
+                <table className="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Code</th>
+                            <th>Dept</th>
+                            <th>Sem</th>
+                            <th>Session</th>
+                            <th style={{ width: '100px' }}>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {questionPapers.length > 0 ? questionPapers.map(qp => (
+                            <tr key={qp.id}>
+                                <td style={{ fontWeight: '600' }}>{qp.subject}</td>
+                                <td style={{ fontFamily: 'monospace' }}>{qp.code}</td>
+                                <td><span className="dept-tag">{qp.dept}</span></td>
+                                <td>{qp.sem} Sem</td>
+                                <td>Dec {qp.year}</td>
+                                <td>
+                                    <button 
+                                        className="icon-btn delete" 
+                                        onClick={() => {
+                                            setConfirmModal({
+                                                show: true, title: 'Delete Question Paper',
+                                                message: `Are you sure you want to delete question paper for "${qp.subject}"?`,
+                                                type: 'danger',
+                                                onConfirm: () => { handleDeleteQP(qp.id); closeModal(); }
+                                            });
+                                        }}
+                                    >
+                                        <FiTrash2 />
+                                    </button>
+                                </td>
+                            </tr>
+                        )) : (
+                            <tr><td colSpan="6" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>No question papers added yet.</td></tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 
     // ─── LOGIN SCREEN ─────────────────────────────────────────────────────────
-
     if (!isAuthenticated) {
         return (
-            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f3f4f6', paddingTop: '80px' }}>
-                <SEO title="Admin Login" description="MEC Admin Login" />
-                <div style={{ background: '#fff', borderRadius: '16px', padding: '2.5rem', width: '100%', maxWidth: '400px', boxShadow: '0 4px 24px rgba(0,0,0,0.08)', border: '1px solid #e5e7eb' }}>
+            <div className="admin-dashboard-login" style={{ background: '#f3f4f6', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+                <SEO title="Admin Login" description="MEC Administrative Login" />
+                <div className="login-card glass-card" style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: '16px', padding: '2.5rem', width: '100%', maxWidth: '400px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
                     <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-                        <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1rem', fontSize: '1.5rem', color: '#2563eb' }}>
+                        <div style={{ background: '#eff6ff', color: '#2563eb', width: '56px', height: '56px', borderRadius: '12px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.75rem', marginBottom: '1rem' }}>
                             <FiLock />
                         </div>
-                        <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '700', color: '#111827' }}>Admin Login</h2>
-                        <p style={{ margin: '0.5rem 0 0', color: '#6b7280', fontSize: '0.9rem' }}>MEC Administrative Panel</p>
+                        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#111827', margin: 0 }}>MEC Admin Panel</h2>
+                        <p style={{ fontSize: '0.875rem', color: '#6b7280', marginTop: '6px' }}>Enter password to access control panel</p>
                     </div>
-                    <form onSubmit={handleLogin}>
-                        <div className="form-group" style={{ marginBottom: '1rem' }}>
-                            <label>Password</label>
+
+                    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                            <label style={{ fontSize: '0.85rem', fontWeight: 600, color: '#374151' }}>Password</label>
                             <input
                                 type="password"
                                 value={loginPassword}
-                                onChange={e => { setLoginPassword(e.target.value); setLoginError(''); }}
-                                placeholder="Enter admin password"
-                                autoFocus
+                                onChange={(e) => setLoginPassword(e.target.value)}
+                                placeholder="••••••••"
+                                style={{ width: '100%', padding: '10px 14px', border: '1px solid #d1d5db', borderRadius: '8px', outline: 'none', transition: 'border-color 0.2s' }}
+                                required
                             />
                         </div>
-                        {loginError && (
-                            <p style={{ color: '#dc2626', fontSize: '0.85rem', margin: '0 0 1rem', fontWeight: '500' }}>{loginError}</p>
-                        )}
-                        <button type="submit" className="primary-btn" style={{ width: '100%', justifyContent: 'center' }}>
-                            <FiLock /> Sign In
+                        {loginError && <p style={{ color: '#ef4444', fontSize: '0.8rem', margin: 0 }}>{loginError}</p>}
+                        <button type="submit" className="primary-btn" style={{ width: '100%', padding: '12px', borderRadius: '8px', fontWeight: 600, display: 'flex', justifyContent: 'center' }}>
+                            Access Dashboard
                         </button>
                     </form>
                 </div>
@@ -368,471 +595,7 @@ export default function AdminDashboard() {
         );
     }
 
-    // ─── TABS ─────────────────────────────────────────────────────────────────
-
-    const renderOverview = () => {
-        const deptBreakdown = departments.map(d => ({
-            name: d.name,
-            count: students.filter(s => s.department_id === d.id).length
-        })).filter(d => d.count > 0);
-
-        return (
-            <div className="admin-tab-content">
-                <div className="admin-header-row"><h1>Dashboard Overview</h1></div>
-                <div className="admin-stats-grid">
-                    <div className="admin-stat-card">
-                        <div className="stat-icon"><FiUsers /></div>
-                        <div className="stat-info"><h4>Total Students</h4><p className="stat-value">{students.length}</p></div>
-                    </div>
-                    <div className="admin-stat-card">
-                        <div className="stat-icon"><FiBook /></div>
-                        <div className="stat-info"><h4>Total Subjects</h4><p className="stat-value">{subjects.length}</p></div>
-                    </div>
-                    <div className="admin-stat-card">
-                        <div className="stat-icon"><FiCalendar /></div>
-                        <div className="stat-info"><h4>Scheduled Exams</h4><p className="stat-value">{exams.length}</p></div>
-                    </div>
-                    <div className="admin-stat-card">
-                        <div className="stat-icon" style={{ background: '#f0fdf4', color: '#16a34a' }}><FiMail /></div>
-                        <div className="stat-info"><h4>Contact Messages</h4><p className="stat-value">{messages.length}</p></div>
-                    </div>
-                </div>
-
-                {deptBreakdown.length > 0 && (
-                    <div>
-                        <h3 style={{ color: '#374151', marginBottom: '1rem', fontSize: '1rem', fontWeight: '600' }}>Students by Department</h3>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            {deptBreakdown.map(d => (
-                                <div key={d.name} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                    <span style={{ width: '180px', fontSize: '0.875rem', color: '#6b7280', flexShrink: 0 }}>{d.name}</span>
-                                    <div style={{ flex: 1, background: '#f3f4f6', borderRadius: '99px', height: '8px', overflow: 'hidden' }}>
-                                        <div style={{ width: `${students.length ? (d.count / students.length * 100) : 0}%`, background: '#2563eb', height: '100%', borderRadius: '99px', transition: 'width 0.6s ease' }} />
-                                    </div>
-                                    <span style={{ width: '32px', textAlign: 'right', fontWeight: '700', fontSize: '0.875rem', color: '#111827' }}>{d.count}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
-    };
-
-    const filteredStudents = students.filter(s =>
-        !studentSearch ||
-        s.name?.toLowerCase().includes(studentSearch.toLowerCase()) ||
-        s.roll_no?.toLowerCase().includes(studentSearch.toLowerCase())
-    );
-
-    const renderStudentsTab = () => (
-        <div className="admin-tab-content">
-            <div className="admin-header-row">
-                <h1>Student Management</h1>
-                <button
-                    className={showAddForm ? 'secondary-btn' : 'primary-btn'}
-                    onClick={() => {
-                        if (showAddForm) { setEditingStudent(null); setNewStudent({ roll_no: '', name: '', department_id: departments[0]?.id || '', year: 1, semester: 1, password_text: 'mec@123' }); }
-                        setShowAddForm(!showAddForm);
-                    }}
-                >
-                    <FiPlus /> {showAddForm ? 'Cancel' : 'Add Student'}
-                </button>
-            </div>
-
-            {showAddForm && (
-                <div className="admin-form-container">
-                    <form onSubmit={handleAddStudent}>
-                        {/* Photo Upload */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.5rem' }}>
-                            <div style={{
-                                width: '90px', height: '90px', borderRadius: '50%',
-                                background: '#f3f4f6', border: '2px dashed #d1d5db',
-                                overflow: 'hidden', flexShrink: 0, display: 'flex',
-                                alignItems: 'center', justifyContent: 'center'
-                            }}>
-                                {newStudent.photo_url
-                                    ? <img src={newStudent.photo_url} alt="Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                    : <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                                }
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', fontWeight: '600', fontSize: '0.875rem', color: '#374151', marginBottom: '6px' }}>Student Photo</label>
-                                <label htmlFor="photo-upload" style={{
-                                    display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                    background: '#2563eb', color: '#fff', padding: '8px 16px',
-                                    borderRadius: '8px', fontSize: '0.85rem', fontWeight: '600',
-                                    cursor: 'pointer', transition: 'background 0.2s'
-                                }}>
-                                    📷 Upload Photo
-                                </label>
-                                <input id="photo-upload" type="file" accept="image/*" onChange={handlePhotoUpload} style={{ display: 'none' }} />
-                                {newStudent.photo_url && (
-                                    <button type="button" onClick={() => setNewStudent(prev => ({...prev, photo_url: ''}))} style={{ marginLeft: '10px', background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.85rem', fontWeight: '600' }}>Remove</button>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="form-grid">
-                            <div className="form-group"><label>Roll Number</label><input type="text" required value={newStudent.roll_no} onChange={e => setNewStudent({...newStudent, roll_no: e.target.value})} /></div>
-                            <div className="form-group"><label>Full Name</label><input type="text" required value={newStudent.name} onChange={e => setNewStudent({...newStudent, name: e.target.value})} /></div>
-                            <div className="form-group"><label>Portal Password</label><input type="text" required value={newStudent.password_text} onChange={e => setNewStudent({...newStudent, password_text: e.target.value})} /></div>
-                            <div className="form-group"><label>Department</label>
-                                <select value={newStudent.department_id} onChange={e => setNewStudent({...newStudent, department_id: e.target.value})}>
-                                    {departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
-                                </select>
-                            </div>
-                            <div className="form-group"><label>Semester</label>
-                                <select value={newStudent.semester} onChange={e => { const sem = parseInt(e.target.value); setNewStudent({...newStudent, semester: sem, year: Math.ceil(sem / 2)}); }}>
-                                    {[1,2,3,4,5,6,7,8].map(s => <option key={s} value={s}>Semester {s}</option>)}
-                                </select>
-                            </div>
-                        </div>
-                        <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'flex-end' }}>
-                            <button type="submit" className="primary-btn">{editingStudent ? 'Update Student' : 'Save Student'}</button>
-                        </div>
-                    </form>
-                </div>
-            )}
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '1rem', background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '10px 14px' }}>
-                <FiSearch color="#9ca3af" />
-                <input
-                    type="text"
-                    placeholder="Search by name or roll number…"
-                    value={studentSearch}
-                    onChange={e => setStudentSearch(e.target.value)}
-                    style={{ border: 'none', background: 'transparent', outline: 'none', flex: 1, fontSize: '0.95rem', color: '#374151' }}
-                />
-                {studentSearch && <button onClick={() => setStudentSearch('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', fontSize: '1rem' }}>✕</button>}
-            </div>
-
-            <div className="admin-table-container">
-                <table className="admin-table">
-                    <thead><tr><th>Photo</th><th>Roll No</th><th>Name</th><th>Dept</th><th>Sem</th><th>Password</th><th>Actions</th></tr></thead>
-                    <tbody>
-                        {filteredStudents.length > 0 ? filteredStudents.map(s => (
-                            <tr key={s.id}>
-                                <td>
-                                    <div 
-                                        style={{ width: '42px', height: '42px', borderRadius: '50%', overflow: 'hidden', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, cursor: s.photo_url ? 'pointer' : 'default' }}
-                                        onClick={() => s.photo_url && setPhotoViewer(s.photo_url)}
-                                    >
-                                        {s.photo_url
-                                            ? <img src={s.photo_url} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                            : <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                                        }
-                                    </div>
-                                </td>
-                                <td>{s.roll_no}</td><td style={{ fontWeight: '600' }}>{s.name}</td><td>{s.departments?.name}</td><td>{s.semester}</td>
-                                <td><code>{s.password_text}</code></td>
-                                <td><div className="action-btns">
-                                    <button className="icon-btn edit" onClick={() => handleEditStudent(s)}><FiEdit2 /></button>
-                                    <button className="icon-btn delete" onClick={() => handleDeleteStudent(s.id)}><FiTrash2 /></button>
-                                </div></td>
-                            </tr>
-                        )) : (
-                            <tr><td colSpan="7" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>
-                                {studentSearch ? 'No students match your search.' : 'No students added yet.'}
-                            </td></tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-
-    const renderSubjectsTab = () => (
-        <div className="admin-tab-content">
-            <div className="admin-header-row">
-                <h1>Subjects</h1>
-                <button className="primary-btn" onClick={() => setShowAddForm(!showAddForm)}><FiPlus /> Add Subject</button>
-            </div>
-            {showAddForm && (
-                <div className="admin-form-container">
-                    <form onSubmit={handleAddSubject}>
-                        <div className="form-grid">
-                            <div className="form-group"><label>Code</label><input type="text" required value={newSubject.subject_code} onChange={e => setNewSubject({...newSubject, subject_code: e.target.value})} /></div>
-                            <div className="form-group"><label>Name</label><input type="text" required value={newSubject.subject_name} onChange={e => setNewSubject({...newSubject, subject_name: e.target.value})} /></div>
-                            <div className="form-group"><label>Department</label>
-                                <select value={newSubject.department_id} onChange={e => setNewSubject({...newSubject, department_id: e.target.value})}>
-                                    {departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
-                                </select>
-                            </div>
-                            <div className="form-group"><label>Semester</label>
-                                <select value={newSubject.semester} onChange={e => setNewSubject({...newSubject, semester: parseInt(e.target.value)})}>
-                                    {[1,2,3,4,5,6,7,8].map(s => <option key={s} value={s}>Semester {s}</option>)}
-                                </select>
-                            </div>
-                            <div className="form-group"><label>Credits</label><input type="number" min="1" max="6" value={newSubject.credits} onChange={e => setNewSubject({...newSubject, credits: parseInt(e.target.value)})} /></div>
-                            <div className="form-group"><label>Type</label>
-                                <select value={newSubject.type} onChange={e => setNewSubject({...newSubject, type: e.target.value})}>
-                                    <option value="Core">Core</option>
-                                    <option value="Elective">Elective</option>
-                                    <option value="Lab">Lab / Practical</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Save Subject</button>
-                    </form>
-                </div>
-            )}
-            <div className="admin-table-container">
-                <table className="admin-table">
-                    <thead><tr><th>Code</th><th>Name</th><th>Department</th><th>Sem</th><th>Credits</th><th>Actions</th></tr></thead>
-                    <tbody>
-                        {subjects.length > 0 ? subjects.map(s => (
-                            <tr key={s.id}>
-                                <td>{s.subject_code}</td><td>{s.subject_name}</td><td>{s.departments?.name}</td><td>{s.semester}</td><td>{s.credits}</td>
-                                <td><button className="icon-btn delete" onClick={() => {
-                                    setConfirmModal({
-                                        show: true, title: 'Delete Subject',
-                                        message: `Are you sure you want to delete ${s.subject_name}?`,
-                                        type: 'danger',
-                                        onConfirm: async () => {
-                                            try { await supabase.from('subjects').delete().eq('id', s.id); loadData(); closeModal(); }
-                                            catch (err) { alert(err.message); }
-                                        }
-                                    });
-                                }}><FiTrash2 /></button></td>
-                            </tr>
-                        )) : (
-                            <tr><td colSpan="6" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>No subjects added yet.</td></tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-
-    const renderExamsTab = () => (
-        <div className="admin-tab-content">
-            <div className="admin-header-row">
-                <h1>Exam Scheduling</h1>
-                <button className="primary-btn" onClick={() => setShowAddForm(!showAddForm)}><FiPlus /> Schedule Exam</button>
-            </div>
-            {showAddForm && (
-                <div className="admin-form-container">
-                    <form onSubmit={handleAddExam}>
-                        <div className="form-grid">
-                            <div className="form-group"><label>Subject</label>
-                                <select value={newExam.subject_id} onChange={e => setNewExam({...newExam, subject_id: e.target.value})} required>
-                                    <option value="">-- Select Subject --</option>
-                                    {subjects.map(s => <option key={s.id} value={s.id}>{s.subject_name} ({s.subject_code})</option>)}
-                                </select>
-                            </div>
-                            <div className="form-group"><label>Exam Date</label><input type="date" required value={newExam.exam_date} onChange={e => setNewExam({...newExam, exam_date: e.target.value})} /></div>
-                            <div className="form-group"><label>Start Time</label><input type="time" required value={newExam.start_time} onChange={e => setNewExam({...newExam, start_time: e.target.value})} /></div>
-                            <div className="form-group"><label>Duration</label><input type="text" value={newExam.duration} onChange={e => setNewExam({...newExam, duration: e.target.value})} /></div>
-                            <div className="form-group"><label>Venue</label><input type="text" value={newExam.venue} onChange={e => setNewExam({...newExam, venue: e.target.value})} /></div>
-                            <div className="form-group"><label>Exam Type</label>
-                                <select value={newExam.exam_type} onChange={e => setNewExam({...newExam, exam_type: e.target.value})}>
-                                    <option value="Sessional-I">Sessional I</option>
-                                    <option value="Sessional-II">Sessional II</option>
-                                    <option value="End-Sem">End-Sem</option>
-                                    <option value="Practical">Practical</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Save Exam Schedule</button>
-                    </form>
-                </div>
-            )}
-            <div className="admin-table-container">
-                <table className="admin-table">
-                    <thead><tr><th>Subject</th><th>Type</th><th>Date</th><th>Time</th><th>Venue</th><th>Actions</th></tr></thead>
-                    <tbody>
-                        {exams.length > 0 ? exams.map(e => (
-                            <tr key={e.id}>
-                                <td>{e.subjects?.subject_name}</td><td>{e.exam_type}</td>
-                                <td>{new Date(e.exam_date).toLocaleDateString()}</td>
-                                <td>{e.start_time}</td><td>{e.venue}</td>
-                                <td><button className="icon-btn delete" onClick={() => {
-                                    setConfirmModal({
-                                        show: true, title: 'Cancel Exam',
-                                        message: 'Are you sure you want to cancel this exam?',
-                                        type: 'danger',
-                                        onConfirm: async () => {
-                                            try { await supabase.from('exams').delete().eq('id', e.id); loadData(); closeModal(); }
-                                            catch (err) { alert(err.message); }
-                                        }
-                                    });
-                                }}><FiTrash2 /></button></td>
-                            </tr>
-                        )) : (
-                            <tr><td colSpan="6" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>No exams scheduled yet.</td></tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-
-    const renderAttendanceTab = () => (
-        <div className="admin-tab-content">
-            <div className="admin-header-row"><h1>Monthly Attendance</h1></div>
-            <div className="admin-form-container">
-                <form onSubmit={handleAddAttendance}>
-                    <div className="form-grid">
-                        <div className="form-group"><label>Student</label>
-                            <select value={newAttendance.student_roll_no} onChange={e => setNewAttendance({...newAttendance, student_roll_no: e.target.value})} required>
-                                <option value="">-- Select Student --</option>
-                                {students.map(s => <option key={s.roll_no} value={s.roll_no}>{s.roll_no} — {s.name}</option>)}
-                            </select>
-                        </div>
-                        <div className="form-group"><label>Month</label>
-                            <select value={newAttendance.month_name} onChange={e => setNewAttendance({...newAttendance, month_name: e.target.value})}>
-                                {MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
-                            </select>
-                        </div>
-                        <div className="form-group"><label>Year</label>
-                            <input type="number" min="2020" max="2030" value={newAttendance.year} onChange={e => setNewAttendance({...newAttendance, year: parseInt(e.target.value)})} />
-                        </div>
-                        <div className="form-group"><label>Working Days</label>
-                            <input type="number" min="1" max="31" value={newAttendance.total_working_days} onChange={e => setNewAttendance({...newAttendance, total_working_days: parseInt(e.target.value)})} />
-                        </div>
-                        <div className="form-group"><label>Days Attended</label>
-                            <input type="number" min="0" max={newAttendance.total_working_days} value={newAttendance.days_attended} onChange={e => setNewAttendance({...newAttendance, days_attended: parseInt(e.target.value)})} />
-                        </div>
-                    </div>
-                    <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Save Monthly Data</button>
-                </form>
-            </div>
-            <div className="admin-table-container">
-                <table className="admin-table">
-                    <thead><tr><th>Student</th><th>Month</th><th>Year</th><th>Attended / Total</th><th>%</th><th>Actions</th></tr></thead>
-                    <tbody>
-                        {attendanceData.length > 0 ? attendanceData.map(a => {
-                            const pct = a.total_working_days ? Math.round(a.days_attended / a.total_working_days * 100) : 0;
-                            return (
-                                <tr key={a.id}>
-                                    <td>{a.students?.name}</td>
-                                    <td>{a.month_name}</td>
-                                    <td>{a.year}</td>
-                                    <td>{a.days_attended}/{a.total_working_days}</td>
-                                    <td><span style={{ fontWeight: '700', color: pct >= 75 ? '#16a34a' : '#dc2626' }}>{pct}%</span></td>
-                                    <td><button className="icon-btn delete" onClick={() => {
-                                        setConfirmModal({
-                                            show: true, title: 'Delete Attendance',
-                                            message: 'Remove this attendance record?',
-                                            type: 'danger',
-                                            onConfirm: async () => {
-                                                try { await supabase.from('monthly_attendance').delete().eq('id', a.id); loadData(); closeModal(); }
-                                                catch (err) { alert(err.message); }
-                                            }
-                                        });
-                                    }}><FiTrash2 /></button></td>
-                                </tr>
-                            );
-                        }) : (
-                            <tr><td colSpan="6" style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>No attendance records yet.</td></tr>
-                        )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    );
-
-    const renderSyllabusTab = () => (
-        <div className="admin-tab-content">
-            <div className="admin-header-row"><h1>Syllabus Management</h1></div>
-            <div className="admin-form-container">
-                <form onSubmit={handleAddSyllabus}>
-                    <div className="form-grid">
-                        <div className="form-group"><label>Subject</label>
-                            <select value={newSyllabus.subject_id} onChange={e => setNewSyllabus({...newSyllabus, subject_id: e.target.value})} required>
-                                <option value="">-- Select Subject --</option>
-                                {subjects.map(s => <option key={s.id} value={s.id}>{s.subject_name}</option>)}
-                            </select>
-                        </div>
-                        <div className="form-group"><label>Unit Title</label>
-                            <input type="text" value={newSyllabus.title} onChange={e => setNewSyllabus({...newSyllabus, title: e.target.value})} />
-                        </div>
-                        <div className="form-group" style={{ gridColumn: 'span 2' }}><label>Topics (comma separated)</label>
-                            <textarea value={newSyllabus.topics} onChange={e => setNewSyllabus({...newSyllabus, topics: e.target.value})} />
-                        </div>
-                    </div>
-                    {newSyllabus.subject_id && (
-                        <div style={{ marginTop: '1rem', color: '#2563eb', fontWeight: '600', fontSize: '0.9rem' }}>
-                            Next unit will be saved as <strong>Unit {
-                                syllabusData.filter(s => s.subject_id === newSyllabus.subject_id).length > 0
-                                    ? Math.max(...syllabusData.filter(s => s.subject_id === newSyllabus.subject_id).map(u => u.unit_no)) + 1
-                                    : 1
-                            }</strong>
-                        </div>
-                    )}
-                    <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Add Unit</button>
-                </form>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                {subjects.filter(sub => syllabusData.some(s => s.subject_id === sub.id)).map(subject => (
-                    <div key={subject.id} style={{ background: '#fff', borderRadius: '12px', border: '1px solid #e5e7eb', overflow: 'hidden' }}>
-                        <div style={{ padding: '12px 20px', background: '#f8fafc', borderBottom: '1px solid #e5e7eb', fontWeight: '700', color: '#1f2937' }}>
-                            {subject.subject_name} ({subject.subject_code})
-                        </div>
-                        <table className="admin-table" style={{ border: 'none', boxShadow: 'none' }}>
-                            <thead><tr><th style={{ width: '100px' }}>Unit</th><th>Title</th><th style={{ width: '100px' }}>Actions</th></tr></thead>
-                            <tbody>
-                                {syllabusData.filter(s => s.subject_id === subject.id).sort((a,b) => a.unit_no - b.unit_no).map(s => (
-                                    <tr key={s.id}>
-                                        <td style={{ fontWeight: '600' }}>Unit {s.unit_no}</td>
-                                        <td>{s.title}</td>
-                                        <td><button className="icon-btn delete" onClick={() => {
-                                            setConfirmModal({
-                                                show: true, title: 'Delete Syllabus Unit',
-                                                message: `Delete Unit ${s.unit_no} of ${subject.subject_name}?`,
-                                                type: 'danger',
-                                                onConfirm: async () => {
-                                                    try { await supabase.from('syllabus').delete().eq('id', s.id); loadData(); closeModal(); }
-                                                    catch (err) { alert(err.message); }
-                                                }
-                                            });
-                                        }}><FiTrash2 /></button></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                ))}
-                {subjects.filter(sub => syllabusData.some(s => s.subject_id === sub.id)).length === 0 && (
-                    <div style={{ textAlign: 'center', color: '#9ca3af', padding: '2rem' }}>No syllabus added yet. Select a subject above and add units.</div>
-                )}
-            </div>
-        </div>
-    );
-
-    const renderMessagesTab = () => (
-        <div className="admin-tab-content">
-            <div className="admin-header-row">
-                <h1>Contact Messages</h1>
-                <span style={{ background: '#eff6ff', color: '#2563eb', padding: '4px 14px', borderRadius: '20px', fontWeight: '600', fontSize: '0.875rem' }}>
-                    {messages.length} total
-                </span>
-            </div>
-            {messages.length === 0 ? (
-                <div style={{ textAlign: 'center', color: '#9ca3af', padding: '3rem' }}>No messages received yet.</div>
-            ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    {messages.map(m => (
-                        <div key={m.id} style={{ background: '#f8fafc', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '1.25rem 1.5rem' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', flexWrap: 'wrap', gap: '8px' }}>
-                                <span style={{ fontWeight: '700', color: '#111827', fontSize: '1rem' }}>{m.name}</span>
-                                <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>{m.created_at ? new Date(m.created_at).toLocaleString() : ''}</span>
-                            </div>
-                            <div style={{ fontSize: '0.875rem', color: '#4b5563', marginBottom: '8px', display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center' }}>
-                                <a href={`mailto:${m.email}`} style={{ color: '#2563eb' }}>{m.email}</a>
-                                {m.phone && <span>{m.phone}</span>}
-                                {m.subject && <span style={{ background: '#dbeafe', color: '#1d4ed8', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600', textTransform: 'capitalize' }}>{m.subject}</span>}
-                            </div>
-                            <p style={{ margin: 0, color: '#374151', fontSize: '0.925rem', lineHeight: '1.6' }}>{m.message}</p>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-
     // ─── LAYOUT ───────────────────────────────────────────────────────────────
-
     return (
         <div className="admin-dashboard">
             <SEO title="Admin Dashboard" description="MEC Administrative Control Panel" />
@@ -840,32 +603,17 @@ export default function AdminDashboard() {
                 <aside className="admin-sidebar">
                     <div className="admin-sidebar-header"><h2>MEC ADMIN</h2></div>
                     <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <button className={`admin-nav-btn ${activeTab === TABS.OVERVIEW   ? 'active' : ''}`} onClick={() => switchTab(TABS.OVERVIEW)}><FiGrid />     Overview</button>
-                        <button className={`admin-nav-btn ${activeTab === TABS.STUDENTS   ? 'active' : ''}`} onClick={() => switchTab(TABS.STUDENTS)}><FiUsers />    Students</button>
-                        <button className={`admin-nav-btn ${activeTab === TABS.SUBJECTS   ? 'active' : ''}`} onClick={() => switchTab(TABS.SUBJECTS)}><FiBook />     Subjects</button>
-                        <button className={`admin-nav-btn ${activeTab === TABS.EXAMS      ? 'active' : ''}`} onClick={() => switchTab(TABS.EXAMS)}><FiCalendar />   Exams</button>
-                        <button className={`admin-nav-btn ${activeTab === TABS.ATTENDANCE ? 'active' : ''}`} onClick={() => switchTab(TABS.ATTENDANCE)}><FiClock />  Attendance</button>
-                        <button className={`admin-nav-btn ${activeTab === TABS.SYLLABUS   ? 'active' : ''}`} onClick={() => switchTab(TABS.SYLLABUS)}><FiFileText /> Syllabus</button>
-                        <button className={`admin-nav-btn ${activeTab === TABS.MESSAGES   ? 'active' : ''}`} onClick={() => switchTab(TABS.MESSAGES)}>
-                            <FiMail /> Messages
-                            {messages.length > 0 && <span style={{ background: '#2563eb', color: '#fff', borderRadius: '99px', padding: '1px 7px', fontSize: '0.7rem', marginLeft: 'auto' }}>{messages.length}</span>}
-                        </button>
-                        <button className="admin-nav-btn" style={{ color: '#ef4444', marginTop: '2rem' }} onClick={handleLogout}><FiLogOut /> Logout</button>
+                        <button className={`admin-nav-btn ${activeTab === TABS.DATESHEETS ? 'active' : ''}`} onClick={() => switchTab(TABS.DATESHEETS)}><FiCalendar /> Datesheets</button>
+                        <button className={`admin-nav-btn ${activeTab === TABS.NOTIFICATIONS ? 'active' : ''}`} onClick={() => switchTab(TABS.NOTIFICATIONS)}><FiFileText /> Notices</button>
+                        <button className={`admin-nav-btn ${activeTab === TABS.QUESTION_PAPERS ? 'active' : ''}`} onClick={() => switchTab(TABS.QUESTION_PAPERS)}><FiBook /> Past Papers</button>
+                        <button className="admin-nav-btn" style={{ color: '#ef4444', marginTop: '4rem' }} onClick={handleLogout}><FiLogOut /> Logout</button>
                     </nav>
                 </aside>
 
                 <main className="admin-main-content">
-                    {isLoading ? <div style={{ textAlign: 'center', padding: '3rem', color: '#6b7280' }}>Loading…</div> : (
-                        <>
-                            {activeTab === TABS.OVERVIEW   && renderOverview()}
-                            {activeTab === TABS.STUDENTS   && renderStudentsTab()}
-                            {activeTab === TABS.SUBJECTS   && renderSubjectsTab()}
-                            {activeTab === TABS.EXAMS      && renderExamsTab()}
-                            {activeTab === TABS.ATTENDANCE && renderAttendanceTab()}
-                            {activeTab === TABS.SYLLABUS   && renderSyllabusTab()}
-                            {activeTab === TABS.MESSAGES   && renderMessagesTab()}
-                        </>
-                    )}
+                    {activeTab === TABS.DATESHEETS && renderDatesheetsTab()}
+                    {activeTab === TABS.NOTIFICATIONS && renderNotificationsTab()}
+                    {activeTab === TABS.QUESTION_PAPERS && renderQuestionPapersTab()}
                 </main>
             </div>
 
@@ -885,77 +633,6 @@ export default function AdminDashboard() {
                             </button>
                         </div>
                     </div>
-                </div>
-            )}
-
-            {cropModal.show && (
-                <div className="admin-modal-overlay" style={{ zIndex: 2000 }}>
-                    <div className="admin-modal glass-card" style={{ maxWidth: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <div className="admin-modal-header" style={{ width: '100%', marginBottom: '1rem' }}>
-                            <h3>Crop Photo</h3>
-                            <p style={{ fontSize: '0.8rem', color: '#6b7280', marginTop: '4px' }}>Drag to reposition, use slider to zoom</p>
-                        </div>
-                        
-                        {/* Hidden image used as source for canvas */}
-                        <img 
-                            ref={imgRef} 
-                            src={cropModal.src} 
-                            alt="source" 
-                            style={{ display: 'none' }} 
-                            onLoad={drawCanvas} 
-                        />
-                        
-                        <div 
-                            style={{ width: '300px', height: '300px', cursor: dragging ? 'grabbing' : 'grab', touchAction: 'none' }}
-                            onMouseDown={handleMouseDown}
-                            onMouseMove={handleMouseMove}
-                            onMouseUp={handleMouseUp}
-                            onMouseLeave={handleMouseUp}
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleMouseUp}
-                        >
-                            <canvas ref={canvasRef} width={300} height={300} style={{ borderRadius: '8px', background: '#000' }} />
-                        </div>
-                        
-                        <div style={{ width: '100%', marginTop: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                            <span style={{ fontSize: '0.85rem', color: '#374151', fontWeight: 600 }}>Zoom</span>
-                            <input 
-                                type="range" 
-                                min="0.1" max="3" step="0.05" 
-                                value={zoom} 
-                                onChange={(e) => setZoom(parseFloat(e.target.value))}
-                                style={{ flex: 1, accentColor: '#2563eb' }}
-                            />
-                        </div>
-
-                        <div className="admin-modal-footer" style={{ width: '100%', marginTop: '1.5rem' }}>
-                            <button className="secondary-btn" onClick={() => setCropModal({ show: false, src: '' })}>Cancel</button>
-                            <button className="primary-btn" onClick={handleCropSave}>Save Photo</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {photoViewer && (
-                <div 
-                    className="admin-modal-overlay" 
-                    style={{ zIndex: 3000, background: 'rgba(0,0,0,0.85)', cursor: 'zoom-out' }} 
-                    onClick={() => setPhotoViewer(null)}
-                >
-                    <img 
-                        src={photoViewer} 
-                        alt="Enlarged view" 
-                        style={{ 
-                            maxWidth: '90vw', 
-                            maxHeight: '90vh', 
-                            borderRadius: '16px', 
-                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-                            objectFit: 'contain',
-                            border: '4px solid #fff'
-                        }} 
-                        onClick={(e) => e.stopPropagation()} 
-                    />
                 </div>
             )}
         </div>

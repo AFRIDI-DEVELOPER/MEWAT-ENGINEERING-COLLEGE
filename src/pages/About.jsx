@@ -12,11 +12,12 @@ const TABS = [
     { id: 'overview',         label: 'Overview' },
     { id: 'about-mec',        label: 'About MEC' },
     { id: 'why-choose-mec',   label: 'Why Choose MEC' },
+    { id: 'admin-message',    label: "Administrator's Message" },
     { id: 'ceo-message',      label: "CEO's Message" },
     { id: 'director-message', label: "Director's Message" },
-    { id: 'admin-message',    label: "Administrator's Message" },
     { id: 'vision-mission',   label: 'Vision & Mission' },
     { id: 'core-values',      label: 'Core Values' },
+    { id: 'objectives',       label: 'Objectives' },
     { id: 'our-history',      label: 'Our History' },
 ]
 
@@ -160,7 +161,7 @@ export default function About() {
                                     <span className="section-label">Our Advantages</span>
                                     <h2>Why Choose MEC?</h2>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginTop: '1rem' }}>
+                                <div className="why-choose-mec-grid">
                                     {[
                                         { icon: '🏠', title: 'Affordable Hostel Facility', desc: 'Hostel facility at the most affordable cost of Rs. 40,000 per annum which includes food and lodging both.' },
                                         { icon: '🎓', title: 'Excellent GATE Results', desc: 'Students secured good ranks in GATE with the highest being 51 All India Rank.' },
@@ -191,10 +192,9 @@ export default function About() {
                                     <h2>Building a Legacy of Learning</h2>
                                 </div>
                                 <div className="about-history-content">
-                                    <p style={{ marginBottom: 20, fontSize: '1.1rem', lineHeight: '1.8' }}>{aboutData.history}</p>
-                                    <p style={{ fontSize: '1.1rem', lineHeight: '1.8' }}>
-                                        Approved by AICTE, New Delhi, and affiliated to Deenbandhu Chhotu Ram University of Science &amp; Technology (DCRUST), Murthal, MEC offers B.Tech programs in five engineering disciplines with a total intake of 210 students per year. The college is known for its inclusive approach, offering 50% fee concession for girl students to promote women in engineering.
-                                    </p>
+                                    {aboutData.history.map((para, i) => (
+                                        <p key={i} style={{ marginBottom: 20, fontSize: '1.1rem', lineHeight: '1.8' }}>{para}</p>
+                                    ))}
                                 </div>
                             </div>
                         </section>
@@ -238,6 +238,71 @@ export default function About() {
                                             <div className="value-icon">{value.icon}</div>
                                             <h4>{value.title}</h4>
                                             <p>{value.description}</p>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+                        </section>
+                    )}
+
+                    {/* OBJECTIVES OF COLLEGE */}
+                    {activeTab === 'objectives' && (
+                        <section className="section" style={{ background: 'var(--bg-primary, #0d1117)', padding: '80px 0' }}>
+                            <div className="container">
+                                <div className="section-header">
+                                    <span className="section-label" style={{ color: '#c9a84c' }}>Goals & Targets</span>
+                                    <h2 style={{ color: '#fff' }}>Objectives of College</h2>
+                                </div>
+                                <div className="about-objectives-list" style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '1.25rem',
+                                    maxWidth: '900px',
+                                    margin: '0 auto'
+                                }}>
+                                    {aboutData.objectives.map((item, i) => (
+                                        <motion.div
+                                            key={i}
+                                            initial={{ opacity: 0, x: -30 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ duration: 0.4, delay: i * 0.05 }}
+                                            style={{
+                                                background: 'rgba(255,255,255,0.03)',
+                                                border: '1px solid rgba(255,255,255,0.08)',
+                                                borderRadius: '12px',
+                                                padding: '1.5rem 1.8rem',
+                                                display: 'flex',
+                                                alignItems: 'flex-start',
+                                                gap: '1.25rem',
+                                                boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+                                                transition: 'all 0.3s ease'
+                                            }}
+                                            onMouseEnter={e => {
+                                                e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
+                                                e.currentTarget.style.borderColor = 'rgba(201,168,76,0.3)';
+                                                e.currentTarget.style.transform = 'translateX(8px)';
+                                            }}
+                                            onMouseLeave={e => {
+                                                e.currentTarget.style.background = 'rgba(255,255,255,0.03)';
+                                                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+                                                e.currentTarget.style.transform = 'none';
+                                            }}
+                                        >
+                                            <div style={{
+                                                width: '12px',
+                                                height: '12px',
+                                                borderRadius: '50%',
+                                                background: '#c9a84c',
+                                                marginTop: '0.5rem',
+                                                flexShrink: 0,
+                                                boxShadow: '0 0 10px #c9a84c'
+                                            }} />
+                                            <p style={{
+                                                color: 'rgba(255,255,255,0.85)',
+                                                fontSize: '1.05rem',
+                                                lineHeight: '1.7',
+                                                margin: 0
+                                            }} dangerouslySetInnerHTML={{ __html: item.text }} />
                                         </motion.div>
                                     ))}
                                 </div>

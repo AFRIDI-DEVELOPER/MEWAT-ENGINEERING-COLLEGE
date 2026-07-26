@@ -3,12 +3,9 @@ import { motion } from 'framer-motion'
 import { getAssetPath } from '../utils/assets'
 
 const paragraphs = [
-    "I am extremely delighted to welcome you to Mewat Engineering College. We all know that India is a country of villages. 75% of our populations live in rural areas. We believe that for an educational institution, the main objective lives with grooming of our children for future not merely in certain skills but also as a good human being.",
-    "The primary objective of the Haryana Waqf Board is the management of Waqf properties as per the provision of the Waqf act, 1995 for the income generation, to be used for the development and welfare of Muslim minority in the state. The board has a main focus on the education of Muslim community. It is open to all communities like other minority institutions in the country.",
-    "We aim to empower poor, underprivileged students by giving them admission with the help of different type of scholarships. 75% of the students in my college belong to low economic strata of the society. This would certainly reveal the Haryana Waqf Board efforts rendered towards imparting quality education to the rural students through our well qualified experienced and dedicated faculty.",
-    "We started with only 225 students and today we have more than 600 students on roll which signifies the fulfillment of people's expectations to some extent. The college has 21 acres of land and we have plans for further development & expansion in near future.",
-    "If you have any queries or concerns regarding your child's progress or welfare, please remember that we are here to help. Our staffs are all friendly, welcoming, and approachable. If you are the parents of prospective entrant then you may find a visit to the college useful — an opportunity for you to see the college at work, and find out how we provide a high-quality education for all our students.",
-    "Still, we have to do more but it will only be possible with the benevolent cooperation and recognition of our stakeholders.",
+    "It is a matter of immense pleasure for me to be a part of the Mewat Engineering College Nuh family as an Administrator of its parent Organisation Haryana Waqf Board. I take this opportunity to welcome students coming from different parts of the country and joining the MEC college in B.Tech/ B.Voc/ D.Voc programmes. In any educational institute their teachers, staff, seniors and junior students, all form a family from whom they can look up for any guidance and support so that they can move ahead in their life as professionals. Students are our nation-builders & teachers are key to it. They are the movers of technology and agents of change. I request and expect from the students of Mewat Engineering College Nuh, the knowledge that they will gain here shall be utilised to uplift the society and the nation. Being the Administrator of Haryana Waqf Board, my priority is to provide every possible support to Mewat Engineering College so that this institute and its students can be one of the very best in the field of Engineering and Technology.",
+    "With all my best wishes to engineering and other graduate students I want them to taste the fruit of success once and for the rest of their life, they will never rest. I assure you, on behalf of the MEC family, that we will help you pursue your objectives of life and make the MEC family proud of your attainments.",
+    "With Best Wishes!"
 ]
 
 export default function AdministratorMessage() {
@@ -37,8 +34,8 @@ export default function AdministratorMessage() {
                         <div className="admin-signature">
                             <div className="admin-signature-line" />
                             <div>
-                                <div className="admin-sig-name">Ch. Zakir Hussain</div>
-                                <div className="admin-sig-title">Administrator · Haryana Waqf Board</div>
+                                <div className="admin-sig-name">Ch. Zakir Hussain, Ex. MLA</div>
+                                <div className="admin-sig-title">The Administrator · Haryana Waqf Board</div>
                             </div>
                         </div>
                     </motion.div>
@@ -57,14 +54,14 @@ export default function AdministratorMessage() {
                             ) : (
                                 <img
                                     src={getAssetPath('/images/administrator.png')}
-                                    alt="Administrator Ch. Zakir Hussain"
+                                    alt="Administrator Ch. Zakir Hussain, Ex. MLA"
                                     onError={() => setImgError(true)}
                                 />
                             )}
                         </div>
                         <div className="admin-name-card">
-                            <h3>Ch. Zakir Hussain</h3>
-                            <div className="admin-title-badge">Administrator</div>
+                            <h3>Ch. Zakir Hussain, Ex. MLA</h3>
+                            <div className="admin-title-badge">The Administrator</div>
                             <div className="admin-org">Haryana Waqf Board</div>
                         </div>
                     </motion.div>

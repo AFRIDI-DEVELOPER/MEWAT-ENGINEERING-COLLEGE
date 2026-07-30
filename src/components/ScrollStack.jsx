@@ -191,16 +191,21 @@ const ScrollStack = ({
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
+      if (window.lenis) {
+        window.lenis.on('scroll', handleScroll);
+        lenisRef.current = window.lenis;
+        return window.lenis;
+      }
       const lenis = new Lenis({
-        duration: 1.2,
+        duration: 1.5,
         easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        touchMultiplier: 2,
+        touchMultiplier: 0.75,
         infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
+        wheelMultiplier: 0.85,
+        lerp: 0.05,
         syncTouch: true,
-        syncTouchLerp: 0.075
+        syncTouchLerp: 0.05
       });
 
       lenis.on('scroll', handleScroll);
@@ -220,18 +225,18 @@ const ScrollStack = ({
       const lenis = new Lenis({
         wrapper: scroller,
         content: scroller.querySelector('.scroll-stack-inner'),
-        duration: 1.2,
+        duration: 1.5,
         easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        touchMultiplier: 2,
+        touchMultiplier: 0.75,
         infinite: false,
         gestureOrientationHandler: true,
         normalizeWheel: true,
-        wheelMultiplier: 1,
+        wheelMultiplier: 0.85,
         touchInertiaMultiplier: 35,
-        lerp: 0.1,
+        lerp: 0.05,
         syncTouch: true,
-        syncTouchLerp: 0.075,
+        syncTouchLerp: 0.05,
         touchInertia: 0.6
       });
 
@@ -283,7 +288,11 @@ const ScrollStack = ({
         cancelAnimationFrame(animationFrameRef.current);
       }
       if (lenisRef.current) {
-        lenisRef.current.destroy();
+        if (useWindowScroll && lenisRef.current === window.lenis) {
+          lenisRef.current.off('scroll', handleScroll);
+        } else {
+          lenisRef.current.destroy();
+        }
       }
       stackCompletedRef.current = false;
       cardsRef.current = [];

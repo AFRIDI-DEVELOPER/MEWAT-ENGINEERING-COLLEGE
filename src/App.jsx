@@ -1,5 +1,6 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
+import Lenis from 'lenis'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AntiGravityBackground from './components/AntiGravityBackground'
@@ -20,13 +21,23 @@ import Notices from './pages/Notices'
 
 function ScrollToTop() {
     const { pathname, hash } = useLocation()
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!hash) {
-            window.scrollTo(0, 0)
+            if (window.lenis) {
+                window.lenis.scrollTo(0, { immediate: true })
+            } else {
+                window.scrollTo(0, 0)
+            }
         } else {
             setTimeout(() => {
                 const el = document.getElementById(hash.slice(1))
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                if (el) {
+                    if (window.lenis) {
+                        window.lenis.scrollTo(el, { behavior: 'smooth' })
+                    } else {
+                        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                    }
+                }
             }, 100)
         }
     }, [pathname, hash])
@@ -36,6 +47,36 @@ function ScrollToTop() {
 export default function App() {
     const location = useLocation()
     const isPortal = isPortalPage(location.pathname)
+
+    useEffect(() => {
+        const lenis = new Lenis({
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            smoothWheel: true,
+            smoothTouch: true,
+            syncTouch: true,
+            syncTouchLerp: 0.05,
+            touchMultiplier: 0.75,
+            wheelMultiplier: 0.85,
+            lerp: 0.05,
+            infinite: false,
+        })
+
+        window.lenis = lenis
+
+        let rafId
+        function raf(time) {
+            lenis.raf(time)
+            rafId = requestAnimationFrame(raf)
+        }
+        rafId = requestAnimationFrame(raf)
+
+        return () => {
+            cancelAnimationFrame(rafId)
+            lenis.destroy()
+            window.lenis = null
+        }
+    }, [])
 
     return (
         <>

@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import {
-    FiCalendar, FiPlus, FiTrash2, FiSearch, FiBook, FiFileText, FiLogOut, FiLock
+    FiCalendar, FiPlus, FiTrash2, FiSearch, FiBook, FiFileText, FiLogOut, FiLock, FiUploadCloud, FiCheckCircle
 } from 'react-icons/fi';
 import { storeFile, deleteFile } from '../utils/db';
 import '../styles/admin-dashboard.css';
@@ -65,6 +65,11 @@ export default function AdminDashboard() {
     const [newQP, setNewQP] = useState({ subject: '', code: '', dept: 'CSE', sem: '1st', year: String(new Date().getFullYear()) });
 
     const [confirmModal, setConfirmModal] = useState({ show: false, title: '', message: '', onConfirm: null, type: 'danger' });
+
+    // Hidden file input refs
+    const datesheetFileRef = useRef(null);
+    const notificationFileRef = useRef(null);
+    const qpFileRef = useRef(null);
 
     const navigate = useNavigate();
 
@@ -274,12 +279,23 @@ export default function AdminDashboard() {
                                 <div className="form-group">
                                     <label>Upload PDF Document</label>
                                     <input 
+                                        ref={datesheetFileRef}
                                         type="file" 
                                         accept="application/pdf"
                                         onChange={e => setDatesheetFile(e.target.files[0])}
-                                        style={{ border: 'none', background: 'none', padding: '8px 0' }}
-                                        required
+                                        style={{ display: 'none' }}
                                     />
+                                    <button 
+                                        type="button"
+                                        className={`custom-file-btn ${datesheetFile ? 'has-file' : ''}`}
+                                        onClick={() => datesheetFileRef.current?.click()}
+                                    >
+                                        {datesheetFile ? (
+                                            <><FiCheckCircle className="file-icon selected" /> <span className="file-name">{datesheetFile.name}</span></>
+                                        ) : (
+                                            <><FiUploadCloud className="file-icon" /> <span>Choose PDF file...</span></>
+                                        )}
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -367,23 +383,39 @@ export default function AdminDashboard() {
                                 <div className="form-group">
                                     <label>Upload PDF Document</label>
                                     <input 
+                                        ref={notificationFileRef}
                                         type="file" 
                                         accept="application/pdf"
                                         onChange={e => setNotificationFile(e.target.files[0])}
-                                        style={{ border: 'none', background: 'none', padding: '8px 0' }}
-                                        required
+                                        style={{ display: 'none' }}
                                     />
+                                    <button 
+                                        type="button"
+                                        className={`custom-file-btn ${notificationFile ? 'has-file' : ''}`}
+                                        onClick={() => notificationFileRef.current?.click()}
+                                    >
+                                        {notificationFile ? (
+                                            <><FiCheckCircle className="file-icon selected" /> <span className="file-name">{notificationFile.name}</span></>
+                                        ) : (
+                                            <><FiUploadCloud className="file-icon" /> <span>Choose PDF file...</span></>
+                                        )}
+                                    </button>
                                 </div>
                             </div>
-                            <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '8px', gridColumn: 'span 2', marginTop: '6px' }}>
-                                <input 
-                                    type="checkbox" 
-                                    id="urgent"
-                                    checked={newNotification.urgent} 
-                                    onChange={e => setNewNotification({...newNotification, urgent: e.target.checked})} 
-                                    style={{ width: '18px', height: '18px', cursor: 'pointer' }}
-                                />
-                                <label htmlFor="urgent" style={{ cursor: 'pointer', margin: 0, fontWeight: '600' }}>Mark as Urgent Notification</label>
+                            <div className="urgent-toggle-row" style={{ gridColumn: 'span 2' }}>
+                                <label className="toggle-switch" htmlFor="urgent">
+                                    <input 
+                                        type="checkbox" 
+                                        id="urgent"
+                                        checked={newNotification.urgent} 
+                                        onChange={e => setNewNotification({...newNotification, urgent: e.target.checked})} 
+                                    />
+                                    <span className="toggle-slider" />
+                                </label>
+                                <label htmlFor="urgent" className="urgent-label">
+                                    <span className="urgent-text">Mark as Urgent</span>
+                                    <span className="urgent-hint">Urgent notifications appear with a red badge</span>
+                                </label>
                             </div>
                         </div>
                         <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Publish Notification</button>
@@ -501,12 +533,23 @@ export default function AdminDashboard() {
                             <div className="form-group" style={{ gridColumn: 'span 2' }}>
                                 <label>Upload PDF Document</label>
                                 <input 
+                                    ref={qpFileRef}
                                     type="file" 
                                     accept="application/pdf"
                                     onChange={e => setQpFile(e.target.files[0])}
-                                    style={{ border: 'none', background: 'none', padding: '8px 0' }}
-                                    required
+                                    style={{ display: 'none' }}
                                 />
+                                <button 
+                                    type="button"
+                                    className={`custom-file-btn ${qpFile ? 'has-file' : ''}`}
+                                    onClick={() => qpFileRef.current?.click()}
+                                >
+                                    {qpFile ? (
+                                        <><FiCheckCircle className="file-icon selected" /> <span className="file-name">{qpFile.name}</span></>
+                                    ) : (
+                                        <><FiUploadCloud className="file-icon" /> <span>Choose PDF file...</span></>
+                                    )}
+                                </button>
                             </div>
                         </div>
                         <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Upload Question Paper Details</button>

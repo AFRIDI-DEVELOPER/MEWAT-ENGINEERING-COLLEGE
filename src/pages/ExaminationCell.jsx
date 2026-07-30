@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { FiArrowLeft, FiCalendar, FiClock, FiSearch, FiFileText, FiDownload, FiInfo, FiBookOpen } from 'react-icons/fi'
+import { FiArrowLeft, FiCalendar, FiClock, FiSearch, FiFileText, FiDownload, FiInfo, FiBookOpen, FiPhone, FiMail, FiSend, FiUser, FiUsers } from 'react-icons/fi'
 import { motion, AnimatePresence } from 'framer-motion'
 import SEO from '../components/SEO'
 import { getFile } from '../utils/db'
+import { getAssetPath } from '../utils/assets'
 import '../styles/dashboard-starfield.css'
 
 // Valid 1-page blank PDF bytes
@@ -322,6 +323,371 @@ export default function ExaminationCell() {
                         )}
                     </AnimatePresence>
                 </div>
+
+                {/* ===== EXAM CELL MEMBERS SECTION ===== */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    style={{ marginTop: '60px' }}
+                >
+                    {/* Section Header */}
+                    <div style={{ marginBottom: '32px' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', background: 'rgba(200, 169, 81, 0.1)', border: '1px solid rgba(200, 169, 81, 0.25)', borderRadius: '100px', padding: '6px 16px', color: 'var(--gold-light)', fontSize: '0.8rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '16px' }}>
+                            <FiUsers size={14} /> Examination Cell Team
+                        </div>
+                        <h2 style={{ fontFamily: "'Kanit', sans-serif", fontSize: 'clamp(1.8rem, 3.5vw, 2.5rem)', fontWeight: 700, lineHeight: 1.2, marginBottom: '12px', letterSpacing: '-0.01em', background: 'linear-gradient(135deg, #fff 30%, #c9a84c 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                            Exam Cell Members
+                        </h2>
+                        <p style={{ color: 'rgba(255, 255, 255, 0.55)', maxWidth: '600px', fontSize: '1rem', lineHeight: 1.6 }}>
+                            For any examination-related queries, reach out to our dedicated team members.
+                        </p>
+                    </div>
+
+                    {/* ── Chairman Card ── */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        style={{
+                            padding: '36px 32px',
+                            borderRadius: '22px',
+                            border: '1.5px solid rgba(200, 169, 81, 0.3)',
+                            background: 'linear-gradient(135deg, rgba(200,169,81,0.08) 0%, rgba(255,255,255,0.02) 50%, rgba(200,169,81,0.05) 100%)',
+                            backdropFilter: 'blur(16px)',
+                            position: 'relative',
+                            overflow: 'hidden',
+                            marginBottom: '28px',
+                            boxShadow: '0 8px 32px rgba(200, 169, 81, 0.08), 0 0 0 1px rgba(200,169,81,0.05)',
+                            transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
+                        }}
+                        onMouseEnter={e => {
+                            e.currentTarget.style.borderColor = 'rgba(200, 169, 81, 0.5)';
+                            e.currentTarget.style.boxShadow = '0 16px 48px rgba(200, 169, 81, 0.15), 0 0 0 1px rgba(200,169,81,0.1)';
+                        }}
+                        onMouseLeave={e => {
+                            e.currentTarget.style.borderColor = 'rgba(200, 169, 81, 0.3)';
+                            e.currentTarget.style.boxShadow = '0 8px 32px rgba(200, 169, 81, 0.08), 0 0 0 1px rgba(200,169,81,0.05)';
+                        }}
+                    >
+                        {/* Top gold glow bar */}
+                        <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '80%', height: '3px', background: 'linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent)', borderRadius: '0 0 6px 6px' }} />
+                        
+                        {/* Corner badge */}
+                        <div style={{
+                            position: 'absolute', top: '16px', right: '20px',
+                            background: 'linear-gradient(135deg, var(--gold), var(--gold-dark))',
+                            color: '#000', fontSize: '0.7rem', fontWeight: 700,
+                            padding: '5px 14px', borderRadius: '100px',
+                            textTransform: 'uppercase', letterSpacing: '0.08em'
+                        }}>
+                            Chairman
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '28px', flexWrap: 'wrap' }}>
+                            {/* Photo */}
+                            <div style={{
+                                width: '120px', height: '120px',
+                                borderRadius: '20px',
+                                background: 'linear-gradient(135deg, rgba(200,169,81,0.12), rgba(200,169,81,0.04))',
+                                border: '2px solid rgba(200,169,81,0.25)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                flexShrink: 0,
+                                overflow: 'hidden',
+                                boxShadow: '0 4px 20px rgba(200,169,81,0.1)'
+                            }}>
+                                <img 
+                                    src={getAssetPath('/images/nazim_ali_khan.png')} 
+                                    alt="Mr. Nazim Ali Khan - Chairman, Exam Cell"
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    onError={e => {
+                                        e.target.style.display = 'none';
+                                        e.target.parentElement.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:var(--gold-light);opacity:0.6"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>';
+                                    }}
+                                />
+                            </div>
+
+                            {/* Info */}
+                            <div style={{ flex: 1, minWidth: '200px' }}>
+                                <h3 style={{
+                                    fontSize: 'clamp(1.3rem, 2.5vw, 1.6rem)',
+                                    fontWeight: 700, color: '#fff',
+                                    lineHeight: 1.2, marginBottom: '6px',
+                                    fontFamily: "'Kanit', sans-serif"
+                                }}>
+                                    Mr. Nazim Ali Khan
+                                </h3>
+                                <span style={{
+                                    display: 'block',
+                                    fontSize: '0.85rem', color: 'var(--gold)',
+                                    fontWeight: 600, marginBottom: '16px',
+                                    letterSpacing: '0.02em'
+                                }}>
+                                    Chairman, Exam Cell
+                                </span>
+
+                                <a 
+                                    href="tel:+919013461834"
+                                    style={{
+                                        display: 'inline-flex', alignItems: 'center', gap: '10px',
+                                        padding: '12px 20px',
+                                        borderRadius: '12px',
+                                        background: 'rgba(200,169,81,0.08)',
+                                        border: '1px solid rgba(200,169,81,0.2)',
+                                        color: 'var(--gold-light)',
+                                        textDecoration: 'none',
+                                        fontSize: '0.95rem',
+                                        fontWeight: 500,
+                                        transition: 'all 0.25s',
+                                        letterSpacing: '0.03em'
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.background = 'rgba(200,169,81,0.18)';
+                                        e.currentTarget.style.borderColor = 'rgba(200,169,81,0.4)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.background = 'rgba(200,169,81,0.08)';
+                                        e.currentTarget.style.borderColor = 'rgba(200,169,81,0.2)';
+                                    }}
+                                >
+                                    <FiPhone size={16} />
+                                    +91 9013461834
+                                </a>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* ── Other Members Grid ── */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px', marginBottom: '32px' }}>
+                        {[
+                            { name: 'Mr. Aadil Zaidi', phone: '8826319440', role: 'Exam Cell Member' },
+                            { name: 'Mr. Mohd Nafees', phone: '8010112475', role: 'Exam Cell Member' },
+                            { name: 'Mr. Mohd Hanif', phone: '7015411210', role: 'Exam Cell Member' }
+                        ].map((member, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.15 * idx }}
+                                style={{
+                                    padding: '28px 24px',
+                                    borderRadius: '18px',
+                                    border: '1px solid rgba(255,255,255,0.06)',
+                                    background: 'rgba(255,255,255,0.02)',
+                                    backdropFilter: 'blur(12px)',
+                                    transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    cursor: 'default',
+                                    position: 'relative',
+                                    overflow: 'hidden'
+                                }}
+                                onMouseEnter={e => {
+                                    e.currentTarget.style.transform = 'translateY(-6px)';
+                                    e.currentTarget.style.borderColor = 'rgba(200, 169, 81, 0.35)';
+                                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(200, 169, 81, 0.1)';
+                                }}
+                                onMouseLeave={e => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}
+                            >
+                                {/* Subtle top glow accent */}
+                                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '60%', height: '2px', background: 'linear-gradient(90deg, transparent, var(--gold), transparent)', borderRadius: '0 0 4px 4px' }} />
+                                
+                                {/* Avatar + Name */}
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
+                                    <div style={{
+                                        width: '48px', height: '48px',
+                                        borderRadius: '14px',
+                                        background: 'linear-gradient(135deg, rgba(200,169,81,0.15), rgba(200,169,81,0.05))',
+                                        border: '1px solid rgba(200,169,81,0.2)',
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        color: 'var(--gold-light)', flexShrink: 0
+                                    }}>
+                                        <FiUser size={22} />
+                                    </div>
+                                    <div>
+                                        <h3 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#fff', lineHeight: 1.3 }}>{member.name}</h3>
+                                        <span style={{ fontSize: '0.78rem', color: 'var(--gold-light)', fontWeight: 500, opacity: 0.8 }}>{member.role}</span>
+                                    </div>
+                                </div>
+
+                                {/* Phone */}
+                                <a 
+                                    href={`tel:+91${member.phone}`}
+                                    style={{
+                                        display: 'flex', alignItems: 'center', gap: '10px',
+                                        padding: '12px 16px',
+                                        borderRadius: '12px',
+                                        background: 'rgba(200,169,81,0.06)',
+                                        border: '1px solid rgba(200,169,81,0.12)',
+                                        color: 'var(--gold-light)',
+                                        textDecoration: 'none',
+                                        fontSize: '0.92rem',
+                                        fontWeight: 500,
+                                        transition: 'all 0.25s',
+                                        letterSpacing: '0.03em'
+                                    }}
+                                    onMouseEnter={e => {
+                                        e.currentTarget.style.background = 'rgba(200,169,81,0.15)';
+                                        e.currentTarget.style.borderColor = 'rgba(200,169,81,0.3)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        e.currentTarget.style.background = 'rgba(200,169,81,0.06)';
+                                        e.currentTarget.style.borderColor = 'rgba(200,169,81,0.12)';
+                                    }}
+                                >
+                                    <FiPhone size={15} />
+                                    +91 {member.phone}
+                                </a>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Contact Row: Email + Telegram */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
+                        
+                        {/* Email Card */}
+                        <div style={{
+                            padding: '28px',
+                            borderRadius: '18px',
+                            border: '1px solid rgba(255,255,255,0.06)',
+                            background: 'rgba(255,255,255,0.02)',
+                            backdropFilter: 'blur(12px)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '18px'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{
+                                    width: '44px', height: '44px',
+                                    borderRadius: '12px',
+                                    background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05))',
+                                    border: '1px solid rgba(59, 130, 246, 0.2)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    color: '#60a5fa'
+                                }}>
+                                    <FiMail size={20} />
+                                </div>
+                                <div>
+                                    <h4 style={{ color: '#fff', fontWeight: 600, fontSize: '1rem' }}>Email Us</h4>
+                                    <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.8rem' }}>Official Exam Cell Email</p>
+                                </div>
+                            </div>
+                            <a 
+                                href="mailto:mecwexam@gmail.com"
+                                style={{
+                                    display: 'flex', alignItems: 'center', gap: '10px',
+                                    padding: '14px 18px',
+                                    borderRadius: '12px',
+                                    background: 'rgba(59, 130, 246, 0.06)',
+                                    border: '1px solid rgba(59, 130, 246, 0.15)',
+                                    color: '#93bbfc',
+                                    textDecoration: 'none',
+                                    fontSize: '0.95rem',
+                                    fontWeight: 500,
+                                    transition: 'all 0.25s',
+                                    wordBreak: 'break-all'
+                                }}
+                                onMouseEnter={e => {
+                                    e.currentTarget.style.background = 'rgba(59, 130, 246, 0.15)';
+                                    e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.3)';
+                                    e.currentTarget.style.color = '#bdd4fe';
+                                }}
+                                onMouseLeave={e => {
+                                    e.currentTarget.style.background = 'rgba(59, 130, 246, 0.06)';
+                                    e.currentTarget.style.borderColor = 'rgba(59, 130, 246, 0.15)';
+                                    e.currentTarget.style.color = '#93bbfc';
+                                }}
+                            >
+                                <FiMail size={16} />
+                                mecwexam@gmail.com
+                            </a>
+                        </div>
+
+                        {/* Telegram Channel Card */}
+                        <div style={{
+                            padding: '28px',
+                            borderRadius: '18px',
+                            border: '1px solid rgba(255,255,255,0.06)',
+                            background: 'rgba(255,255,255,0.02)',
+                            backdropFilter: 'blur(12px)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '18px'
+                        }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{
+                                    width: '44px', height: '44px',
+                                    borderRadius: '12px',
+                                    background: 'linear-gradient(135deg, rgba(34, 163, 214, 0.15), rgba(34, 163, 214, 0.05))',
+                                    border: '1px solid rgba(34, 163, 214, 0.2)',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    color: '#38bdf8'
+                                }}>
+                                    <FiSend size={20} />
+                                </div>
+                                <div>
+                                    <h4 style={{ color: '#fff', fontWeight: 600, fontSize: '1rem' }}>Telegram Channel</h4>
+                                    <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.8rem' }}>Join for instant updates</p>
+                                </div>
+                            </div>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+                                {/* QR Code */}
+                                <div style={{
+                                    width: '140px', height: '140px',
+                                    borderRadius: '14px',
+                                    overflow: 'hidden',
+                                    border: '2px solid rgba(56, 189, 248, 0.2)',
+                                    background: '#fff',
+                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                    flexShrink: 0
+                                }}>
+                                    <img 
+                                        src={getAssetPath('/images/telegram_qr.png')} 
+                                        alt="Telegram QR - @MECW_EXAMINATION" 
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                </div>
+
+                                <div style={{ flex: 1, minWidth: '150px' }}>
+                                    <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem', marginBottom: '12px', lineHeight: 1.5 }}>
+                                        Scan QR or click below to join our official Telegram channel for exam schedules, datesheet updates & notifications.
+                                    </p>
+                                    <a 
+                                        href="https://t.me/MECW_EXAMINATION" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        style={{
+                                            display: 'inline-flex', alignItems: 'center', gap: '8px',
+                                            padding: '10px 20px',
+                                            borderRadius: '10px',
+                                            background: 'linear-gradient(135deg, #0088cc, #00aaee)',
+                                            color: '#fff',
+                                            textDecoration: 'none',
+                                            fontSize: '0.88rem',
+                                            fontWeight: 600,
+                                            transition: 'all 0.3s',
+                                            boxShadow: '0 4px 16px rgba(0, 136, 204, 0.25)'
+                                        }}
+                                        onMouseEnter={e => {
+                                            e.currentTarget.style.transform = 'translateY(-2px)';
+                                            e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 136, 204, 0.35)';
+                                        }}
+                                        onMouseLeave={e => {
+                                            e.currentTarget.style.transform = 'translateY(0)';
+                                            e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 136, 204, 0.25)';
+                                        }}
+                                    >
+                                        <FiSend size={14} />
+                                        @MECW_EXAMINATION
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
         </div>
     )

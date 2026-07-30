@@ -650,11 +650,9 @@ export default function Home() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.1 }}
                         >
-                            <span className="pill-chip">AICTE Approved</span>
+                            <span className="pill-chip">Approved by AICTE</span>
                             <span className="pill-divider" />
-                            <span className="pill-chip">Est. 2014</span>
-                            <span className="pill-divider" />
-                            <span className="pill-chip">Nuh, Haryana</span>
+                            <span className="pill-chip">AFFILIATED TO GUG</span>
                         </motion.div>
 
                         {/* Bottom-left hero content */}
@@ -666,11 +664,9 @@ export default function Home() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.1 }}
                             >
-                                <span className="pill-chip">AICTE Approved</span>
+                                <span className="pill-chip">Approved by AICTE</span>
                                 <span className="pill-divider" />
-                                <span className="pill-chip">Est. 2014</span>
-                                <span className="pill-divider" />
-                                <span className="pill-chip">Nuh, Haryana</span>
+                                <span className="pill-chip">AFFILIATED TO GUG</span>
                             </motion.div>
 
 

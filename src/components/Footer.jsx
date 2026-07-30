@@ -50,14 +50,17 @@ export default function Footer() {
                     </div>
 
                     <div className="footer-col">
-                        <h4>Academics</h4>
+                        <h4>Quick links</h4>
                         <ul>
-                            <li><Link to="/departments">Computer Science</Link></li>
-                            <li><Link to="/departments">Civil Engineering</Link></li>
-                            <li><Link to="/departments">Mechanical Engineering</Link></li>
-                            <li><Link to="/departments">Electrical & Electronics</Link></li>
-                            <li><Link to="/departments">Electronics & Communication</Link></li>
-                            <li><Link to="/admissions">Admissions</Link></li>
+                            <li><Link to="#">AICTE Approval Letters</Link></li>
+                            <li><Link to="#">Mandatory Disclosure</Link></li>
+                            <li><Link to="#">Right to information</Link></li>
+                            <li><Link to="#">Alumni Form</Link></li>
+                            <li><Link to="#">Conference</Link></li>
+                            <li><Link to="#">Feedback Form</Link></li>
+                            <li><Link to="#">Career</Link></li>
+                            <li><Link to="#">NBA</Link></li>
+                            <li><Link to="#">Margadarshak</Link></li>
                         </ul>
                     </div>
 
@@ -96,7 +99,7 @@ export default function Footer() {
                     <span>© {new Date().getFullYear()} Mewat Engineering College (WAQF). All rights reserved.</span>
                     <div className="footer-affiliations">
                         <span>AICTE Approved</span>
-                        <span>DCRUST Affiliated</span>
+                        <span>GUG Affiliated</span>
                     </div>
                 </div>
             </div>

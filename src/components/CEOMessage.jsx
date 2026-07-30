@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { getAssetPath } from '../utils/assets'
 
 const ceoData = {
-    name: 'Sh. Mohammed Shayin, IAS',
+    name: 'Sh. Mohammed Shayin,IAS',
     title: 'The Chief Executive Officer',
     organization: 'Haryana Waqf Board',
     image: '/images/ceo.png',
@@ -53,8 +53,9 @@ export default function CEOMessage() {
                             </div>
                         </div>
                         <div className="ceo-name-card">
-                            <div className="ceo-title-badge">{ceoData.title}</div>
                             <h3>{ceoData.name}</h3>
+                            <div className="ceo-title-badge">{ceoData.title}</div>
+                            
                             <div className="ceo-org">{ceoData.organization}</div>
                         </div>
                     </motion.div>

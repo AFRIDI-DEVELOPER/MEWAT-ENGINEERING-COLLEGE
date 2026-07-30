@@ -11,8 +11,8 @@ export const calendarLegend = [
 ];
 
 export const monthlyCalendarData = {
-  "2025-07": {
-    year: 2025,
+  "2026-07": {
+    year: 2026,
     month: 6, // 0-indexed (July)
     events: [
       { date: 28, title: "Odd Sem (3rd, 5th, 7th) Classes Commencement", type: "class-start" },
@@ -21,8 +21,8 @@ export const monthlyCalendarData = {
       { date: 31, title: "Gazetted Holiday", type: "holiday" }
     ]
   },
-  "2025-08": {
-    year: 2025,
+  "2026-08": {
+    year: 2026,
     month: 7, // August
     events: [
       { date: 1, title: "Odd Sem classes registration continues", type: "class-start" },
@@ -32,8 +32,8 @@ export const monthlyCalendarData = {
       { date: 18, dateEnd: 31, title: "Remedial Classes and Induction Program", type: "activity" }
     ]
   },
-  "2025-09": {
-    year: 2025,
+  "2026-09": {
+    year: 2026,
     month: 8, // September
     events: [
       { date: 1, title: "Odd Sem (1st Sem) Classes Commencement", type: "class-start" },
@@ -43,8 +43,8 @@ export const monthlyCalendarData = {
       { date: 25, dateEnd: 30, title: "Industrial Visit / College Tour 1 (CE, CSE, etc.)", type: "tour" }
     ]
   },
-  "2025-10": {
-    year: 2025,
+  "2026-10": {
+    year: 2026,
     month: 9, // October
     events: [
       { date: 2, title: "Mahatma Gandhi Jayanti Holiday", type: "holiday" },
@@ -52,15 +52,15 @@ export const monthlyCalendarData = {
       { date: 10, dateEnd: 12, title: "Sports Week & Cultural Activities 1", type: "activity" }
     ]
   },
-  "2025-11": {
-    year: 2025,
+  "2026-11": {
+    year: 2026,
     month: 10, // November
     events: [
       { date: 24, dateEnd: 26, title: "Second Sessional Examinations (Odd Sem)", type: "sessional" }
     ]
   },
-  "2025-12": {
-    year: 2025,
+  "2026-12": {
+    year: 2026,
     month: 11, // December
     events: [
       { date: 5, title: "End of Odd Semester Classes", type: "class-start" },
@@ -69,8 +69,8 @@ export const monthlyCalendarData = {
       { date: 29, dateEnd: 31, title: "Winter Break (B.Tech 1st Sem)", type: "holiday" }
     ]
   },
-  "2026-01": {
-    year: 2026,
+  "2027-01": {
+    year: 2027,
     month: 0, // January
     events: [
       { date: 1, dateEnd: 4, title: "Winter Break (B.Tech 3rd/5th/7th) continues", type: "holiday" },
@@ -79,30 +79,30 @@ export const monthlyCalendarData = {
       { date: 26, title: "Republic Day Celebration", type: "holiday" }
     ]
   },
-  "2026-02": {
-    year: 2026,
+  "2027-02": {
+    year: 2027,
     month: 1, // February
     events: [
       { date: 2, dateEnd: 8, title: "Sports Week and Cultural Activities 2", type: "activity" },
       { date: 23, dateEnd: 28, title: "Industrial Visit / College Tour 2", type: "tour" }
     ]
   },
-  "2026-03": {
-    year: 2026,
+  "2027-03": {
+    year: 2027,
     month: 2, // March
     events: [
       { date: 9, dateEnd: 11, title: "First Sessional Examinations (Even Sem)", type: "sessional" }
     ]
   },
-  "2026-04": {
-    year: 2026,
+  "2027-04": {
+    year: 2027,
     month: 3, // April
     events: [
       { date: 27, dateEnd: 29, title: "Second Sessional Examinations (Even Sem)", type: "sessional" }
     ]
   },
-  "2026-05": {
-    year: 2026,
+  "2027-05": {
+    year: 2027,
     month: 4, // May
     events: [
       { date: 1, title: "Farewell Party (Final Year Students)", type: "activity" },
@@ -111,8 +111,8 @@ export const monthlyCalendarData = {
       { date: 25, dateEnd: 31, title: "Summer Vacations Commencement", type: "holiday" }
     ]
   },
-  "2026-06": {
-    year: 2026,
+  "2027-06": {
+    year: 2027,
     month: 5, // June
     events: [
       { date: 1, dateEnd: 30, title: "Summer Vacations continue", type: "holiday" }

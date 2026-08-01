@@ -1,0 +1,108 @@
+.quick-links-section {
+    padding: 6rem 0 4rem 0;
+    margin-top: 2rem;
+    background-color: #f8fafc; /* light background matching the image surroundings */
+}
+
+.quick-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .quick-links-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .quick-links-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2rem;
+    }
+}
+
+/* More professional approach matching the deep blue */
+.quick-link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #10428C, #1854AD);
+    border-radius: 16px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    color: #ffffff;
+    text-decoration: none;
+    box-shadow: 0 10px 25px rgba(16, 66, 140, 0.15), 
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.quick-link-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at top right, rgba(255,255,255,0.1), transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.quick-link-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(16, 66, 140, 0.25), 
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    background: linear-gradient(145deg, #144e9e, #1a60c4);
+}
+
+.quick-link-card:hover::before {
+    opacity: 1;
+}
+
+.quick-link-icon-wrapper {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.quick-link-card:hover .quick-link-icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.quick-link-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 640px) {
+    .quick-link-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+    .quick-link-icon-wrapper {
+        width: 44px;
+        height: 44px;
+        margin-bottom: 0.75rem;
+    }
+    .quick-link-title {
+        font-size: 0.85rem;
+    }
+}

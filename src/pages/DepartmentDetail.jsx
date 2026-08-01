@@ -517,6 +517,132 @@ const semesterSyllabusData = {
     }
 }
 
+// ─── Faculty Card with expandable details ─────────────────────────────────────
+function FacultyCard({ faculty: f, index, theme, getAssetPath }) {
+    const [expanded, setExpanded] = useState(false)
+    const hasDetails = f.bio || (f.education && f.education.length > 0) || (f.interests && f.interests.length > 0)
+
+    return (
+        <motion.div
+            className="dept-hod-card"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.08, duration: 0.5 }}
+            style={{ marginBottom: '20px', padding: '25px', display: 'flex', flexDirection: 'column' }}
+        >
+            <div className="dept-hod-card-glow" style={{ background: `radial-gradient(circle at 0% 0%, ${theme.primaryLight}, transparent 60%)` }} />
+            
+            <div className="dept-hod-content" style={{ alignItems: 'flex-start' }}>
+                {/* Avatar */}
+                <div className="dept-hod-avatar" style={{ background: theme.gradient, width: '90px', height: '90px', borderRadius: '16px' }}>
+                    {f.image ? (
+                        <img 
+                            src={getAssetPath(f.image)} 
+                            alt={f.name} 
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} 
+                            onError={e => { e.target.style.display = 'none' }}
+                        />
+                    ) : (
+                        <span style={{ fontSize: '2.5rem', color: 'rgba(255,255,255,0.8)' }}>👤</span>
+                    )}
+                </div>
+
+                {/* Info */}
+                <div className="dept-hod-info" style={{ flex: 1 }}>
+                    <h3 style={{ fontSize: '1.4rem', marginBottom: '2px' }}>{f.name}</h3>
+                    <p className="dept-hod-designation" style={{ marginBottom: '12px' }}>{f.designation}</p>
+
+                    <div className="dept-hod-meta" style={{ flexWrap: 'wrap', gap: '12px 20px' }}>
+                        {[
+                            f.experience && { label: 'Experience', value: f.experience },
+                            f.phone && { label: 'Phone', value: <a href={`tel:${f.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}>{f.phone}</a> },
+                            f.email && { label: 'Email', value: <a href={`mailto:${f.email}`} style={{ color: 'inherit', textDecoration: 'none' }}>{f.email}</a> },
+                            f.papers != null && { label: 'Papers', value: f.papers }
+                        ].filter(Boolean).map((item, i, arr) => (
+                            <div key={item.label} style={{ display: 'contents' }}>
+                                <div className="dept-hod-meta-item">
+                                    <span className="dept-hod-meta-label">{item.label}</span>
+                                    <span className="dept-hod-meta-value">{item.value}</span>
+                                </div>
+                                {i < arr.length - 1 && <div className="dept-hod-meta-divider" />}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Expandable Details */}
+            {hasDetails && (
+                <div style={{ marginTop: '20px', position: 'relative', zIndex: 2 }}>
+                    <button
+                        onClick={() => setExpanded(p => !p)}
+                        style={{
+                            width: '100%',
+                            background: expanded ? theme.primaryLight : 'rgba(0,0,0,0.02)',
+                            border: `1px solid ${expanded ? theme.tagBorder : 'rgba(0,0,0,0.05)'}`,
+                            borderRadius: '10px',
+                            color: expanded ? theme.primary : 'var(--medium-gray)',
+                            padding: '10px 16px',
+                            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                            cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600,
+                            transition: 'all 0.2s',
+                        }}
+                    >
+                        <span>{expanded ? 'Hide Details' : 'View Details'}</span>
+                        <span style={{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.25s' }}>▼</span>
+                    </button>
+
+                    <div style={{
+                        maxHeight: expanded ? '800px' : '0px',
+                        overflow: 'hidden',
+                        transition: 'max-height 0.35s ease',
+                        opacity: expanded ? 1 : 0,
+                    }}>
+                        <div style={{ padding: '16px 4px 4px', color: 'var(--near-black)' }}>
+                            {f.bio && (
+                                <p style={{ margin: '0 0 16px', fontSize: '0.9rem', color: 'var(--medium-gray)', lineHeight: 1.6 }}>
+                                    {f.bio}
+                                </p>
+                            )}
+                            
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                                {f.education && f.education.length > 0 && (
+                                    <div style={{ flex: '1 1 300px' }}>
+                                        <p style={{ margin: '0 0 8px', fontSize: '0.75rem', fontWeight: 700, color: theme.primary, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Education</p>
+                                        <ul style={{ margin: 0, paddingLeft: '16px', fontSize: '0.85rem', color: 'var(--near-black)', lineHeight: 1.5 }}>
+                                            {Array.isArray(f.education) ? f.education.map((e, i) => <li key={i} style={{ marginBottom: '4px' }}>{e}</li>) : <li style={{ marginBottom: '4px' }}>{f.education}</li>}
+                                        </ul>
+                                    </div>
+                                )}
+                                
+                                {f.interests && f.interests.length > 0 && (
+                                    <div style={{ flex: '1 1 300px' }}>
+                                        <p style={{ margin: '0 0 8px', fontSize: '0.75rem', fontWeight: 700, color: theme.primary, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Areas of Interest</p>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                                            {(Array.isArray(f.interests) ? f.interests : [f.interests]).map((interest, i) => (
+                                                <span key={i} style={{
+                                                    background: theme.primaryLight,
+                                                    border: `1px solid ${theme.tagBorder}`,
+                                                    borderRadius: '20px',
+                                                    padding: '4px 12px',
+                                                    fontSize: '0.75rem',
+                                                    fontWeight: 600,
+                                                    color: theme.primary,
+                                                }}>{interest}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </motion.div>
+    )
+}
+
 export default function DepartmentDetail() {
     const { id } = useParams()
     const { data: sbDept, loading } = useDepartment(id)
@@ -897,46 +1023,12 @@ export default function DepartmentDetail() {
                         <div className="dept-main">
 
                             {/* HOD Card */}
-                            <motion.div
-                                className="dept-hod-card"
-                                initial={{ opacity: 0, x: -30 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                            >
-                                <div className="dept-hod-card-glow" style={{ background: `radial-gradient(circle at 0% 0%, ${theme.primaryLight}, transparent 60%)` }} />
-                                <div className="dept-section-label">
+                            <div style={{ marginBottom: '35px' }}>
+                                <div className="dept-section-label" style={{ marginBottom: '15px' }}>
                                     <FiUser /> Head of Department
                                 </div>
-                                <div className="dept-hod-content">
-                                    <div className="dept-hod-avatar" style={{ background: theme.gradient }}>
-                                        {dept.hod.image?.startsWith('/') || dept.hod.image?.includes('.') ? (
-                                            <img src={getAssetPath(dept.hod.image)} alt={dept.hod.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'inherit' }} />
-                                        ) : (
-                                            <span>{dept.hod.image}</span>
-                                        )}
-                                    </div>
-                                    <div className="dept-hod-info">
-                                        <h3>{dept.hod.name}</h3>
-                                        <p className="dept-hod-designation">{dept.hod.designation}</p>
-                                        <div className="dept-hod-meta" style={{ flexWrap: 'wrap', gap: '15px 24px' }}>
-                                            {[
-                                                dept.hod.experience && { label: 'Experience', value: dept.hod.experience },
-                                                dept.hod.education && { label: 'Education', value: dept.hod.education },
-                                                dept.hod.email && { label: 'Email', value: dept.hod.email },
-                                                dept.hod.phone && { label: 'Phone', value: dept.hod.phone }
-                                            ].filter(Boolean).map((item, index, arr) => (
-                                                <div key={item.label} style={{ display: 'contents' }}>
-                                                    <div className="dept-hod-meta-item">
-                                                        <span className="dept-hod-meta-label">{item.label}</span>
-                                                        <span className="dept-hod-meta-value">{item.value}</span>
-                                                    </div>
-                                                    {index < arr.length - 1 && <div className="dept-hod-meta-divider" />}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
+                                <FacultyCard faculty={dept.hod} index={0} theme={theme} getAssetPath={getAssetPath} />
+                            </div>
 
                             {/* Faculty Section */}
                             <div className="dept-faculty-section">
@@ -946,27 +1038,9 @@ export default function DepartmentDetail() {
                                     </div>
                                     <div className="dept-section-line" />
                                 </div>
-                                <div className="faculty-grid">
+                                <div style={{ display: 'flex', flexDirection: 'column' }}>
                                     {dept.faculty.map((f, i) => (
-                                        <motion.div
-                                            key={i}
-                                            className="dept-faculty-card"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: i * 0.08, duration: 0.5 }}
-                                        >
-                                            <div className="dept-faculty-accent" />
-                                            <h4>{f.name}</h4>
-                                            <p className="dept-faculty-role">{f.designation}</p>
-                                            <div className="dept-faculty-tags">
-                                                {f.specialization && <span className="dept-faculty-tag">{f.specialization}</span>}
-                                                {f.experience && <span className="dept-faculty-tag">{f.experience}</span>}
-                                                {f.education && <span className="dept-faculty-tag">{f.education}</span>}
-                                                {f.email && <span className="dept-faculty-tag">{f.email}</span>}
-                                                {f.phone && <span className="dept-faculty-tag">{f.phone}</span>}
-                                            </div>
-                                        </motion.div>
+                                        <FacultyCard key={i} faculty={f} index={i} theme={theme} getAssetPath={getAssetPath} />
                                     ))}
                                 </div>
                             </div>

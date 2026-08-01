@@ -22,6 +22,7 @@ import DirectorMessage from '../components/DirectorMessage'
 
 import SEO from '../components/SEO'
 import JackPortfolio from '../components/JackPortfolio'
+import QuickLinks from '../components/QuickLinks'
 
 
 
@@ -513,7 +514,7 @@ export default function Home() {
     // Video Rotation State
     const videoRef = useRef(null)
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
-    const heroVideos = ['/library.mp4', '/mec college1.mp4', '/mec college2.mp4', '/mec college3.mp4', '/mec college4.mp4']
+    const heroVideos = ['/media/library.mp4', '/media/mec college1.mp4', '/media/mec college2.mp4', '/media/mec college3.mp4', '/media/mec college4.mp4']
     const heroVideoContent = [
         {
             title: 'WORLD CLASS LIBRARY',
@@ -697,7 +698,31 @@ export default function Home() {
                             </motion.div>
                         </div>
                         {/* Badge was moved to top of title */}
-
+                        
+                        {/* ===== BOTTOM NOTICES MARQUEE ===== */}
+                        <div className="hero-notice-marquee">
+                            <div className="hero-notice-track">
+                                {[1, 2].map((_, i) => (
+                                    <div className="hero-notice-content" key={i}>
+                                        <span className="notice-badge urgent">URGENT</span>
+                                        <span className="notice-text">All students must fill SCF form before 30-06-2026. Late fee penalty of ₹500 will be charged.</span>
+                                        <span className="notice-separator">•</span>
+                                        
+                                        <span className="notice-badge exam">EXAM</span>
+                                        <span className="notice-text">End semester examinations start from 15th July 2026. Download your hall tickets from the portal.</span>
+                                        <span className="notice-separator">•</span>
+                                        
+                                        <span className="notice-badge event">EVENT</span>
+                                        <span className="notice-text">Annual sports meet "Khel Mahakumbh 2026" registrations are open. Last date: 8th June.</span>
+                                        <span className="notice-separator">•</span>
+                                        
+                                        <span className="notice-badge placement">PLACEMENT</span>
+                                        <span className="notice-text">TCS & Infosys campus placement drive scheduled for 10th June. Register on placement portal now.</span>
+                                        <span className="notice-separator">•</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1087,6 +1112,9 @@ export default function Home() {
 
             {/* ===== JACK 3D CREATOR PORTFOLIO ===== */}
             <JackPortfolio />
+
+            {/* ===== QUICK LINKS ===== */}
+            <QuickLinks />
 
             {/* ===== CTA ===== */}
             <section className="cta-section">

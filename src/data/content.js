@@ -11,21 +11,125 @@ export const departments = [
         highlights: ['Modern Computer Labs', 'Industry Collaborations', 'Coding Bootcamps', 'Smart Classrooms', 'Fully AC Labs', 'Internet Facility'],
         hod: {
             name: 'Dr. Mohd. Shahid',
-            designation: 'HOD',
-            experience: '5+ Years',
-            education: 'B.Tech, M.Tech, Ph.D. (P)',
+            designation: 'HOD & Assistant Professor',
+            experience: '15+ Years',
             email: 'shahid27.jmi@gmail.com',
-            phone: '9625855594',
-            image: '/images/dr_mohd_shahid.png'
+            phone: '+91-9990112185',
+            image: '/faculty/cse/Dr. Mohd Shahid, CSED.jpg',
+            education: [
+                'Ph.D. – Software Engineering, Jamia Millia Islamia (2020)',
+                'M.Tech – Computer Engineering, Al-Falah School of Engg. (MDU, 2010)',
+                'B.Tech – Computer Engineering, Jamia Millia Islamia (2007)'
+            ],
+            bio: 'Joined as Assistant Professor in the Dept. of CS&E in 2012. Started career as Lecturer at BHCET, Faridabad (2008–2012). Published 15 research papers in International & National journals and conferences.',
+            interests: ['Soft Computing', 'Data Structures & Algorithms', 'Theory of Automata', 'Computer Networking'],
+            papers: 15,
         },
         faculty: [
-            { name: 'Dr. Aakib Jawed Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'aakibjawed@gmail.com', phone: '+91-9991946186' },
-            { name: 'Dr. Sher Jung Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'sherjung2005@gmail.com', phone: '+91-9812437896' },
-            { name: 'Ms. Neeti Malik', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'neemalik@gmail.com' },
-            { name: 'Mr. Azaz Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'azazkhancse@gmail.com', phone: '+91-8053945480' },
-            { name: 'Dr. Anam Mubin', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'anammobin92@gmail.com', phone: '9950716097' },
-            { name: 'Ms. Shariqua Razi', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'shariqua.razi.sr@gmail.com', phone: '8572881384' },
-            { name: 'Mr. Naseem Ahmed', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'naseemahmed0592@gmail.com', phone: '8586954767' }
+            {
+                name: 'Dr. Aakib Jawed Khan',
+                designation: 'Assistant Professor & Dept. Coordinator',
+                experience: '7+ Years',
+                email: 'aakibjawed@gmail.com',
+                phone: '+91-9991946186',
+                image: '/faculty/cse/Dr. AAkib Jawed Khan, CSED.png',
+                education: [
+                    'Ph.D. – Pursuing, Jamia Millia Islamia, New Delhi',
+                    'M.Tech – CS&E, Jamia Hamdard University, New Delhi',
+                    'B.E – CS&E, MDU Rohtak, Haryana'
+                ],
+                bio: 'Joined as Lecturer in 2010, currently Coordinator of CSE Dept. Qualified UGC-JRF NET (2013). Played a key role in establishing several department laboratories.',
+                interests: ['Computer Science & Engineering'],
+                papers: null,
+            },
+            {
+                name: 'Dr. Sher Jung',
+                designation: 'Assistant Professor',
+                experience: '8+ Years',
+                email: 'sherjung2005@gmail.com',
+                phone: '+91-9812437896',
+                image: '/faculty/cse/Dr. SHerjung.png',
+                education: [
+                    'Ph.D. – CS&E, M.D. University Rohtak (2019)',
+                    'M.Tech – Computer Engineering, M.D. University (2010)',
+                    'B.Tech – CSE, M.D. University (2005)'
+                ],
+                bio: 'Joined in 2019. Has 8.5 years teaching experience at Al-Falah University & 3.5 years as Admission Officer at MEC. Published 5 papers in international journals & 12 in conferences.',
+                interests: ['Data Structures & Algorithms', 'Computer Networking', 'Artificial Intelligence', 'Python'],
+                papers: 17,
+            },
+            {
+                name: 'Ms. Neeti Malik',
+                designation: 'Assistant Professor (On Leave)',
+                experience: '5+ Years',
+                email: 'neemalik@gmail.com',
+                phone: null,
+                image: '/faculty/cse/Ms. Neeti Malik.jpeg',
+                education: [
+                    'M.Tech – CS&E, Shridhar University, Pillani, Rajasthan',
+                    'MBA – Information Technology, SCDL Pune',
+                    'DAC – CDAC Pune',
+                    'B.E – Information Technology, Lingayas College, Faridabad'
+                ],
+                bio: 'Joined in 2019. Has 5+ years of teaching experience and 1 year of industrial experience as Design Engineer at GE, Bangalore.',
+                interests: ['Computer Science & Engineering', 'Information Technology'],
+                papers: null,
+            },
+            {
+                name: 'Mr. Azaz Khan',
+                designation: 'Assistant Professor',
+                experience: '3+ Years',
+                email: 'azazkhancse@gmail.com',
+                phone: '+91-8053945480',
+                image: '/faculty/cse/Mr. Azaz Khan.jpg',
+                education: [
+                    'M.Tech – Computer Science, MDU Rohtak (2018)',
+                    'B.Tech – CS&E, MDU Rohtak (2014)'
+                ],
+                bio: 'Joined in 2019. Has 3 years of industry experience. Holds Microsoft Certificate in Programming (HTML5 with JavaScript). Published 2 research papers in UGC-approved International Journals.',
+                interests: ['Web Development', 'Computer Science'],
+                papers: 2,
+            },
+            {
+                name: 'Dr. Anam Mobin',
+                designation: 'Assistant Professor (Guest)',
+                experience: '5+ Years',
+                email: 'anammobin92@gmail.com',
+                phone: '+91-9950716097',
+                image: '/faculty/cse/Dr. Anam Mobin.jpeg',
+                education: [
+                    'Ph.D. – Electronics & Communication Engg., JMI New Delhi (2023)',
+                    'M.Tech – Electronics Engineering, AMU Aligarh (2016)',
+                    'B.Tech – Electronics Engineering, AMU Aligarh (2014)'
+                ],
+                bio: 'Qualified GATE multiple times (ECE) & UGC-NET JRF twice. Worked as JRF and Asst. Prof. (contractual) at JMI. Published 7 research papers in internationally indexed journals.',
+                interests: ['Wireless Communication', 'Mobile Communication', '5G & Beyond'],
+                papers: 7,
+            },
+            {
+                name: 'Ms. Shariqua Razi',
+                designation: 'Assistant Professor (Guest)',
+                experience: null,
+                email: 'shariqua.razi.sr@gmail.com',
+                phone: '+91-8572881384',
+                image: '/faculty/cse/Ms. SHARIQUA Razi.png',
+                education: [],
+                bio: null,
+                interests: [],
+                papers: null,
+            },
+            {
+                name: 'Mr. Naseem Ahmad',
+                designation: 'Assistant Professor (Guest)',
+                experience: null,
+                email: 'naseemahmed0592@gmail.com',
+                phone: '+91-8586954767',
+                image: null,
+                education: [],
+                bio: null,
+                interests: [],
+                papers: null,
+            },
         ],
         labs: [
             { name: 'Programming for Problem Solving Using C', resources: 'C Programming Environment, Turbo C, GCC Compiler' },
@@ -67,19 +171,81 @@ export const departments = [
         highlights: ['Material Testing Lab', 'Survey Instruments', 'CAD Software', 'Site Visits', 'Field Studies', 'Research Oriented'],
         hod: {
             name: 'Mr. Kaushar Hussain',
-            designation: 'HOD',
-            experience: '10+ Years',
-            education: 'B.Tech, M.Tech, Ph.D. (P)',
-            image: '/images/civil_hod.png'
+            designation: 'HOD & Assistant Professor',
+            experience: '12+ Years',
+            email: 'kaushar.hussain@gmail.com',
+            phone: '+91-9868047105',
+            image: '/faculty/ced/Mr. Kaushar Hussain.jpg',
+            education: [
+                'M.E. – Water Resources & Hydraulic Engineering, Jadavpur University (2011)',
+                'B.Tech. – Civil Engineering, Jamia Millia Islamia (2007)'
+            ],
+            bio: 'Contributing to the development of CE Deptt since 2012. Served as HoD from 2017 to 2022. Experience in structural design using STAAD.PRO, STRAP, ETABS as a Design Engineer. Contributed to various projects by National Afforestation & Eco-development Board.',
+            interests: ['Desalination techniques', 'Wastewater treatment', 'Groundwater recharge', 'Water resources'],
         },
         faculty: [
-            { name: 'Dr. Nadeem Ahmad Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', phone: '91-9813717319', email: 'nadeem.khan@mecw.ac.in' },
-            { name: 'Mr. Syed Emaduddin Ahmed', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D. (P)', phone: '09971773390', email: 'emad.ahmed06@gmail.com' },
-            { name: 'Dr. Tofeeq Aalam', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'tofeeq.alam@mecw.ac.in' },
-            { name: 'Mr. Irshad Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.' },
-            { name: 'Mr. Zahid Hussain Shapoo', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', phone: '7006313364' },
-            { name: 'Dr. Haroon Rasheed', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.' },
-            { name: 'Mr. Mohd. Asruddin', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', phone: '9996971754' }
+            {
+                name: 'Dr. Nadeem A Khan',
+                designation: 'Assistant Professor (On Leave)',
+                experience: '13+ Years',
+                email: 'nadeem.khan@mecw.ac.in',
+                phone: '+91-9813717319',
+                image: '/faculty/ced/Dr. Nadeem A Khan.jpg',
+                education: [
+                    'Ph.D. – Jamia Millia Islamia, New Delhi (2022)',
+                    'M.Tech. – Environmental Engineering (Honors), AMU (2011)'
+                ],
+                bio: 'Currently working as Post Doc Fellow in KFUPM, Saudi Arabia. Worked as HoD from 2014 to 2017. Awarded Best Young Scientist Award (Male) by LWT India. Editorial board member of Nature journal- Scientific Reports. Published more than 10 PATENTS.',
+                interests: ['Environmental Engineering', 'Wastewater treatment', 'GIS mapping'],
+                papers: 80,
+            },
+            {
+                name: 'Dr. Tofeeq Alam',
+                designation: 'Assistant Professor',
+                experience: '4+ Years',
+                email: 'tofeeq.alam@mecw.ac.in',
+                phone: '+91-9058016190',
+                image: '/faculty/ced/Dr. Tofeeq Alam.jpg',
+                education: [
+                    'Ph.D. – Environmental Engineering, AMU (2021)',
+                    'M.Tech. – Environmental Engineering (Hons.), AMU (2015)',
+                    'B.Tech. – Civil Engineering, AKTU Lucknow (2012)'
+                ],
+                bio: 'Worked as Research Fellow (JRF/SRF) for two years in the International Indo-Euro Collaborated Research Project SWINGS. Qualified GATE 2013 with 94 Percentile.',
+                interests: ['Environmental Engineering', 'Water and Wastewater Treatment', 'Natural Wetlands'],
+                papers: 10,
+            },
+            {
+                name: 'Prof. Vimal Gupta',
+                designation: 'Professor (Adjunct)',
+                email: 'vimalgupta@hmctech.co.in',
+                image: '/faculty/ced/Vimal Gupta.jpg'
+            },
+            {
+                name: 'Prof. Mansoor Ul Haq Khan',
+                designation: 'Professor',
+                email: 'skylinebuilders2011@gmail.com',
+                image: '/faculty/ced/Mr. Mansoor Ali Khan.jpg'
+            },
+            {
+                name: 'Mr. Syed Emaduddin Ahmed',
+                designation: 'Assistant Professor',
+                email: 'emad.ahmed06@gmail.com',
+                phone: '+91-9971773390',
+                image: '/faculty/ced/Mr. Syed Emaduddin Ahmed.jpg'
+            },
+            {
+                name: 'Mr. Asruddin',
+                designation: 'Assistant Professor (Guest)',
+                phone: '+91-9996971754',
+                image: '/faculty/ced/Mr. Asruddin.jpg'
+            },
+            {
+                name: 'Mr. Irshad',
+                designation: 'Assistant Professor (Guest)',
+                phone: '+91-9996971754',
+                image: '/faculty/ced/Mr. Irshad.jpg'
+            }
         ],
         labs: [
             { name: 'Building Drawing Lab', resources: 'Drawing Boards, Drafting Instruments' },
@@ -130,18 +296,132 @@ export const departments = [
             education: 'B. Tech, M. Tech, Ph.D.',
             email: 'gaurav.citm@gmail.com',
             phone: '98930656646',
-            image: '/images/mech_hod.png'
+            image: '/faculty/med/Dr. Gaurav Aggarwal.jpg'
         },
         faculty: [
-            { name: 'Dr. Vineet jain', designation: 'Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'vjdj2004@gmail.com', phone: '8901510570' },
-            { name: 'Dr. Mohammad Farish', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'farismecw@gmail.com', phone: '+91-9991030028' },
-            { name: 'Mr. Nazim Ali Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech. Ph.D. (P)', email: 'mail2nazim@gmail.com', phone: '9013461834' },
-            { name: 'Mr. Ayaz Mehmood', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D. (P)', email: 'ayaz.amu09@gmail.com', phone: '+91-8059104876' },
-            { name: 'Dr. Adnan Akhlaq', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'adnanakhlaq87@gmail.com', phone: '9897342786' },
-            { name: 'Dr. Mohd. Iqbal', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'mohmadiqbal_86@yahoo.com', phone: '+91-9467325101' },
-            { name: 'Dr. Wasim Akram', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'wasimakramkhan18@gmail.com', phone: '+91-9717524636' },
-            { name: 'Dr. Mohsin Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'mohsin.deen@gmail.com', phone: '9050816883' },
-            { name: 'Ms. Sultana', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D. (P)', email: 'sultana9555@gmail.com', phone: '7015971605' }
+            {
+                name: 'Prof. Vineet Jain',
+                designation: 'Professor',
+                email: 'vjdj2004@gmail.com',
+                phone: '+91-8901510570',
+                image: '/faculty/med/October4-2019-10-45amVJ.jpg',
+                education: [
+                    'Ph.D. – Mechanical Engineering, YMCA',
+                    'M.Tech. – Manufacturing and Automation, YMCA',
+                    'B.E. – Mechanical Engineering, N.I.T. Kurukshetra'
+                ],
+                bio: 'Possesses more than 20 years’ experience in teaching and industry. Written three books in mechanical engineering. Published papers in international journals like Elsevier, Springer, Emerald, Inderscience, etc.',
+                interests: ['Manufacturing technology', 'Operation research', 'Decision making', 'ISM', 'GTMA', 'AHP']
+            },
+            {
+                name: 'Dr. Mohammad Faris',
+                designation: 'Assistant Professor',
+                email: 'farismecw@gmail.com',
+                phone: '+91-9991030028',
+                image: '/faculty/med/Dr. Mohammad Faris.jpg'
+            },
+            {
+                name: 'Dr. Mohsin Khan',
+                designation: 'Assistant Professor',
+                email: 'mohsin.deen@gmail.com',
+                phone: '+91-9050816883',
+                image: '/faculty/med/July25-2019-3-56pmMohsin khan Photograph HWB.jpg',
+                education: [
+                    'Ph.D. – Mechanical Engineering, DTU (2025)',
+                    'M.Tech. – Thermal Engineering, MVN University',
+                    'B.Tech. – Mechanical Engineering, Mewat Engineering College (2014)'
+                ],
+                bio: 'Joined Mewat Engineering College in 2019. Published extensively in SCIE, SCOPUS-indexed, and UGC Care-listed journals. Recognized with numerous certificates, medals, and prizes for excellence in technical presentations.',
+                interests: ['Computational Fluid Dynamics (CFD)', 'Spray Coating', 'Additive Manufacturing', '3D Printing', 'Internal Combustion Engines', 'Automobile Engineering']
+            },
+            {
+                name: 'Dr. Adnan Akhlaq',
+                designation: 'Assistant Professor',
+                email: 'adnanakhlaq87@gmail.com',
+                phone: '+91-9897342786',
+                image: '/faculty/med/Dr. AdnanAkhlaq.png',
+                education: [
+                    'M.Tech – Machine Design, AMU (2011)',
+                    'B.Tech – Mechanical Engineering (2009)'
+                ],
+                bio: 'Joined MEC in 2012. Twice qualified Gate in 2009 and 2010. Published/presented 3 research papers in National Conferences.',
+                interests: ['Machine Design', 'Smart Structures', 'Mechanisms & Machines', 'Robotics']
+            },
+            {
+                name: 'Dr. Mohd Iqbal',
+                designation: 'Assistant Professor',
+                email: 'mohmadiqbal_86@yahoo.com',
+                phone: '+91-9467325101',
+                image: '/faculty/med/Dr. Mohd Iqbal.png',
+                education: [
+                    'Pursuing Ph.D. – YMCAUST, Faridabad',
+                    'M. Tech. – Integrated Product Design & Manufacturing, GJU Hisar (2011)',
+                    'B. Tech – Mechanical Engineering, Kurukshetra University (2009)'
+                ],
+                bio: 'Joined MEC in 2012. Worked at Applied College of Management and Engineering, Palwal (2011-2012) and JIET, Jind (2008-2009). Published 4 papers in International journals and Conferences.',
+                papers: 4
+            },
+            {
+                name: 'Dr. Wasim Akram',
+                designation: 'Assistant Professor',
+                email: 'wasimakramkhan18@gmail.com',
+                phone: '+91-9717524636',
+                image: '/faculty/med/Dr. Wasim Akram.jpg',
+                education: [
+                    'M. Tech. – Machine Design (2013)',
+                    'B.Tech. – Mechanical Engineering (2010)'
+                ],
+                bio: 'University topper in M.Tech with 85.5%. Received best lecturer’s award at BHCET Faridabad. Worked as Head of the department of mechanical engineering at WIT Sohna. Joined MEC in August 2014.'
+            },
+            {
+                name: 'Ms. Sultana',
+                designation: 'Assistant Professor',
+                email: 'sultana9555@gmail.com',
+                phone: '+91-7015971605',
+                image: '/faculty/med/Ms. Sultana.jpeg',
+                education: [
+                    'M.Tech – Manufacturing Technology, Kurukshetra University (2015)',
+                    'B.Tech. – Chaudhary Devilal University Sirsa (2013)'
+                ],
+                bio: 'Appointed as Assistant Professor at MEC in 2019. Previously worked as Visiting Faculty in Government Polytechnic College for Women in Faridabad from 2016. Published 4 research papers.',
+                papers: 4
+            },
+            {
+                name: 'Mr. Ayaz Mehmood',
+                designation: 'Assistant Professor',
+                email: 'ayaz.amu09@gmail.com',
+                phone: '+91-8059104876',
+                image: '/faculty/med/Mr. Ayaz Mehmood.png',
+                education: [
+                    'M.Tech. – Thermal Science, AMU Aligarh (2009)',
+                    'B.Tech. – AMU (2006)'
+                ],
+                bio: 'Assistant Professor since 2011. Worked as Senior Lecturer in World Institute of Technology, Sohna (2010-2011) and guest faculty in Zakir Hussain College of Engg. & Tech, AMU (2007-2010).',
+                interests: ['Thermodynamic', 'Heat Transfer', 'Refrigeration', 'Air Conditioning']
+            },
+            {
+                name: 'Mr. Nazim Ali Khan',
+                designation: 'Assistant Professor',
+                email: 'mail2nazim@gmail.com',
+                phone: '+91-9013461834',
+                image: '/faculty/med/Mr. Nazim Ali Khan.jpg',
+                education: [
+                    'M. Tech. – Production, Singhania University (2012)',
+                    'B.Tech – Mechanical Engineering, Al-Falah School of Engg. & Tech.',
+                    'Diploma in Mechanical Engineering design, CADD Centre'
+                ],
+                bio: 'Joined MEC as lecturer in 2010. Started career at Dee Development Engineers Pvt. Ltd. (2007-2009) where he rapidly got promoted to Sr. Engineer in Quality Control.'
+            },
+            {
+                name: 'Dr. Gaurav Aggarwal',
+                designation: 'Faculty',
+                image: '/faculty/med/Dr. Gaurav Aggarwal.jpg'
+            },
+            {
+                name: 'Prof. (Dr.) Shamama Ahmed',
+                designation: 'Faculty',
+                image: '/faculty/med/Prof.(Dr. Shamama Ahmed.jpg'
+            }
         ],
         labs: [
             { name: 'Engineering Graphics & Drawing', resources: 'Drawing Boards, AutoCAD Station' },
@@ -188,17 +468,112 @@ export const departments = [
             education: 'B.Tech, M.Tech, Ph.D.',
             email: 'farazahmer007@gmail.com',
             phone: '9837120981',
-            image: '/images/eee_hod.png'
+            image: '/faculty/eeed/Dr. Mohammad Faraz Ahmer.png'
         },
         faculty: [
-            { name: 'Dr. Khwaja M Rafi', designation: 'Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'kmrafi1@gmail.com', phone: '9873717806' },
-            { name: 'Dr. Shamshad Ali', designation: 'Assistant Professor', education: 'B.Tech., M.Tech. Ph.D.', email: 'shamshad.jmi@gmail.com', phone: '9718184339' },
-            { name: 'Dr. Tazeem Ahmad Khan', designation: 'Associate Professor', education: 'B.Tech., M.Tech. Ph.D.', email: 'tazeemkhan1991@gmail.com', phone: '9718747468' },
-            { name: 'Mr. Mohd Umar Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', phone: '9050135552' },
-            { name: 'Dr. Mohammad Junaid Khan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'mohammad.khan444@gmail.com', phone: '9569365512' },
-            { name: 'Ms. Shahina Bano', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D. (P)', phone: '9758233716' },
-            { name: 'Mr. Kamil Hassan', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D. (P)', phone: '9818396251' },
-            { name: 'Mr. Ishrat Jamal Nasir', designation: 'Assistant Professor', education: 'B.Tech, M.Tech', email: 'ishratjamaln@gmail.com', phone: '9953238357' }
+            {
+                name: 'Prof. Khwaja M Rafi',
+                designation: 'Director / Professor (F.N.A.Sc.)',
+                email: 'kmrafi1@gmail.com',
+                phone: '+91-9873717806',
+                image: '/faculty/eeed/1764739858WhatsApp Image 2025-12-03 at 11.00.14_edfaf94f.jpg',
+                bio: 'In recognition of his valuable services to the emancipation of minority community, Dr. Khwaja M Rafi was conferred with ” SITARE-E-JAMIA” Award 2017 by Alumnai association JMI, Lucknow. Now he has been bestowed the responsibility as Director of Mewat Engineering College.'
+            },
+            {
+                name: 'Dr. Shamshad Ali',
+                designation: 'Assistant Professor',
+                email: 'shamshad.jmi@gmail.com',
+                phone: '9718184339',
+                image: '/faculty/eeed/DR. Shamshad Ali.png'
+            },
+            {
+                name: 'Dr. Tazeem Ahmad Khan',
+                designation: 'Associate Professor',
+                email: 'tazeemkhan1991@gmail.com',
+                phone: '9718747468',
+                image: '/faculty/eeed/Dr. Tazeem A Khan.jpg'
+            },
+            {
+                name: 'Mr. Mohd Umar Khan',
+                designation: 'Assistant Professor',
+                experience: '15+ Years',
+                email: 'mukhan.lko@gmail.com',
+                phone: '9050135552',
+                image: '/faculty/eeed/Mr. Mohd Umar.jpg',
+                education: [
+                    'M. Tech. – Instrumentation and Control, AMU (2003)',
+                    'B. Sc. Engineering (Electrical) – AMU (1994)'
+                ],
+                interests: ['Control system', 'Instrumentation', 'Electrical Machines']
+            },
+            {
+                name: 'Dr. Mohammad Junaid Khan',
+                designation: 'Assistant Professor (On Leave)',
+                experience: '10+ Years',
+                email: 'mohammad.khan444@gmail.com',
+                phone: '9569365512',
+                image: '/faculty/eeed/Dr. Mohammad Juniad Khan.jpeg',
+                education: [
+                    'Ph.D. – Electrical Engineering, NITTTR Chandigarh (2019)',
+                    'M. Tech. – PEC University of Technology Chandigarh (2011)',
+                    'B. Tech. – Ujjain Engineering College (2009)'
+                ],
+                bio: 'Selected for Post Doctorate Fellowship (PDF) at IIT Guwahati. Has granted 01 Indian patent and 02 patents filed. Published 43 research articles including 10 SCI. Awarded Best Paper from RPIIT 2020.',
+                interests: ['Artificial Intelligence', 'Controllers', 'Optimization and Control Techniques', 'Renewable Energy Sources'],
+                papers: 43
+            },
+            {
+                name: 'Mrs. Shahina Bano',
+                designation: 'Assistant Professor',
+                email: 'ershahina@gmail.com',
+                phone: '+91-9758233716',
+                image: '/faculty/eeed/Ms. Shahina Bano.jpeg',
+                education: [
+                    'M.Tech – Instrumentation and Control, AMU (2006)',
+                    'B. Tech. – Electrical Engineering, Jamia Millia Islamia (2001)'
+                ],
+                bio: 'Joined in 2019. Started career as Lecturer and Assistant Professor at Anand Engineering College, Agra from 2006 to 2014. Worked at Hindustan Institute of Technology and Management, Agra from 2014 to 2019.'
+            },
+            {
+                name: 'Mr. Kamaluddin Khan',
+                designation: 'Guest Lecturer',
+                email: 'kamaluddinkhan1@gmail.com',
+                image: '/faculty/eeed/Mr. kamaluddin Khan.jpg',
+                education: [
+                    'M.Sc. Engineering – Electrical Engineering, AMU',
+                    'B.Sc. Engineering – AMU'
+                ],
+                bio: 'Joined as Guest Lecturer. Worked for 20 years in the Department of Electrical Engineering at AMU. Taught for 15 years at Yanbu Industrial College in Saudi Arabia.',
+                interests: ['Microprocessors', 'Microcontrollers', 'Electric Drives', 'Power Electronics']
+            },
+            {
+                name: 'Prof. D. K. Sharma',
+                designation: 'Professor (Adjunct)',
+                image: '/faculty/eeed/Prof. D. K. Sharma.jpg'
+            },
+            {
+                name: 'Mr. Afroz Khalid',
+                designation: 'Associate Professor (Adjunct)',
+                email: 'afrozkhalid00@gmail.com',
+                image: '/faculty/eeed/Mr. Afroz Khalid.jpg'
+            },
+            {
+                name: 'Mr. Kamil Hasan',
+                designation: 'Assistant Professor',
+                phone: '+91-9818396251',
+                image: '/faculty/eeed/KAMIL.jpg'
+            },
+            {
+                name: 'Mr. Ishrat Jamal Nasir',
+                designation: 'Assistant Professor',
+                email: 'ishratjamaln@gmail.com',
+                phone: '9953238357'
+            },
+            {
+                name: 'Syed Moazzam Ali',
+                designation: 'Assistant Professor',
+                phone: '8954970013'
+            }
         ],
         labs: [
             { name: 'Electrical Technology Lab', resources: 'Basic Electrical Kits, Multimeters, Power Supplies' },
@@ -234,18 +609,59 @@ export const departments = [
         highlights: ['Microprocessor Kits', 'Xilinx & VLSI Software', 'FPGA & CPLD Training', 'MatLab & PSPICE Lab', 'Spacious & Modern Labs'],
         hod: {
             name: 'Dr. Shaheen Khan',
-            designation: 'HOD',
-            experience: '12+ Years',
-            education: 'B. Tech, M. Tech, Ph.D.',
-            email: 'shaheenkhan@mecw.ac.in',
-            phone: '1234567890',
-            image: '/images/ece_hod.png'
+            designation: 'HOD & Sr. Assistant Professor',
+            experience: '14+ Years',
+            email: 'shaheen.khan.2@gmail.com',
+            phone: '+91-8930340170',
+            image: '/faculty/eced/Dr. Shaheen Khan.png',
+            education: [
+                'Ph.D. – Jamia Millia Islamia, New Delhi (2020)',
+                'M.Tech. – ITM University, Gurgaon (2006)',
+                'B.Tech. – Electronics & Communication, ITM University (2001)'
+            ],
+            bio: 'Joined the College in 2010. Worked in Hewitt Associates (India) Pvt. Ltd. (a US based MNC) during 2005 - 2010. Briefly worked in the UK (Hemel Hampstead). Life member of IETE.',
         },
         faculty: [
-            { name: 'Dr. Naseem Ahmed', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D.', email: 'naseem047@gmail.com', phone: '91-8569803605' },
-            { name: 'Mr. Adil Zaidi', designation: 'Assistant Professor', education: 'B.Tech., M.Tech., Ph.D. (P)', email: 'adil.zaidi@mecw.ac.in', phone: '91-8700023374' },
-            { name: 'Mr. Azeem Zaidi', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'azeem.zaidi@mecw.ac.in' },
-            { name: 'Mr. Sajid Hussain', designation: 'Assistant Professor', education: 'B.Tech., M.Tech.', email: 'sajidhussain@mecw.ac.in', phone: '9813392062' }
+            {
+                name: 'Dr. Naseem Ahmad',
+                designation: 'Assistant Professor',
+                experience: '12+ Years',
+                email: 'naseem047@gmail.com',
+                phone: '+91-8569803605',
+                image: '/faculty/eced/Dr. Naseem_Ahmed.png',
+                education: [
+                    'Pursuing Ph.D. – NIT Silchar',
+                    'M.Tech. – Electronics and Communication Engineering (2009)',
+                    'B.E. – Electronics and Communication Engineering (2007)'
+                ],
+                bio: 'Joined as Assistant Professor in 2012. Previously worked as a lecturer in several academic institutions in the NCR region.',
+            },
+            {
+                name: 'Mr. Adil Zaidi',
+                designation: 'Assistant Professor',
+                experience: '15+ Years',
+                email: 'adil.zaidi@mecw.ac.in',
+                phone: '+91-8700023374',
+                image: '/faculty/eced/Mr. Adil Zaidi.jpg',
+                education: [
+                    'M.Tech. – VLSI Design, Maharishi Dayanand University',
+                    'B.Tech. – Electronics & Communication Engineering, UPTU Lucknow (2008)'
+                ],
+                bio: 'Joined MEC in 2013. Previously served as Assistant Professor at IILM (2010-2013) and Alpine College of Engineering. Co-Guide of two M.Tech Dissertations.',
+                interests: ['Analog and Digital VLSI', 'Low Power Circuits', 'Nanoelectronics Circuits'],
+                papers: 4
+            },
+            {
+                name: 'Mr. Azeem Zaidi',
+                designation: 'Assistant Professor',
+                email: 'azeem.zaidi@mecw.ac.in'
+            },
+            {
+                name: 'Mr. Sajid Hussain',
+                designation: 'Assistant Professor',
+                email: 'hsajid36@gmail.com',
+                phone: '+91-9813392062',
+            }
         ],
         labs: [
             { name: 'Basics of Electronics Lab', resources: 'Basic Electronics Component Kits, Multimeters, Breadboards' },
@@ -288,16 +704,73 @@ export const departments = [
             name: 'Dr. Khalid Hussain',
             designation: 'HOD',
             experience: '10+ Years',
-            education: 'B.Sc., M.Sc., Ph.D.',
             email: 'khalidchem83@yahoo.co.in',
-            phone: '8295564786',
-            image: '/images/ash_hod.png'
+            phone: '+91-8295564786',
+            image: '/faculty/ash/Dr. Khalid Hussain.png',
+            education: [
+                'Ph.D. – Synthetic Studies, Kurukshetra University',
+                'M.Sc. – Organic Chemistry, Kurukshetra University (2006)'
+            ],
+            bio: 'Associate Professor in Chemistry since 2012. Qualified four times CSIR-JRF NET. Got First position in M.Sc entrance exam. Worked as Head of Chemistry Department from 2010 to 2012. Editor and member in various conferences and seminars.',
+            interests: ['Synthetic studies involving Hypervalent Iodine reagents'],
+            papers: 14
         },
         faculty: [
-            { name: 'Dr. Kaleem Ahmed Quraishi', designation: 'Associate Professor', education: 'B.Sc., M.Sc., Ph.D.', phone: '+91-9718921060', email: 'kaleemspn@yahoo.co.in' },
-            { name: 'Dr. Mohammad Chaman', designation: 'Associate Professor', education: 'B.Sc., M.Sc., M.Phil., Ph.D.', phone: '8059370882', email: 'chamanmce@rediffmail.com' },
-            { name: 'Dr. Afzal Fatima', designation: 'Assistant Professor', education: 'BA., MA., M.Phil., Ph.D.' },
-            { name: 'Dr. Dilshad Ahamad', designation: 'Assistant Professor', education: 'B.Sc., M.Sc., M.Phil., Ph.D.', email: 'dlshdhmd4@gmail.com' }
+            {
+                name: 'Prof. Ali Mohammad',
+                designation: 'Professor (F.N.A.Sc.)',
+                email: 'alimohammad08@gmail.com',
+                image: '/faculty/ash/Prof. Ali Mohammad.jpg'
+            },
+            {
+                name: 'Dr. Kaleem Ahmed Quraishi',
+                designation: 'Associate Professor',
+                email: 'kaleemspn@yahoo.co.in',
+                phone: '+91-9718921060',
+                image: '/faculty/ash/Dr. Kaleem A Quraishi.png',
+                education: [
+                    'Ph.D. – Mathematics, Jamia Millia Islamia (2011)',
+                    'M.Sc. – Mathematics with Computer Science, Jamia Millia Islamia (2005)'
+                ],
+                bio: 'Associate Professor in Mathematics since 2010. Started career as Lecturer at Al-Falah School of Engineering & Technology (2005). Life time member of Rajasthan Ganita Parishad and Society of Special Functions. Controller of Examinations and Incharge of AICTE approval committee.',
+                papers: 52
+            },
+            {
+                name: 'Dr. Mohammad Chaman',
+                designation: 'Associate Professor',
+                email: 'chamanmce@rediffmail.com',
+                phone: '+91-8059370882',
+                image: '/faculty/ash/Dr. Mohd Chaman.png',
+                education: [
+                    'Ph.D. – AMU Aligarh (2004)',
+                    'M.Phil – AMU Aligarh (2002)',
+                    'M.Sc. – AMU Aligarh (1999)'
+                ],
+                bio: 'Associate Professor in the Department of Physics. Worked as Guest Faculty in Department of Applied Physics, AMU from 2005 to 2011. Life member of Solid State Nuclear Track Detectors (SSNTD) Society of India. Associated with Centre of Excellence in Materials Science, AMU.',
+                interests: ['Synthesis and characterization of nano-materials'],
+                papers: 10
+            },
+            {
+                name: 'Dr. Afzal Fatima',
+                designation: 'Assistant Professor',
+                email: 'afzaalfatima26@gmail.com',
+                phone: '+91-8901106230',
+                image: '/faculty/ash/Dr. Afzal fatima.png',
+                education: [
+                    'Ph.D. – English, Lingayas University, Faridabad',
+                    'M.Phil – Madurai Kamraj University',
+                    'M.A. – English, Allahabad University (2001)'
+                ],
+                bio: 'Assistant Professor in English since 2010. Started career as lecturer at Al-Falah School of Engineering & Technology (2001-2004). Worked with M.K.M Group of Colleges for Girls, Hodal from 2008 to 2010. More than eight years of teaching experience.'
+            },
+            {
+                name: 'Dr. Dilshad Ahamad',
+                designation: 'Assistant Professor',
+                email: 'dlshdhmd4@gmail.com',
+                education: [
+                    'Ph.D.', 'M.Phil.', 'M.Sc.', 'B.Sc.'
+                ]
+            }
         ],
         labs: [
             { name: 'Physics Lab', resources: 'Equipped with sophisticated equipment for experiments in physics, plus a separate dark room for optics experiments.' },

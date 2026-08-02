@@ -485,7 +485,7 @@ export const departments = [
                 designation: 'Director / Professor (F.N.A.Sc.)',
                 email: 'kmrafi1@gmail.com',
                 phone: '+91-9873717806',
-                image: '/faculty/eeed/1764739858WhatsApp Image 2025-12-03 at 11.00.14_edfaf94f.jpg',
+                image: '/faculty/eeed/director_khwaja_rafi.png',
                 bio: 'In recognition of his valuable services to the emancipation of minority community, Dr. Khwaja M Rafi was conferred with ” SITARE-E-JAMIA” Award 2017 by Alumnai association JMI, Lucknow. Now he has been bestowed the responsibility as Director of Mewat Engineering College.'
             },
             {

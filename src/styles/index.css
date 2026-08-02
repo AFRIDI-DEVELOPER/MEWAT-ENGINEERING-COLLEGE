@@ -1074,12 +1074,16 @@ main.portal-active {
   pointer-events: none;
 }
 
-/* Hide Safari default video controls and play button overlay */
+/* Hide Safari default video controls and play button overlay aggressively */
 .hero-video-fullscreen::-webkit-media-controls,
 .hero-video-fullscreen::-webkit-media-controls-start-playback-button,
-.hero-video-fullscreen::-webkit-media-controls-enclosure {
+.hero-video-fullscreen::-webkit-media-controls-enclosure,
+.hero-video-fullscreen::-webkit-media-controls-panel,
+.hero-video-fullscreen::-webkit-media-controls-play-button,
+.hero-video-fullscreen::-webkit-media-controls-overlay-play-button {
   display: none !important;
-  -webkit-appearance: none;
+  opacity: 0 !important;
+  -webkit-appearance: none !important;
 }
 
 /* ===== HERO MARQUEE ===== */

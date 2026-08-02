@@ -637,6 +637,9 @@ export default function Home() {
                             autoPlay
                             muted
                             playsInline
+                            controls={false}
+                            disablePictureInPicture
+                            disableRemotePlayback
                             onEnded={handleVideoEnd}
                             className="hero-video-fullscreen"
                         />

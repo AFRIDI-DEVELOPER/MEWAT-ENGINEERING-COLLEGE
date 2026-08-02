@@ -11,8 +11,8 @@ export const getAssetPath = (path) => {
     return path;
   }
 
-  // Force the base path for this specific project environment
-  const base = '/MEWAT-ENGINEERING-COLLEGE/';
+  // Use Vite's environment variable for the base path
+  const base = import.meta.env.BASE_URL;
   
   // Remove leading slash from path to avoid double slashes
   const cleanPath = path.startsWith('/') ? path.slice(1) : path;

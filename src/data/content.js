@@ -718,7 +718,7 @@ export const departments = [
         hod: {
             name: 'Dr. Khalid Hussain',
             designation: 'HOD',
-            experience: '10+ Years',
+            experience: '16+ Years',
             email: 'khalidchem83@yahoo.co.in',
             phone: '+91-8295564786',
             image: '/faculty/ash/Dr. Khalid Hussain.png',
@@ -740,6 +740,7 @@ export const departments = [
             {
                 name: 'Dr. Kaleem Ahmed Quraishi',
                 designation: 'Associate Professor',
+                experience: '20+ Years',
                 email: 'kaleemspn@yahoo.co.in',
                 phone: '+91-9718921060',
                 image: '/faculty/ash/Dr. Kaleem A Quraishi.png',
@@ -753,6 +754,7 @@ export const departments = [
             {
                 name: 'Dr. Mohammad Chaman',
                 designation: 'Associate Professor',
+                experience: '20+ Years',
                 email: 'chamanmce@rediffmail.com',
                 phone: '+91-8059370882',
                 image: '/faculty/ash/Dr. Mohd Chaman.png',
@@ -768,6 +770,7 @@ export const departments = [
             {
                 name: 'Dr. Afzal Fatima',
                 designation: 'Assistant Professor',
+                experience: '20+ Years',
                 email: 'afzaalfatima26@gmail.com',
                 phone: '+91-8901106230',
                 image: '/faculty/ash/Dr. Afzal fatima.png',

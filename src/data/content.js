@@ -610,7 +610,7 @@ export const departments = [
         hod: {
             name: 'Dr. Shaheen Khan',
             designation: 'HOD & Sr. Assistant Professor',
-            experience: '14+ Years',
+            experience: '20+ Years',
             email: 'shaheen.khan.2@gmail.com',
             phone: '+91-8930340170',
             image: '/faculty/eced/Dr. Shaheen Khan.png',
@@ -625,7 +625,7 @@ export const departments = [
             {
                 name: 'Dr. Naseem Ahmad',
                 designation: 'Assistant Professor',
-                experience: '12+ Years',
+                experience: '17+ Years',
                 email: 'naseem047@gmail.com',
                 phone: '+91-8569803605',
                 image: '/faculty/eced/Dr. Naseem_Ahmed.png',

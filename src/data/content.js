@@ -29,7 +29,7 @@ export const departments = [
             {
                 name: 'Dr. Aakib Jawed Khan',
                 designation: 'Assistant Professor & Dept. Coordinator',
-                experience: '7+ Years',
+                experience: '16+ Years',
                 email: 'aakibjawed@gmail.com',
                 phone: '+91-9991946186',
                 image: '/faculty/cse/Dr. AAkib Jawed Khan, CSED.png',
@@ -45,7 +45,7 @@ export const departments = [
             {
                 name: 'Dr. Sher Jung',
                 designation: 'Assistant Professor',
-                experience: '8+ Years',
+                experience: '18+ Years',
                 email: 'sherjung2005@gmail.com',
                 phone: '+91-9812437896',
                 image: '/faculty/cse/Dr. SHerjung.png',
@@ -78,7 +78,7 @@ export const departments = [
             {
                 name: 'Mr. Azaz Khan',
                 designation: 'Assistant Professor',
-                experience: '3+ Years',
+                experience: '10+ Years',
                 email: 'azazkhancse@gmail.com',
                 phone: '+91-8053945480',
                 image: '/faculty/cse/Mr. Azaz Khan.jpg',
@@ -109,7 +109,7 @@ export const departments = [
             {
                 name: 'Ms. Shariqua Razi',
                 designation: 'Assistant Professor (Guest)',
-                experience: null,
+                experience: '3+ Years',
                 email: 'shariqua.razi.sr@gmail.com',
                 phone: '+91-8572881384',
                 image: '/faculty/cse/Ms. SHARIQUA Razi.png',
@@ -121,7 +121,7 @@ export const departments = [
             {
                 name: 'Mr. Naseem Ahmad',
                 designation: 'Assistant Professor (Guest)',
-                experience: null,
+                experience: '10+ Years',
                 email: 'naseemahmed0592@gmail.com',
                 phone: '+91-8586954767',
                 image: null,

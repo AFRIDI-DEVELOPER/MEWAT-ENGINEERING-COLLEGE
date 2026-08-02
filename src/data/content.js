@@ -709,7 +709,6 @@ export const departments = [
         id: 'ash',
         name: 'Applied Sciences & Humanities',
         shortName: 'AS&H',
-        seats: 60,
         description: 'The department is progressing with a vision for developing efficient and technically sound students to outperform in their career worldwide.',
         detailedDescription: 'Our mission is to educate students, with individual attention, provide world-class quality education and take care of character building. The excellent education system provided by the department is aimed at making a distinctive and positive impact on the students and the society.',
         icon: '\uD83D\uDCDA',

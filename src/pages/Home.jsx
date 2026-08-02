@@ -514,7 +514,7 @@ export default function Home() {
     // Video Rotation State
     const videoRef = useRef(null)
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0)
-    const heroVideos = ['/media/library.mp4', '/media/mec college1.mp4', '/media/mec college2.mp4', '/media/mec college3.mp4', '/media/mec college4.mp4']
+    const heroVideos = ['/media/library.mp4', '/media/mec_college1.mp4', '/media/mec_college2.mp4', '/media/mec_college3.mp4', '/media/mec_college4.mp4']
     const heroVideoContent = [
         {
             title: 'WORLD CLASS LIBRARY',

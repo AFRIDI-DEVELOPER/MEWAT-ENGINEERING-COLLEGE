@@ -473,7 +473,7 @@ export const departments = [
         hod: {
             name: 'Dr. Mohd. Faraz Ahmer',
             designation: 'HOD',
-            experience: '10+ Years',
+            experience: '17+ Years',
             education: 'B.Tech, M.Tech, Ph.D.',
             email: 'farazahmer007@gmail.com',
             phone: '9837120981',
@@ -483,6 +483,7 @@ export const departments = [
             {
                 name: 'Prof. Khwaja M Rafi',
                 designation: 'Director / Professor (F.N.A.Sc.)',
+                experience: '25+ Years',
                 email: 'kmrafi1@gmail.com',
                 phone: '+91-9873717806',
                 image: '/faculty/eeed/director_khwaja_rafi.png',
@@ -491,6 +492,7 @@ export const departments = [
             {
                 name: 'Dr. Shamshad Ali',
                 designation: 'Assistant Professor',
+                experience: '22+ Years',
                 email: 'shamshad.jmi@gmail.com',
                 phone: '9718184339',
                 image: '/faculty/eeed/DR. Shamshad Ali.png'
@@ -498,6 +500,7 @@ export const departments = [
             {
                 name: 'Dr. Tazeem Ahmad Khan',
                 designation: 'Associate Professor',
+                experience: '25+ Years',
                 email: 'tazeemkhan1991@gmail.com',
                 phone: '9718747468',
                 image: '/faculty/eeed/Dr. Tazeem A Khan.jpg'
@@ -505,7 +508,7 @@ export const departments = [
             {
                 name: 'Mr. Mohd Umar Khan',
                 designation: 'Assistant Professor',
-                experience: '15+ Years',
+                experience: '30+ Years',
                 email: 'mukhan.lko@gmail.com',
                 phone: '9050135552',
                 image: '/faculty/eeed/Mr. Mohd Umar.jpg',
@@ -534,6 +537,7 @@ export const departments = [
             {
                 name: 'Mrs. Shahina Bano',
                 designation: 'Assistant Professor',
+                experience: '20+ Years',
                 email: 'ershahina@gmail.com',
                 phone: '+91-9758233716',
                 image: '/faculty/eeed/Ms. Shahina Bano.jpeg',
@@ -569,12 +573,14 @@ export const departments = [
             {
                 name: 'Mr. Kamil Hasan',
                 designation: 'Assistant Professor',
+                experience: '18+ Years',
                 phone: '+91-9818396251',
                 image: '/faculty/eeed/KAMIL.jpg'
             },
             {
                 name: 'Mr. Ishrat Jamal Nasir',
                 designation: 'Assistant Professor',
+                experience: '15+ Years',
                 email: 'ishratjamaln@gmail.com',
                 phone: '9953238357'
             },

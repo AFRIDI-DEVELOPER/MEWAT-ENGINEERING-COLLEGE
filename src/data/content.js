@@ -292,7 +292,7 @@ export const departments = [
         hod: {
             name: 'Dr. Gaurav Aggarwal',
             designation: 'HOD',
-            experience: '9+ Years',
+            experience: '16+ Years',
             education: 'B. Tech, M. Tech, Ph.D.',
             email: 'gaurav.citm@gmail.com',
             phone: '98930656646',
@@ -302,6 +302,7 @@ export const departments = [
             {
                 name: 'Prof. Vineet Jain',
                 designation: 'Professor',
+                experience: '25+ Years',
                 email: 'vjdj2004@gmail.com',
                 phone: '+91-8901510570',
                 image: '/faculty/med/October4-2019-10-45amVJ.jpg',
@@ -316,6 +317,7 @@ export const departments = [
             {
                 name: 'Dr. Mohammad Faris',
                 designation: 'Assistant Professor',
+                experience: '16+ Years',
                 email: 'farismecw@gmail.com',
                 phone: '+91-9991030028',
                 image: '/faculty/med/Dr. Mohammad Faris.jpg'
@@ -323,6 +325,7 @@ export const departments = [
             {
                 name: 'Dr. Mohsin Khan',
                 designation: 'Assistant Professor',
+                experience: '12+ Years',
                 email: 'mohsin.deen@gmail.com',
                 phone: '+91-9050816883',
                 image: '/faculty/med/July25-2019-3-56pmMohsin khan Photograph HWB.jpg',
@@ -337,6 +340,7 @@ export const departments = [
             {
                 name: 'Dr. Adnan Akhlaq',
                 designation: 'Assistant Professor',
+                experience: '15+ Years',
                 email: 'adnanakhlaq87@gmail.com',
                 phone: '+91-9897342786',
                 image: '/faculty/med/Dr. AdnanAkhlaq.png',
@@ -350,6 +354,7 @@ export const departments = [
             {
                 name: 'Dr. Mohd Iqbal',
                 designation: 'Assistant Professor',
+                experience: '15+ Years',
                 email: 'mohmadiqbal_86@yahoo.com',
                 phone: '+91-9467325101',
                 image: '/faculty/med/Dr. Mohd Iqbal.png',
@@ -364,6 +369,7 @@ export const departments = [
             {
                 name: 'Dr. Wasim Akram',
                 designation: 'Assistant Professor',
+                experience: '15+ Years',
                 email: 'wasimakramkhan18@gmail.com',
                 phone: '+91-9717524636',
                 image: '/faculty/med/Dr. Wasim Akram.jpg',
@@ -376,6 +382,7 @@ export const departments = [
             {
                 name: 'Ms. Sultana',
                 designation: 'Assistant Professor',
+                experience: '9+ Years',
                 email: 'sultana9555@gmail.com',
                 phone: '+91-7015971605',
                 image: '/faculty/med/Ms. Sultana.jpeg',
@@ -389,6 +396,7 @@ export const departments = [
             {
                 name: 'Mr. Ayaz Mehmood',
                 designation: 'Assistant Professor',
+                experience: '17+ Years',
                 email: 'ayaz.amu09@gmail.com',
                 phone: '+91-8059104876',
                 image: '/faculty/med/Mr. Ayaz Mehmood.png',
@@ -402,6 +410,7 @@ export const departments = [
             {
                 name: 'Mr. Nazim Ali Khan',
                 designation: 'Assistant Professor',
+                experience: '18+ Years',
                 email: 'mail2nazim@gmail.com',
                 phone: '+91-9013461834',
                 image: '/faculty/med/Mr. Nazim Ali Khan.jpg',

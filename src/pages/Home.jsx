@@ -548,6 +548,23 @@ export default function Home() {
         }
     }, [currentVideoIndex])
 
+    // Safari autoplay workaround: force play on any user interaction
+    useEffect(() => {
+        const forcePlay = () => {
+            if (videoRef.current && videoRef.current.paused) {
+                videoRef.current.play().catch(() => {})
+            }
+        }
+        window.addEventListener('click', forcePlay, { once: true })
+        window.addEventListener('touchstart', forcePlay, { once: true })
+        window.addEventListener('scroll', forcePlay, { once: true })
+        return () => {
+            window.removeEventListener('click', forcePlay)
+            window.removeEventListener('touchstart', forcePlay)
+            window.removeEventListener('scroll', forcePlay)
+        }
+    }, [])
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setCurrentText((prev) => (prev + 1) % heroTexts.length)
@@ -632,10 +649,12 @@ export default function Home() {
                     <div className="home-hero-fullscreen">
                         {/* Full-screen background video */}
                         <video
+                            key={currentVideoIndex}
                             ref={videoRef}
                             src={getAssetPath(heroVideos[currentVideoIndex])}
                             autoPlay
                             muted
+                            defaultMuted
                             playsInline
                             controls={false}
                             disablePictureInPicture

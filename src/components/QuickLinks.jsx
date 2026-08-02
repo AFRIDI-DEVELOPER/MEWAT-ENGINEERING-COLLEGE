@@ -10,24 +10,15 @@ import { FaUserGraduate, FaLightbulb, FaHandshake } from 'react-icons/fa';
 import './QuickLinks.css';
 
 const quickLinksData = [
-    { title: 'Sessional Result', icon: <FiBarChart2 size={22} />, link: '#' },
-    { title: 'IQAC', icon: <FiBookmark size={22} />, link: '#' },
-    { title: 'NIRF 2026', icon: <FiStar size={22} />, link: '#' },
+    { title: 'AICTE Approval Letters', icon: <FiFileText size={22} />, link: '#' },
     { title: 'Mandatory Disclosure', icon: <FiFileText size={22} />, link: '#' },
-    { title: 'Handbook', icon: <FiBook size={22} />, link: '#' },
-    { title: 'Career With Us', icon: <FiBriefcase size={22} />, link: '#' },
-    { title: 'Alumni', icon: <FaUserGraduate size={22} />, link: '#' },
-    { title: 'Incubation Centre', icon: <FaLightbulb size={22} />, link: '#' },
-    { title: 'Grievance', icon: <FiInfo size={22} />, link: '#' },
-    { title: 'AICTE 360 Degree Feedback', icon: <FiMessageCircle size={22} />, link: '#' },
-    { title: 'Feedback', icon: <FiMessageSquare size={22} />, link: '#' },
-    { title: 'Learning Partners', icon: <FaHandshake size={22} />, link: '#' },
-    { title: 'Student Login', icon: <FiLogIn size={22} />, link: '#' },
-    { title: 'Write a Review', icon: <FiEdit3 size={22} />, link: '#' },
-    { title: 'Site Map', icon: <FiMap size={22} />, link: '#' },
-    { title: 'NISP', icon: <FiBookmark size={22} />, link: '#' },
-    { title: 'JEE Mains', icon: <FiInfo size={22} />, link: '#' },
-    { title: 'CUET 2026', icon: <FiInfo size={22} />, link: '#' },
+    { title: 'Right to Information', icon: <FiInfo size={22} />, link: '#' },
+    { title: 'Alumni Form', icon: <FaUserGraduate size={22} />, link: '#' },
+    { title: 'Conference', icon: <FiMessageCircle size={22} />, link: '#' },
+    { title: 'Feedback Form', icon: <FiMessageSquare size={22} />, link: '#' },
+    { title: 'Career', icon: <FiBriefcase size={22} />, link: '#' },
+    { title: 'NBA', icon: <FiStar size={22} />, link: '#' },
+    { title: 'Margadarshak', icon: <FaHandshake size={22} />, link: '#' }
 ];
 
 export default function QuickLinks() {

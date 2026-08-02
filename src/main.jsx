@@ -8,7 +8,7 @@ import './styles/index.css'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <HelmetProvider>
-            <BrowserRouter basename="/MEWAT-ENGINEERING-COLLEGE/">
+            <BrowserRouter basename="/">
                 <App />
             </BrowserRouter>
         </HelmetProvider>

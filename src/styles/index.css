@@ -1071,6 +1071,15 @@ main.portal-active {
   object-fit: cover;
   z-index: 1;
   transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+/* Hide Safari default video controls and play button overlay */
+.hero-video-fullscreen::-webkit-media-controls,
+.hero-video-fullscreen::-webkit-media-controls-start-playback-button,
+.hero-video-fullscreen::-webkit-media-controls-enclosure {
+  display: none !important;
+  -webkit-appearance: none;
 }
 
 /* ===== HERO MARQUEE ===== */

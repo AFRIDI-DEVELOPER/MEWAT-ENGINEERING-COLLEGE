@@ -422,11 +422,6 @@ export const departments = [
                 bio: 'Joined MEC as lecturer in 2010. Started career at Dee Development Engineers Pvt. Ltd. (2007-2009) where he rapidly got promoted to Sr. Engineer in Quality Control.'
             },
             {
-                name: 'Dr. Gaurav Aggarwal',
-                designation: 'Faculty',
-                image: '/faculty/med/Dr. Gaurav Aggarwal.jpg'
-            },
-            {
                 name: 'Prof. (Dr.) Shamama Ahmed',
                 designation: 'Faculty',
                 image: '/faculty/med/Prof.(Dr. Shamama Ahmed.jpg'

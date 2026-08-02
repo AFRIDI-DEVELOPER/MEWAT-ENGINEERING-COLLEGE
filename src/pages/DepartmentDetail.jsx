@@ -875,7 +875,7 @@ export default function DepartmentDetail() {
                                 <span className="dept-hero-stat-label">Labs</span>
                             </div>
                             <div className="dept-hero-stat">
-                                <span className="dept-hero-stat-value" style={{ color: theme.accent }}>{dept.subjects.length}</span>
+                                <span className="dept-hero-stat-value" style={{ color: theme.accent }}>{['cse', 'eee', 'me', 'ece', 'ce'].includes(deptId) ? '30+' : dept.subjects.length}</span>
                                 <span className="dept-hero-stat-label">Subjects</span>
                             </div>
                         </motion.div>

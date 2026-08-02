@@ -28,7 +28,7 @@ export const departments = [
         faculty: [
             {
                 name: 'Dr. Aakib Jawed Khan',
-                designation: 'Assistant Professor & Dept. Coordinator',
+                designation: 'Assistant Professor',
                 experience: '16+ Years',
                 email: 'aakibjawed@gmail.com',
                 phone: '+91-9991946186',

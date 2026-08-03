@@ -17,6 +17,7 @@ const ceoData = {
 
 export default function CEOMessage() {
     const [imgError, setImgError] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(false)
 
     return (
         <section id="ceo-message" className="section ceo-section">
@@ -69,9 +70,24 @@ export default function CEOMessage() {
                         transition={{ duration: 0.7, delay: 0.2 }}
                     >
                         <span className="ceo-quote-icon">"</span>
-                        {ceoData.message.map((para, i) => (
+                        {ceoData.message.slice(0, isExpanded ? ceoData.message.length : 1).map((para, i) => (
                             <p key={i}>{para}</p>
                         ))}
+                        {ceoData.message.length > 1 && (
+                            <button 
+                                onClick={() => setIsExpanded(!isExpanded)}
+                                style={{
+                                    background: 'none', border: 'none',
+                                    color: 'var(--gold, #d4af37)', fontWeight: 'bold',
+                                    cursor: 'pointer', padding: '0 0 15px 0',
+                                    fontSize: '0.95rem', textDecoration: 'underline',
+                                    textUnderlineOffset: '4px', textAlign: 'left',
+                                    display: 'inline-block'
+                                }}
+                            >
+                                {isExpanded ? 'Learn Less' : 'Learn More'}
+                            </button>
+                        )}
                         <div className="ceo-blessings">
                             <span className="ceo-blessings-icon">✨</span>
                             <p>{ceoData.blessings}</p>

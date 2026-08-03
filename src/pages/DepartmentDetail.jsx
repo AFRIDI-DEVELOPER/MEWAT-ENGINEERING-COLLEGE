@@ -888,7 +888,7 @@ export default function DepartmentDetail() {
                         style={{ flex: '0 0 450px', display: 'flex', justifyContent: 'flex-end', alignSelf: 'flex-end', marginBottom: '-90px' }}
                     >
                         <img 
-                            src={getAssetPath(`/dept_${id === 'mechanical' ? 'mech' : id}.png?v=1`)} 
+                            src={getAssetPath(`/media/dept_${id === 'mechanical' ? 'mech' : id}.png`)} 
                             alt={`${dept.name} Professor`} 
                             style={{ maxWidth: '100%', maxHeight: '480px', objectFit: 'contain', objectPosition: 'bottom' }} 
                         />
@@ -1177,7 +1177,12 @@ export default function DepartmentDetail() {
                             </div>
 
                             {/* Scrollable grid area */}
-                            <div className="syllabus-grid-modal-body">
+                            <div 
+                                className="syllabus-grid-modal-body"
+                                data-lenis-prevent="true"
+                                onWheel={e => e.stopPropagation()}
+                                onTouchMove={e => e.stopPropagation()}
+                            >
                                 <div className="sem-grid">
                                     {Array.from({ length: id === 'ash' ? 2 : 8 }, (_, idx) => {
                                         const semNum = idx + 1;
@@ -1318,7 +1323,12 @@ export default function DepartmentDetail() {
                             </div>
 
                             {/* Modal Body */}
-                            <div className="timetable-modal-body">
+                            <div 
+                                className="timetable-modal-body"
+                                data-lenis-prevent="true"
+                                onWheel={e => e.stopPropagation()}
+                                onTouchMove={e => e.stopPropagation()}
+                            >
                                 {timetableTab === 'grid' ? (
                                     /* Classic Grid View */
                                     <div className="timetable-grid-container">

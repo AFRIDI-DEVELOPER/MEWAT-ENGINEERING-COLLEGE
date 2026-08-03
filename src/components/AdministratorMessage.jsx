@@ -10,6 +10,7 @@ const paragraphs = [
 
 export default function AdministratorMessage() {
     const [imgError, setImgError] = useState(false)
+    const [isExpanded, setIsExpanded] = useState(false)
 
     return (
         <section id="administrator-message" className="section admin-section">
@@ -28,9 +29,24 @@ export default function AdministratorMessage() {
                         transition={{ duration: 0.6, delay: 0.1 }}
                     >
                         <span className="admin-quote-icon">"</span>
-                        {paragraphs.map((para, i) => (
+                        {paragraphs.slice(0, isExpanded ? paragraphs.length : 1).map((para, i) => (
                             <p key={i}>{para}</p>
                         ))}
+                        {paragraphs.length > 1 && (
+                            <button 
+                                onClick={() => setIsExpanded(!isExpanded)}
+                                style={{
+                                    background: 'none', border: 'none',
+                                    color: 'var(--gold, #d4af37)', fontWeight: 'bold',
+                                    cursor: 'pointer', padding: '0 0 15px 0',
+                                    fontSize: '0.95rem', textDecoration: 'underline',
+                                    textUnderlineOffset: '4px', textAlign: 'left',
+                                    display: 'inline-block'
+                                }}
+                            >
+                                {isExpanded ? 'Learn Less' : 'Learn More'}
+                            </button>
+                        )}
                         <div className="admin-signature">
                             <div className="admin-signature-line" />
                             <div>

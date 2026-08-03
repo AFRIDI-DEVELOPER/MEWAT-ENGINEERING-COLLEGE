@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { getAssetPath } from '../utils/assets'
 import { directorData } from '../data/content'
 
 export default function DirectorMessage() {
+    const [isExpanded, setIsExpanded] = useState(false)
     return (
         <section id="director-message" className="section director-section" style={{ position: 'relative', overflow: 'hidden' }}>
             <div className="director-color-bends" />
@@ -36,9 +38,24 @@ export default function DirectorMessage() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
                         <span className="director-quote-icon">"</span>
-                        {directorData.message.map((para, i) => (
+                        {directorData.message.slice(0, isExpanded ? directorData.message.length : 1).map((para, i) => (
                             <p key={i}>{para}</p>
                         ))}
+                        {directorData.message.length > 1 && (
+                            <button 
+                                onClick={() => setIsExpanded(!isExpanded)}
+                                style={{
+                                    background: 'none', border: 'none',
+                                    color: 'var(--gold, #d4af37)', fontWeight: 'bold',
+                                    cursor: 'pointer', padding: '0 0 15px 0',
+                                    fontSize: '0.95rem', textDecoration: 'underline',
+                                    textUnderlineOffset: '4px', textAlign: 'left',
+                                    display: 'inline-block'
+                                }}
+                            >
+                                {isExpanded ? 'Learn Less' : 'Learn More'}
+                            </button>
+                        )}
                         <div className="director-signature">
                             <div className="director-signature-line" />
                             <span>{directorData.name}, {directorData.institution}</span>

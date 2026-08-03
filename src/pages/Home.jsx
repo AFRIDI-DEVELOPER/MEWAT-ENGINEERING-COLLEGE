@@ -622,6 +622,136 @@ export default function Home() {
             </section>
 
 
+            {/* ===== NEWS & NOTIFICATIONS ===== */}
+            <section className="section news-notifications-section">
+                <div className="container">
+                    <div className="section-header">
+                        <span className="section-label">Stay Updated</span>
+                        <h2>News & Notifications</h2>
+                        <p>Latest announcements, university news, and important notifications for students and faculty</p>
+                    </div>
+
+                    <div className="nn-grid">
+                        {/* ── University News Column ── */}
+                        <motion.div
+                            className="nn-column"
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: '-80px' }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="nn-column-header">
+                                <div className="nn-column-accent" />
+                                <div className="nn-column-title-wrap">
+                                    <h3>University News</h3>
+                                    <span className="nn-badge nn-badge-news">Latest</span>
+                                </div>
+                            </div>
+
+                            <div 
+                                className="nn-cards-scroll"
+                                data-lenis-prevent="true"
+                                onWheel={e => e.stopPropagation()}
+                                onTouchMove={e => e.stopPropagation()}
+                            >
+                                {[
+                                    { title: 'MEC Joins Nationwide \'NashaMuktYuva for Viksit Bharat\' Campaign; Around 200 Students Participate', date: 'Aug 02, 2026', type: 'campaign' },
+                                    { title: 'Annual Sports Meet "Khel Mahakumbh 2026" Successfully Concluded with Record Participation', date: 'Jul 28, 2026', type: 'sports' },
+                                    { title: 'TCS & Infosys Campus Placement Drive — 15 Students Selected in First Round', date: 'Jul 15, 2026', type: 'placement' },
+                                    { title: 'MEC Students Win Second Prize at National Robotics Competition Held at NIT Kurukshetra', date: 'Jun 20, 2026', type: 'achievement' },
+                                    { title: 'New Smart Classroom & IoT Lab Inaugurated by Hon\'ble Director Prof. Khwaja M Rafi', date: 'Jun 05, 2026', type: 'infrastructure' },
+                                ].map((item, i) => (
+                                    <div className="nn-card" key={i}>
+                                        <div className="nn-card-number">{i + 1}</div>
+                                        <div className="nn-card-body">
+                                            <p className="nn-card-title">{item.title}</p>
+                                            <div className="nn-card-meta">
+                                                <span className="nn-card-date">
+                                                    <FiCalendar size={11} />
+                                                    Published on {item.date}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="nn-card-indicator" />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <Link to="/notices" className="nn-view-all">
+                                View All
+                                <FiArrowRight size={14} />
+                            </Link>
+                        </motion.div>
+
+                        {/* ── Important Notifications Column ── */}
+                        <motion.div
+                            className="nn-column"
+                            initial={{ opacity: 0, x: 30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: '-80px' }}
+                            transition={{ duration: 0.6, delay: 0.15 }}
+                        >
+                            <div className="nn-column-header">
+                                <div className="nn-column-accent nn-column-accent--gold" />
+                                <div className="nn-column-title-wrap">
+                                    <h3>Important Notifications</h3>
+                                    <span className="nn-badge nn-badge-notif">New</span>
+                                </div>
+                            </div>
+
+                            <div 
+                                className="nn-cards-scroll"
+                                data-lenis-prevent="true"
+                                onWheel={e => e.stopPropagation()}
+                                onTouchMove={e => e.stopPropagation()}
+                            >
+                                {[
+                                    { title: 'All students must fill Scholarship Continuation Form (SCF) before 30-06-2026. Late fee penalty of ₹500.', date: 'Aug 01, 2026', type: 'urgent' },
+                                    { title: 'Participation of Higher Educational Institutions in Mission Karmayogi SADHANA Saptah 2026 (2nd to 8th April 2026)', date: 'Jul 25, 2026', type: 'govt' },
+                                    { title: 'End Semester Examination Schedule Released — Download Hall Tickets from Student Portal', date: 'Jul 10, 2026', type: 'exam' },
+                                    { title: 'Promotion of "Ageing with Dignity" Initiative Pledge through HEIs — All Departments to Participate', date: 'Jun 15, 2026', type: 'govt' },
+                                    { title: 'Post-Matric Scholarship Portal Open — Eligible SC/ST/OBC/Minority Students Must Apply Before Deadline', date: 'Jun 01, 2026', type: 'scholarship' },
+                                ].map((item, i) => (
+                                    <div className="nn-card" key={i}>
+                                        <div className="nn-card-number nn-card-number--gold">{i + 1}</div>
+                                        <div className="nn-card-body">
+                                            <p className="nn-card-title">{item.title}</p>
+                                            <div className="nn-card-meta">
+                                                <span className="nn-card-date nn-card-date--gold">
+                                                    <FiCalendar size={11} />
+                                                    Published on {item.date}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="nn-card-indicator nn-card-indicator--gold" />
+                                    </div>
+                                ))}
+                            </div>
+
+                            <Link to="/notices" className="nn-view-all nn-view-all--gold">
+                                View All
+                                <FiArrowRight size={14} />
+                            </Link>
+                        </motion.div>
+                    </div>
+
+                    {/* View All Notices Footer */}
+                    <motion.div
+                        className="nn-footer"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                    >
+                        <Link to="/notices" className="nn-footer-link">
+                            View All Notices
+                            <FiArrowRight size={16} />
+                        </Link>
+                    </motion.div>
+                </div>
+            </section>
+
+
             {/* ===== HIGHLIGHTS ===== */}
             <section className="section highlights">
                 <div className="container">

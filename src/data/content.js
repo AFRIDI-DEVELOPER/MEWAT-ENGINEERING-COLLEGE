@@ -472,7 +472,8 @@ export const departments = [
             education: 'B.Tech, M.Tech, Ph.D.',
             email: 'farazahmer007@gmail.com',
             phone: '9837120981',
-            image: '/faculty/eeed/Dr. Mohammad Faraz Ahmer.png'
+            image: '/faculty/eeed/Dr. Mohammad Faraz Ahmer.png',
+            bio: 'Mr. Ahmer is working as Assistant Professor in Electrical & Electronics Engineering since 2012. He did his B.E. in 2007 and M.Tech. in Power System & Drives in 2009 from Aligarh Muslim University. He has also done Diploma in Engineering (Electrical & Instrumentation) with Honours in 2003 from A.M.U Aligarh. He taught at Aligarh University from 2009 to 2011. He has published 15 research papers in reputed international journals and conferences and presented one paper in national conference at NIT Hamirpur. His areas of interest are AGC, Electrospinning and Renewable Energy Resources.'
         },
         faculty: [
             {

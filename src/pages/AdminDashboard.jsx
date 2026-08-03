@@ -7,7 +7,7 @@ import {
 import { storeFile, deleteFile } from '../utils/db';
 import '../styles/admin-dashboard.css';
 
-const ADMIN_PASSWORD = 'admin1';
+const ADMIN_PASSWORD_HASH = '6818edff7f6c8acdd47f3edd613dea76bf741ee4cfe1af170155ee077599f7bd';
 const AUTH_KEY = 'mec_admin_auth';
 
 const TABS = {
@@ -74,9 +74,17 @@ export default function AdminDashboard() {
     const navigate = useNavigate();
 
     // ─── AUTH ─────────────────────────────────────────────────────────────────
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        if (loginPassword === ADMIN_PASSWORD) {
+        
+        // Hash the entered password securely
+        const encoder = new TextEncoder();
+        const data = encoder.encode(loginPassword);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+        if (hashHex === ADMIN_PASSWORD_HASH) {
             sessionStorage.setItem(AUTH_KEY, 'true');
             setIsAuthenticated(true);
             setLoginError('');

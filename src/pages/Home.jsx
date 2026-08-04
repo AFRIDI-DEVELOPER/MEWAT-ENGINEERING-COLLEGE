@@ -651,8 +651,6 @@ export default function Home() {
                             <div 
                                 className="nn-cards-scroll"
                                 data-lenis-prevent="true"
-                                onWheel={e => e.stopPropagation()}
-                                onTouchMove={e => e.stopPropagation()}
                             >
                                 {[
                                     { title: 'MEC Joins Nationwide \'NashaMuktYuva for Viksit Bharat\' Campaign; Around 200 Students Participate', date: 'Aug 02, 2026', type: 'campaign' },
@@ -702,8 +700,6 @@ export default function Home() {
                             <div 
                                 className="nn-cards-scroll"
                                 data-lenis-prevent="true"
-                                onWheel={e => e.stopPropagation()}
-                                onTouchMove={e => e.stopPropagation()}
                             >
                                 {[
                                     { title: 'All students must fill Scholarship Continuation Form (SCF) before 30-06-2026. Late fee penalty of ₹500.', date: 'Aug 01, 2026', type: 'urgent' },

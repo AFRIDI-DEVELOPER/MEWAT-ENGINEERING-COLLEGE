@@ -85,7 +85,7 @@ export default function CEOMessage() {
                                     display: 'inline-block'
                                 }}
                             >
-                                {isExpanded ? 'Learn Less' : 'Learn More'}
+                                {isExpanded ? 'Read Less' : 'Read More'}
                             </button>
                         )}
                         <div className="ceo-blessings">

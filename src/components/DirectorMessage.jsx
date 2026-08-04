@@ -53,7 +53,7 @@ export default function DirectorMessage() {
                                     display: 'inline-block'
                                 }}
                             >
-                                {isExpanded ? 'Learn Less' : 'Learn More'}
+                                {isExpanded ? 'Read Less' : 'Read More'}
                             </button>
                         )}
                         <div className="director-signature">

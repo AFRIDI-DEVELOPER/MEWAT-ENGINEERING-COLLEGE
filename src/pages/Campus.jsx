@@ -11,7 +11,7 @@ import {
     FaPhone, FaEnvelope, FaMoneyBillWave, FaBed, FaCheck,
     FaShieldHalved, FaWifi, FaUtensils, FaLeaf, FaBuilding,
     FaBook, FaLaptopCode, FaWrench, FaMapLocationDot, FaTree,
-    FaTrophy, FaCommentDots, FaHeadphones, FaFloppyDisk, FaGraduationCap
+    FaTrophy, FaCommentDots, FaHeadphones, FaFloppyDisk, FaGraduationCap, FaImages
 } from 'react-icons/fa6'
 
 /* ── Icon Mapping for Facilities ── */
@@ -300,7 +300,19 @@ function CampusGallery() {
 /* ── Helper: render detail modal body based on facility name ── */
 function ModalContent({ facility }) {
     if (!facility) return null;
-    const d = facility.details
+    
+    // Fallback to staticFacilities details if Supabase details are missing
+    const staticFac = staticFacilities.find(sf => sf.name === facility.name);
+    const d = facility.details || (staticFac ? staticFac.details : null);
+    
+    // Generate gallery based on facility or use fallback images
+    const gallery = facility.gallery || staticFac?.gallery || [
+        '/images/college-bg.png', 
+        '/images/college-bg-1.jpg', 
+        '/images/college-bg-2.png',
+        '/images/college-bg-3.png'
+    ];
+
     if (!d) return <div className="modal-no-details">Detailed information for this facility is currently being updated. Please check back soon.</div>
     const accent = facility.accentColor || 'var(--accent)'
 
@@ -635,6 +647,17 @@ function ModalContent({ facility }) {
                         <BulletList items={d.software} />
                     </Section>
                 </>
+            )}
+
+            {/* ── COMMON GALLERY ── */}
+            {gallery && gallery.length > 0 && (
+                <Section title="Gallery" icon={<FaImages />}>
+                    <div className="modal-gallery-grid">
+                        {gallery.map((imgSrc, i) => (
+                            <img key={i} src={getAssetPath(imgSrc)} alt={`${facility.name} Gallery ${i+1}`} className="modal-gallery-img" loading="lazy" />
+                        ))}
+                    </div>
+                </Section>
             )}
         </div>
     )

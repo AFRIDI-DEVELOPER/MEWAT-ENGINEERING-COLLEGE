@@ -6890,6 +6890,26 @@ main.portal-active {
 
 }
 
+/* Gallery section */
+.modal-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+.modal-gallery-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--light-gray);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+.modal-gallery-img:hover {
+  transform: translateY(-2px);
+}
+
+
 /* Warden cards */
 .modal-warden-grid {
   display: grid;
@@ -7846,6 +7866,14 @@ main.portal-active {
   .admin-message-content {
     padding: 28px 24px;
   }
+
+  .mobile-truncate {
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
 
   .admin-signature {
     justify-content: center;
@@ -12862,3 +12890,13 @@ main {
     padding: 12px 28px;
   }
 }
+
+.multi-step-form { display: flex; flex-direction: column; gap: 30px; }
+.form-progress { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eaeaea; padding-bottom: 15px; margin-bottom: 20px; }
+.step-item { flex: 1; text-align: center; font-weight: 600; color: #999; font-size: 0.95rem; position: relative; padding-bottom: 15px; }
+.step-item.active { color: var(--primary-dark); }
+.step-item.active::after { content: ''; position: absolute; bottom: -17px; left: 50%; transform: translateX(-50%); width: 60%; height: 4px; background: var(--accent-gold); border-radius: 4px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-grid input, .form-grid select { padding: 12px 15px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 0.95rem; background: #f9fafb; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; box-sizing: border-box; }
+.form-grid input:focus, .form-grid select:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(184, 147, 59, 0.1); background: #fff; }
+@media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .file-upload-grid { grid-template-columns: 1fr !important; } }

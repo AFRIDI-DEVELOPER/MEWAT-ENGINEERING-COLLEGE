@@ -30,7 +30,7 @@ export default function AdministratorMessage() {
                     >
                         <span className="admin-quote-icon">"</span>
                         {paragraphs.slice(0, isExpanded ? paragraphs.length : 1).map((para, i) => (
-                            <p key={i}>{para}</p>
+                            <p key={i} className={!isExpanded && i === 0 ? 'mobile-truncate' : ''}>{para}</p>
                         ))}
                         {paragraphs.length > 1 && (
                             <button 

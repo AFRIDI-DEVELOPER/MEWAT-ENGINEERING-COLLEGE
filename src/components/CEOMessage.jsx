@@ -71,7 +71,7 @@ export default function CEOMessage() {
                     >
                         <span className="ceo-quote-icon">"</span>
                         {ceoData.message.slice(0, isExpanded ? ceoData.message.length : 1).map((para, i) => (
-                            <p key={i}>{para}</p>
+                            <p key={i} className={!isExpanded && i === 0 ? 'mobile-truncate' : ''}>{para}</p>
                         ))}
                         {ceoData.message.length > 1 && (
                             <button 

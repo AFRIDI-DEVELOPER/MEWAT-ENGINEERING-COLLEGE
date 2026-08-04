@@ -15,8 +15,90 @@ const fadeVariant = {
     exit: { opacity: 0, y: -10, transition: { duration: 0.2 } }
 }
 
+import { storeFile } from '../utils/db'
+
 export default function Admissions() {
-    const [activeTab, setActiveTab] = useState('eligibility')
+    const [activeTab, setActiveTab] = useState('eligibility');
+    
+    // Multi-step form state
+    const [currentStep, setCurrentStep] = useState(1);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+
+    const [formData, setFormData] = useState({
+        // Step 1: Personal Details
+        name: '', fatherName: '', motherName: '', email: '', phone: '',
+        gender: '', dob: '', program: 'B.Tech', branch: 'CSE', address: '',
+        city: '', state: '', postalCode: '', maritalStatus: '', religion: '',
+        nationality: '', category: '', hostelRequired: 'No', transportRequired: 'No', aadharNumber: '',
+        // Step 2: Academic Details
+        highestQualification: '', board: '', passingYear: '', percentage: ''
+    });
+
+    const [files, setFiles] = useState({
+        photo: null, marksheet: null, idProof: null, signature: null
+    });
+
+    const handleNext = () => setCurrentStep(prev => prev + 1);
+    const handlePrev = () => setCurrentStep(prev => prev - 1);
+    
+    const handleFileChange = (e, type) => {
+        if (e.target.files[0]) {
+            setFiles({ ...files, [type]: e.target.files[0] });
+        }
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+        const submissionId = 'adm_' + Date.now();
+
+        try {
+            // Save files to IndexedDB
+            const fileRefs = {};
+            for (const [key, file] of Object.entries(files)) {
+                if (file) {
+                    const fileKey = `${submissionId}_${key}`;
+                    await storeFile(fileKey, file);
+                    fileRefs[key] = {
+                        name: file.name,
+                        type: file.type,
+                        size: file.size,
+                        key: fileKey
+                    };
+                }
+            }
+
+            const newSubmission = {
+                id: submissionId,
+                ...formData,
+                files: fileRefs,
+                submittedAt: new Date().toISOString()
+            };
+
+            const existing = JSON.parse(localStorage.getItem('mec_online_admissions') || '[]');
+            localStorage.setItem('mec_online_admissions', JSON.stringify([newSubmission, ...existing]));
+            
+            setIsSubmitted(true);
+            setFormData({
+                name: '', fatherName: '', motherName: '', email: '', phone: '',
+                gender: '', dob: '', program: 'B.Tech', branch: 'CSE', address: '',
+                city: '', state: '', postalCode: '', maritalStatus: '', religion: '',
+                nationality: '', category: '', hostelRequired: 'No', transportRequired: 'No', aadharNumber: '',
+                highestQualification: '', board: '', passingYear: '', percentage: ''
+            });
+            setFiles({ photo: null, marksheet: null, idProof: null, signature: null });
+            setCurrentStep(1);
+            
+            setTimeout(() => {
+                setIsSubmitted(false);
+                setIsSubmitting(false);
+            }, 5000);
+        } catch (error) {
+            console.error("Submission failed:", error);
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <>
@@ -212,77 +294,271 @@ export default function Admissions() {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Application Forms Section */}
+                                    <div className="admissions-grid">
+                                        {/* Offline Form */}
+                                        <div className="premium-card">
+                                            <h3>Offline Admission</h3>
+                                            <p style={{ color: '#444', lineHeight: '1.8', fontSize: '1.02rem', marginBottom: '1.5rem' }}>
+                                                Prefer filling out a paper form? Download our official admission form, print it, and bring the completed form along with your documents to the campus.
+                                            </p>
+                                            <a href="/downloads/ADMISSION_FORM_MEC_2026-27.pdf" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ display: 'inline-block', padding: '12px 24px' }}>
+                                                📄 Download Admission Form
+                                            </a>
+                                        </div>
+
+                                        {/* Online Form */}
+                                        <div className="premium-card" style={{ gridColumn: '1 / -1' }}>
+                                            <h3>Online Admission Form</h3>
+                                            <p style={{ color: '#555', fontSize: '0.98rem', marginBottom: '20px' }}>
+                                                Complete the following steps to submit your application for admission.
+                                            </p>
+                                            
+                                            {isSubmitted ? (
+                                                <div style={{ background: '#dcfce7', color: '#166534', padding: '24px', borderRadius: '8px', textAlign: 'center', fontWeight: 'bold' }}>
+                                                    ✅ Application submitted successfully! We will contact you soon.
+                                                </div>
+                                            ) : (
+                                                <div className="multi-step-form">
+                                                    <div className="form-progress">
+                                                        <div className={`step-item ${currentStep >= 1 ? 'active' : ''}`}>1. Personal Details</div>
+                                                        <div className={`step-item ${currentStep >= 2 ? 'active' : ''}`}>2. Academic</div>
+                                                        <div className={`step-item ${currentStep >= 3 ? 'active' : ''}`}>3. Documents</div>
+                                                    </div>
+
+                                                    <form onSubmit={handleFormSubmit} className="admission-form">
+                                                        {currentStep === 1 && (
+                                                            <div className="form-step">
+                                                                <div className="form-grid">
+                                                                    <input type="text" placeholder="Full Name *" required value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
+                                                                    <input type="text" placeholder="Father's Name *" required value={formData.fatherName} onChange={e => setFormData({...formData, fatherName: e.target.value})} />
+                                                                    <input type="text" placeholder="Mother's Name *" required value={formData.motherName} onChange={e => setFormData({...formData, motherName: e.target.value})} />
+                                                                    <input type="email" placeholder="Email Address *" required value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} />
+                                                                    <input type="tel" placeholder="Phone Number *" required value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} />
+                                                                    
+                                                                    <select value={formData.gender} onChange={e => setFormData({...formData, gender: e.target.value})} required>
+                                                                        <option value="">Select Gender *</option>
+                                                                        <option value="Male">Male</option>
+                                                                        <option value="Female">Female</option>
+                                                                    </select>
+
+                                                                    <div className="input-group">
+                                                                        <label style={{ fontSize: '0.85rem', color: '#666' }}>Date of Birth *</label>
+                                                                        <input type="date" required value={formData.dob} onChange={e => setFormData({...formData, dob: e.target.value})} />
+                                                                    </div>
+
+                                                                    <select value={formData.program} onChange={e => setFormData({...formData, program: e.target.value})} required>
+                                                                        <option value="B.Tech">B.Tech</option>
+                                                                        <option value="B.Voc">B.Voc</option>
+                                                                    </select>
+
+                                                                    <select value={formData.branch} onChange={e => setFormData({...formData, branch: e.target.value})} required>
+                                                                        <option value="CSE">Computer Science</option>
+                                                                        <option value="ME">Mechanical</option>
+                                                                        <option value="CE">Civil</option>
+                                                                        <option value="ECE">Electronics</option>
+                                                                        <option value="EEE">Electrical</option>
+                                                                    </select>
+
+                                                                    <input type="text" placeholder="Aadhar Card Number *" required value={formData.aadharNumber} onChange={e => setFormData({...formData, aadharNumber: e.target.value})} />
+                                                                    <input type="text" placeholder="Street Address *" required value={formData.address} onChange={e => setFormData({...formData, address: e.target.value})} style={{ gridColumn: '1 / -1' }} />
+                                                                    
+                                                                    <input type="text" placeholder="City *" required value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} />
+                                                                    <input type="text" placeholder="State *" required value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} />
+                                                                    <input type="text" placeholder="Postal Code *" required value={formData.postalCode} onChange={e => setFormData({...formData, postalCode: e.target.value})} />
+                                                                    
+                                                                    <select value={formData.maritalStatus} onChange={e => setFormData({...formData, maritalStatus: e.target.value})} required>
+                                                                        <option value="">Marital Status *</option>
+                                                                        <option value="Single">Single</option>
+                                                                        <option value="Married">Married</option>
+                                                                    </select>
+
+                                                                    <select value={formData.religion} onChange={e => setFormData({...formData, religion: e.target.value})} required>
+                                                                        <option value="">Religion *</option>
+                                                                        <option value="Islam">Islam</option>
+                                                                        <option value="Hinduism">Hinduism</option>
+                                                                        <option value="Sikhism">Sikhism</option>
+                                                                        <option value="Christianity">Christianity</option>
+                                                                        <option value="Other">Other</option>
+                                                                    </select>
+
+                                                                    <select value={formData.nationality} onChange={e => setFormData({...formData, nationality: e.target.value})} required>
+                                                                        <option value="">Nationality *</option>
+                                                                        <option value="Indian">Indian</option>
+                                                                        <option value="Other">Other</option>
+                                                                    </select>
+
+                                                                    <select value={formData.category} onChange={e => setFormData({...formData, category: e.target.value})} required>
+                                                                        <option value="">Category *</option>
+                                                                        <option value="General">General</option>
+                                                                        <option value="OBC">OBC</option>
+                                                                        <option value="SC/ST">SC/ST</option>
+                                                                    </select>
+
+                                                                    <select value={formData.hostelRequired} onChange={e => setFormData({...formData, hostelRequired: e.target.value})}>
+                                                                        <option value="No">Hostel Required? - No</option>
+                                                                        <option value="Yes">Yes</option>
+                                                                    </select>
+
+                                                                    <select value={formData.transportRequired} onChange={e => setFormData({...formData, transportRequired: e.target.value})}>
+                                                                        <option value="No">Transport Required? - No</option>
+                                                                        <option value="Yes">Yes</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div className="form-actions" style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                                                                    <button type="button" className="btn btn-primary" onClick={handleNext}>Next Step</button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+
+                                                        {currentStep === 2 && (
+                                                            <div className="form-step">
+                                                                <div className="form-grid">
+                                                                    <select value={formData.highestQualification} onChange={e => setFormData({...formData, highestQualification: e.target.value})} required>
+                                                                        <option value="">Highest Qualification *</option>
+                                                                        <option value="12th">12th Grade</option>
+                                                                        <option value="Diploma">Diploma</option>
+                                                                        <option value="B.Sc">B.Sc</option>
+                                                                    </select>
+                                                                    
+                                                                    <input type="text" placeholder="Board / University *" required value={formData.board} onChange={e => setFormData({...formData, board: e.target.value})} />
+                                                                    <input type="text" placeholder="Year of Passing *" required value={formData.passingYear} onChange={e => setFormData({...formData, passingYear: e.target.value})} />
+                                                                    <input type="text" placeholder="Percentage / CGPA *" required value={formData.percentage} onChange={e => setFormData({...formData, percentage: e.target.value})} />
+                                                                </div>
+                                                                <div className="form-actions" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                                                                    <button type="button" className="btn btn-secondary" onClick={handlePrev} style={{ padding: '12px 24px', borderRadius: '8px', border: '1px solid #ccc', background: 'transparent' }}>Back</button>
+                                                                    <button type="button" className="btn btn-primary" onClick={handleNext}>Next Step</button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+
+                                                        {currentStep === 3 && (
+                                                            <div className="form-step">
+                                                                <div className="file-upload-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }}>
+                                                                    <div className="file-upload-box" style={{ border: '1px dashed #ccc', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
+                                                                        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px' }}>Applicant Photo *</label>
+                                                                        <input type="file" required onChange={e => handleFileChange(e, 'photo')} />
+                                                                    </div>
+                                                                    <div className="file-upload-box" style={{ border: '1px dashed #ccc', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
+                                                                        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px' }}>Aadhar / ID Proof *</label>
+                                                                        <input type="file" required onChange={e => handleFileChange(e, 'idProof')} />
+                                                                    </div>
+                                                                    <div className="file-upload-box" style={{ border: '1px dashed #ccc', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
+                                                                        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px' }}>Marksheet *</label>
+                                                                        <input type="file" required onChange={e => handleFileChange(e, 'marksheet')} />
+                                                                    </div>
+                                                                    <div className="file-upload-box" style={{ border: '1px dashed #ccc', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
+                                                                        <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px' }}>Signature *</label>
+                                                                        <input type="file" required onChange={e => handleFileChange(e, 'signature')} />
+                                                                    </div>
+                                                                </div>
+                                                                <div className="form-actions" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                                                                    <button type="button" className="btn btn-secondary" onClick={handlePrev} style={{ padding: '12px 24px', borderRadius: '8px', border: '1px solid #ccc', background: 'transparent' }}>Back</button>
+                                                                    <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                                                                        {isSubmitting ? 'Submitting...' : 'Submit Final Application'}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </form>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             )}
 
                             {/* ── T3: FEE STRUCTURE ── */}
                             {activeTab === 'fees' && (
                                 <div className="admissions-grid">
-                                    {/* Left Column: Boy's Fee table */}
-                                    <div className="premium-card">
-                                        <h3>B.Tech Annual Fee Structure</h3>
-                                        <p style={{ color: '#555', fontSize: '0.92rem', marginBottom: '20px' }}>
-                                            Below is the comprehensive breakdown of the yearly B.Tech academic fees:
-                                        </p>
-                                        <div className="premium-fee-table-container">
-                                            <table className="premium-fee-table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Fee Head</th>
-                                                        <th>Amount (Rs.)</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Tuition Fee</td>
-                                                        <td>30,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Development Fund</td>
-                                                        <td>5,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Registration Fee (Both Semesters)</td>
-                                                        <td>3,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Training &amp; Placement, Extension Lectures</td>
-                                                        <td>3,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Exam Fee (Summer Semester)</td>
-                                                        <td>2,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Exam Fee (Winter Semester)</td>
-                                                        <td>2,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Sports &amp; Cultural Activities, Medical First Aid</td>
-                                                        <td>2,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Magazines and Journals</td>
-                                                        <td>1,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Internet Charges</td>
-                                                        <td>1,000</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Subject Association</td>
-                                                        <td>500</td>
-                                                    </tr>
-                                                    <tr className="total-row">
-                                                        <td><strong>Total Boy's Fee</strong></td>
-                                                        <td><strong>49,500 / year</strong></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                    {/* Left Column: Boy's Fee table & Other Fees */}
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+                                        <div className="premium-card">
+                                            <h3>B.Tech Annual Fee Structure</h3>
+                                            <p style={{ color: '#555', fontSize: '0.92rem', marginBottom: '20px' }}>
+                                                Below is the comprehensive breakdown of the yearly B.Tech academic fees:
+                                            </p>
+                                            <div className="premium-fee-table-container">
+                                                <table className="premium-fee-table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Fee Head</th>
+                                                            <th>Amount (Rs.)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Tuition Fee</td>
+                                                            <td>30,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Development Fund</td>
+                                                            <td>5,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Registration Fee (Both Semesters)</td>
+                                                            <td>3,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Training &amp; Placement, Extension Lectures</td>
+                                                            <td>3,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Exam Fee (Summer Semester)</td>
+                                                            <td>2,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Exam Fee (Winter Semester)</td>
+                                                            <td>2,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Sports &amp; Cultural Activities, Medical First Aid</td>
+                                                            <td>2,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Magazines and Journals</td>
+                                                            <td>1,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Internet Charges</td>
+                                                            <td>1,000</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Subject Association</td>
+                                                            <td>500</td>
+                                                        </tr>
+                                                        <tr className="total-row">
+                                                            <td><strong>Total Boy's Fee</strong></td>
+                                                            <td><strong>49,500 / year</strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                        {/* Hostel Fee card */}
+                                        <div className="premium-card">
+                                            <h3>Hostel &amp; Mess Charges</h3>
+                                            <p style={{ color: '#555', fontSize: '0.98rem', marginBottom: '20px' }}>
+                                                For students opting for hostel accommodation, the annual charges are as follows:
+                                            </p>
+                                            <div className="qualification-badge-box" style={{ background: 'rgba(0,0,0,0.015)', borderColor: 'rgba(0,0,0,0.04)' }}>
+                                                <h5 style={{ color: 'var(--primary-dark, #1b2a1e)' }}>Hostel Charges</h5>
+                                                <span style={{ background: '#2d6a4f', color: '#fff' }}>16,000/- Per Year</span>
+                                            </div>
+                                            <div className="qualification-badge-box" style={{ background: 'rgba(0,0,0,0.015)', borderColor: 'rgba(0,0,0,0.04)' }}>
+                                                <h5 style={{ color: 'var(--primary-dark, #1b2a1e)' }}>Mess Charges</h5>
+                                                <span style={{ background: '#2d6a4f', color: '#fff' }}>33,000/- Per Year</span>
+                                            </div>
+                                            <div className="qualification-badge-box" style={{ background: 'rgba(201, 168, 76, 0.1)', borderColor: 'rgba(201, 168, 76, 0.3)', marginTop: '10px' }}>
+                                                <h5 style={{ color: 'var(--primary-dark, #1b2a1e)', fontWeight: 800 }}>Total Charges</h5>
+                                                <span style={{ background: '#c9a84c', color: '#0c140e', fontWeight: 'bold' }}>49,000/- Per Year</span>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    {/* Right Column: Girls concession, B.Voc/D.Voc fees & Caution money */}
+                                    {/* Right Column: Girls concession & B.Voc/D.Voc fees */}
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
                                         {/* Girls discount card */}
                                         <div className="premium-card" style={{ background: 'linear-gradient(135deg, rgba(201, 168, 76, 0.08) 0%, rgba(255, 255, 255, 0.95) 100%)', borderColor: 'rgba(201, 168, 76, 0.35)' }}>
@@ -299,19 +575,15 @@ export default function Admissions() {
                                             </p>
                                         </div>
 
-                                        {/* B.Voc / D.Voc Fee card */}
+                                        {/* B.Voc Fee card */}
                                         <div className="premium-card">
-                                            <h3>B.Voc &amp; D.Voc Program Fees</h3>
+                                            <h3>B.Voc Program Fee</h3>
                                             <p style={{ color: '#555', fontSize: '0.98rem', marginBottom: '20px' }}>
-                                                Fees for our vocational degree and diploma streams are structured as follows:
+                                                Fees for our vocational degree stream are structured as follows:
                                             </p>
                                             <div className="qualification-badge-box" style={{ background: 'rgba(0,0,0,0.015)', borderColor: 'rgba(0,0,0,0.04)' }}>
                                                 <h5 style={{ color: 'var(--primary-dark, #1b2a1e)' }}>B.Voc Course Fee</h5>
                                                 <span style={{ background: '#c9a84c', color: '#0c140e' }}>Rs. 15,000 / year</span>
-                                            </div>
-                                            <div className="qualification-badge-box" style={{ background: 'rgba(0,0,0,0.015)', borderColor: 'rgba(0,0,0,0.04)' }}>
-                                                <h5 style={{ color: 'var(--primary-dark, #1b2a1e)' }}>D.Voc Course Fee</h5>
-                                                <span style={{ background: '#c9a84c', color: '#0c140e' }}>Rs. 12,000 / year</span>
                                             </div>
                                         </div>
 

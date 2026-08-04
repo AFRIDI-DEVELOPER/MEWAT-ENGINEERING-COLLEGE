@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import {
-    FiCalendar, FiPlus, FiTrash2, FiSearch, FiBook, FiFileText, FiLogOut, FiLock, FiUploadCloud, FiCheckCircle
+    FiCalendar, FiPlus, FiTrash2, FiSearch, FiBook, FiFileText, FiLogOut, FiLock, FiUploadCloud, FiCheckCircle, FiUsers, FiEye, FiDownload
 } from 'react-icons/fi';
-import { storeFile, deleteFile } from '../utils/db';
+import { storeFile, deleteFile, getFile } from '../utils/db';
 import '../styles/admin-dashboard.css';
 
 const ADMIN_PASSWORD_HASH = '6818edff7f6c8acdd47f3edd613dea76bf741ee4cfe1af170155ee077599f7bd';
@@ -14,6 +14,7 @@ const TABS = {
     DATESHEETS: 'datesheets',
     NOTIFICATIONS: 'notifications',
     QUESTION_PAPERS: 'question_papers',
+    ONLINE_ADMISSIONS: 'online_admissions',
 };
 
 const DEFAULT_DATESHEETS = [
@@ -54,6 +55,7 @@ export default function AdminDashboard() {
     const [datesheets, setDatesheets] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [questionPapers, setQuestionPapers] = useState([]);
+    const [onlineAdmissions, setOnlineAdmissions] = useState([]);
 
     // File Upload States
     const [datesheetFile, setDatesheetFile] = useState(null);
@@ -124,6 +126,9 @@ export default function AdminDashboard() {
                 setQuestionPapers(DEFAULT_QUESTION_PAPERS);
                 localStorage.setItem('mec_qpapers', JSON.stringify(DEFAULT_QUESTION_PAPERS));
             }
+
+            const localAdmissions = localStorage.getItem('mec_online_admissions');
+            if (localAdmissions) setOnlineAdmissions(JSON.parse(localAdmissions));
         }
     }, [isAuthenticated]);
 
@@ -247,7 +252,196 @@ export default function AdminDashboard() {
         await deleteFile('file_' + id);
     };
 
+    const handleDeleteAdmission = (id) => {
+        const updated = onlineAdmissions.filter(a => a.id !== id);
+        setOnlineAdmissions(updated);
+        localStorage.setItem('mec_online_admissions', JSON.stringify(updated));
+    };
+
+    const [viewingAdmission, setViewingAdmission] = useState(null);
+
+    const handleViewDocument = async (fileKey, fileName, fileType) => {
+        try {
+            const fileData = await getFile(fileKey);
+            if (fileData) {
+                const url = URL.createObjectURL(fileData);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName || 'document';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+            } else {
+                alert("File not found in storage.");
+            }
+        } catch (e) {
+            console.error("Error retrieving file:", e);
+        }
+    };
+
     // ─── RENDERS ──────────────────────────────────────────────────────────────
+    const renderOnlineAdmissionsTab = () => (
+        <div className="admin-tab-content">
+            <div className="admin-header-row">
+                <h1>Online Admissions Inquiries</h1>
+            </div>
+
+            <div className="admin-list glass-card">
+                {onlineAdmissions.length === 0 ? (
+                    <div className="empty-state">No online admission inquiries yet.</div>
+                ) : (
+                    <table className="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Contact</th>
+                                <th>Course</th>
+                                <th>Marks (10th/12th)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {onlineAdmissions.map(adm => (
+                                <tr key={adm.id}>
+                                    <td style={{ color: '#666', fontSize: '0.9rem' }}>
+                                        {new Date(adm.submittedAt).toLocaleDateString()}
+                                    </td>
+                                    <td><strong>{adm.name}</strong></td>
+                                    <td>
+                                        <div>{adm.email}</div>
+                                        <div style={{ color: '#666', fontSize: '0.85rem' }}>{adm.phone}</div>
+                                    </td>
+                                    <td><span className="dept-badge">{(adm.program || adm.course)} {adm.branch ? `- ${adm.branch}` : ''}</span></td>
+                                    <td>
+                                        {adm.highestQualification ? (
+                                            <>{adm.highestQualification}: {adm.percentage}</>
+                                        ) : (
+                                            <>
+                                                10th: {adm.tenthMarks}%<br/>
+                                                12th: {adm.twelfthMarks || 'N/A'}%
+                                            </>
+                                        )}
+                                    </td>
+                                    <td>
+                                        <div className="action-buttons">
+                                            <button 
+                                                className="icon-btn edit" 
+                                                title="View Details"
+                                                onClick={() => setViewingAdmission(adm)}
+                                            >
+                                                <FiEye />
+                                            </button>
+                                            <button 
+                                                className="icon-btn delete" 
+                                                title="Delete Inquiry"
+                                                onClick={() => setConfirmModal({
+                                                    show: true,
+                                                    title: 'Delete Inquiry',
+                                                    message: `Are you sure you want to delete the admission inquiry from ${adm.name}?`,
+                                                    type: 'danger',
+                                                    onConfirm: () => {
+                                                        handleDeleteAdmission(adm.id);
+                                                        closeModal();
+                                                    }
+                                                })}
+                                            >
+                                                <FiTrash2 />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                )}
+            </div>
+
+            {/* Application Details Modal */}
+            {viewingAdmission && (
+                <div className="modal-overlay" onClick={() => setViewingAdmission(null)}>
+                    <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '800px', width: '90%', maxHeight: '90vh', overflowY: 'auto', padding: '30px' }}>
+                        <h2 style={{ marginBottom: '20px', borderBottom: '2px solid #eaeaea', paddingBottom: '10px' }}>Application Details</h2>
+                        
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
+                            <div>
+                                <h3 style={{ color: '#b8933b', marginBottom: '10px' }}>Personal Info</h3>
+                                <p><strong>Name:</strong> {viewingAdmission.name}</p>
+                                <p><strong>Father:</strong> {viewingAdmission.fatherName}</p>
+                                <p><strong>Mother:</strong> {viewingAdmission.motherName}</p>
+                                <p><strong>Email:</strong> {viewingAdmission.email}</p>
+                                <p><strong>Phone:</strong> {viewingAdmission.phone}</p>
+                                <p><strong>Gender:</strong> {viewingAdmission.gender}</p>
+                                <p><strong>DOB:</strong> {viewingAdmission.dob}</p>
+                                <p><strong>Aadhar:</strong> {viewingAdmission.aadharNumber}</p>
+                            </div>
+                            <div>
+                                <h3 style={{ color: '#b8933b', marginBottom: '10px' }}>Course & Preferences</h3>
+                                <p><strong>Program:</strong> {viewingAdmission.program}</p>
+                                <p><strong>Branch:</strong> {viewingAdmission.branch}</p>
+                                <p><strong>Hostel Required:</strong> {viewingAdmission.hostelRequired}</p>
+                                <p><strong>Transport Required:</strong> {viewingAdmission.transportRequired}</p>
+                                <p><strong>Category:</strong> {viewingAdmission.category}</p>
+                                <p><strong>Religion:</strong> {viewingAdmission.religion}</p>
+                                <p><strong>Nationality:</strong> {viewingAdmission.nationality}</p>
+                                <p><strong>Marital Status:</strong> {viewingAdmission.maritalStatus}</p>
+                            </div>
+                        </div>
+
+                        <div style={{ marginBottom: '30px' }}>
+                            <h3 style={{ color: '#b8933b', marginBottom: '10px' }}>Contact Address</h3>
+                            <p>{viewingAdmission.address}, {viewingAdmission.city}, {viewingAdmission.state} - {viewingAdmission.postalCode}</p>
+                        </div>
+
+                        <div style={{ marginBottom: '30px' }}>
+                            <h3 style={{ color: '#b8933b', marginBottom: '10px' }}>Academic Records</h3>
+                            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                                <thead>
+                                    <tr style={{ background: '#f5f5f5' }}>
+                                        <th style={{ padding: '8px' }}>Qualification</th>
+                                        <th style={{ padding: '8px' }}>Board / University</th>
+                                        <th style={{ padding: '8px' }}>Passing Year</th>
+                                        <th style={{ padding: '8px' }}>Percentage / CGPA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style={{ borderBottom: '1px solid #ddd' }}>
+                                        <td style={{ padding: '8px' }}>{viewingAdmission.highestQualification}</td>
+                                        <td style={{ padding: '8px' }}>{viewingAdmission.board}</td>
+                                        <td style={{ padding: '8px' }}>{viewingAdmission.passingYear}</td>
+                                        <td style={{ padding: '8px' }}>{viewingAdmission.percentage}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {viewingAdmission.files && Object.keys(viewingAdmission.files).length > 0 && (
+                            <div style={{ marginBottom: '20px' }}>
+                                <h3 style={{ color: '#b8933b', marginBottom: '10px' }}>Uploaded Documents</h3>
+                                <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+                                    {Object.entries(viewingAdmission.files).map(([type, fileMeta]) => (
+                                        <button 
+                                            key={type} 
+                                            onClick={() => handleViewDocument(fileMeta.key, fileMeta.name, fileMeta.type)}
+                                            style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 15px', border: '1px solid #ccc', borderRadius: '6px', background: '#fff', cursor: 'pointer' }}
+                                        >
+                                            <FiDownload /> Download {type}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+                            <button className="primary-btn" onClick={() => setViewingAdmission(null)}>Close</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
     const renderDatesheetsTab = () => (
         <div className="admin-tab-content">
             <div className="admin-header-row">
@@ -657,6 +851,7 @@ export default function AdminDashboard() {
                         <button className={`admin-nav-btn ${activeTab === TABS.DATESHEETS ? 'active' : ''}`} onClick={() => switchTab(TABS.DATESHEETS)}><FiCalendar /> Datesheets</button>
                         <button className={`admin-nav-btn ${activeTab === TABS.NOTIFICATIONS ? 'active' : ''}`} onClick={() => switchTab(TABS.NOTIFICATIONS)}><FiFileText /> Notices</button>
                         <button className={`admin-nav-btn ${activeTab === TABS.QUESTION_PAPERS ? 'active' : ''}`} onClick={() => switchTab(TABS.QUESTION_PAPERS)}><FiBook /> Past Papers</button>
+                        <button className={`admin-nav-btn ${activeTab === TABS.ONLINE_ADMISSIONS ? 'active' : ''}`} onClick={() => switchTab(TABS.ONLINE_ADMISSIONS)}><FiUsers /> Admissions</button>
                         <button className="admin-nav-btn" style={{ color: '#ef4444', marginTop: '4rem' }} onClick={handleLogout}><FiLogOut /> Logout</button>
                     </nav>
                 </aside>
@@ -665,6 +860,7 @@ export default function AdminDashboard() {
                     {activeTab === TABS.DATESHEETS && renderDatesheetsTab()}
                     {activeTab === TABS.NOTIFICATIONS && renderNotificationsTab()}
                     {activeTab === TABS.QUESTION_PAPERS && renderQuestionPapersTab()}
+                    {activeTab === TABS.ONLINE_ADMISSIONS && renderOnlineAdmissionsTab()}
                 </main>
             </div>
 

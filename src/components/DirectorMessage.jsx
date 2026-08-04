@@ -39,7 +39,7 @@ export default function DirectorMessage() {
                     >
                         <span className="director-quote-icon">"</span>
                         {directorData.message.slice(0, isExpanded ? directorData.message.length : 1).map((para, i) => (
-                            <p key={i}>{para}</p>
+                            <p key={i} className={!isExpanded && i === 0 ? 'mobile-truncate' : ''}>{para}</p>
                         ))}
                         {directorData.message.length > 1 && (
                             <button 

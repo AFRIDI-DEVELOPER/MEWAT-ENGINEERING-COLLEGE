@@ -361,15 +361,17 @@ function ModalContent({ facility }) {
                                     <div className="warden-contact"><FaEnvelope /> {d.head.email}</div>
                                 </div>
                             </div>
-                            <div className="modal-warden-card">
-                                <div className="warden-avatar" style={{ background: '#c0699a' }}><FaVenus /></div>
-                                <div>
-                                    <div className="warden-name">{d.headGirls.name}</div>
-                                    <div className="warden-desig">{d.headGirls.designation}</div>
-                                    <div className="warden-contact"><FaPhone /> {d.headGirls.contact}</div>
-                                    <div className="warden-contact"><FaEnvelope /> {d.headGirls.email}</div>
+                            {d.dyHead && (
+                                <div className="modal-warden-card">
+                                    <div className="warden-avatar" style={{ background: accent }}><FaMars /></div>
+                                    <div>
+                                        <div className="warden-name">{d.dyHead.name}</div>
+                                        <div className="warden-desig">{d.dyHead.designation}</div>
+                                        <div className="warden-contact"><FaPhone /> {d.dyHead.contact}</div>
+                                        <div className="warden-contact"><FaEnvelope /> {d.dyHead.email}</div>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
                     </Section>
 

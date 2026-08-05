@@ -957,16 +957,16 @@ export const facilities = [
         image: '/images/college-bg.png',
         details: {
             head: {
-                name: 'Mr. Salim Khan',
-                designation: 'Hostel Warden (Boys)',
-                contact: '+91-98765-43210',
-                email: 'warden.boys@mecw.ac.in'
+                name: 'Dr. Tofeeq Aalam',
+                designation: 'Provost',
+                contact: '+91 9058016190',
+                email: 'tofeeq.aalam@gmail.com'
             },
-            headGirls: {
-                name: 'Ms. Rukhsana Begum',
-                designation: 'Hostel Warden (Girls)',
-                contact: '+91-98765-43211',
-                email: 'warden.girls@mecw.ac.in'
+            dyHead: {
+                name: 'Mr. Azaz Khan',
+                designation: 'Dy. Provost',
+                contact: '+91 8053945480',
+                email: 'azazkhancse@gmail.com'
             },
             roomTypes: [
                 { type: 'Single Occupancy', rent: '₹3,500 / month', amenities: ['Attached Bathroom', 'Study Table', 'Wardrobe', 'Fan & Light'] },

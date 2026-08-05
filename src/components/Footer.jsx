@@ -309,6 +309,7 @@ export default function Footer() {
                                 <li><FooterBtn label="Career"                  onClick={() => openModal('career')} /></li>
                                 <li><Link to="#">NBA</Link></li>
                                 <li><Link to="#">Margadarshak</Link></li>
+                                <li><Link to="/academic-calendar">Academic Calendar</Link></li>
                             </ul>
                         </div>
 
@@ -327,17 +328,28 @@ export default function Footer() {
                                 <FiMail className="contact-icon" />
                                 <span>{contactInfo.email[0]}</span>
                             </div>
-                            <div className="footer-contact-item" style={{ marginTop: '1.5rem', alignItems: 'flex-start' }}>
+                            <div className="footer-contact-item" style={{ marginTop: '1.5rem', alignItems: 'flex-start', width: '100%' }}>
                                 <div style={{
-                                    fontFamily: "'Kanit', sans-serif",
-                                    fontWeight: 900, fontSize: '1.5rem',
-                                    letterSpacing: '1px', textTransform: 'uppercase', lineHeight: '1.2',
+                                    fontFamily: "'Syncopate', sans-serif",
+                                    fontWeight: 700, 
+                                    fontSize: '0.9rem',
+                                    letterSpacing: '1px', 
+                                    lineHeight: '1.6',
+                                    color: 'rgba(255,255,255,0.7)',
+                                    textTransform: 'lowercase'
                                 }}>
-                                    HEYY,THIS WEBSITE<br />
-                                    IS DEVELOPED BY<br />
+                                    heyy! this website is developed by<br />
                                     <a href="https://afrididvlpr.pro/" target="_blank" rel="noopener noreferrer"
-                                        style={{ color: 'var(--gold)', textDecoration: 'none' }}>
-                                        AFRIDI_DEVELOPER
+                                        style={{ 
+                                            color: '#ff0033', 
+                                            textDecoration: 'none',
+                                            fontWeight: 700,
+                                            fontSize: '1.4rem',
+                                            letterSpacing: '3px',
+                                            display: 'inline-block',
+                                            marginTop: '6px'
+                                        }}>
+                                        afridi developer
                                     </a>
                                 </div>
                             </div>

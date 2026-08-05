@@ -18,6 +18,7 @@ import ExaminationCell from './pages/ExaminationCell'
 import Dashboard from './pages/Dashboard'
 import AdminDashboard from './pages/AdminDashboard'
 import Notices from './pages/Notices'
+import AcademicCalendar from './pages/AcademicCalendar'
 
 function ScrollToTop() {
     const { pathname, hash } = useLocation()
@@ -98,6 +99,7 @@ export default function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/notices" element={<Notices />} />
+                    <Route path="/academic-calendar" element={<AcademicCalendar />} />
                 </Routes>
             </main>
             {!isPortal && <Footer />}

@@ -397,7 +397,7 @@ export default function ExaminationCell() {
                                 boxShadow: '0 4px 20px rgba(200,169,81,0.1)'
                             }}>
                                 <img 
-                                    src={getAssetPath('/images/nazim_ali_khan.png')} 
+                                    src={getAssetPath('/faculty/med/Mr. Nazim Ali Khan.jpg')} 
                                     alt="Mr. Nazim Ali Khan - Chairman, Exam Cell"
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                                     onError={e => {

@@ -377,9 +377,9 @@ function ModalContent({ facility }) {
 
                     <Section title="Fee Structure" icon={<FaMoneyBillWave />}>
                         <div className="modal-fee-banner">
-                            <div className="fee-item"><span>Annual Fee</span><strong>{d.annualFee}</strong></div>
-                            <div className="fee-item"><span>Mess Fee</span><strong>{d.messFee}</strong></div>
-                            <div className="fee-item"><span>Security Deposit</span><strong>{d.securityDeposit}</strong></div>
+                            <div className="fee-item"><span>Hostel Charge</span><strong>{d.hostelCharge}</strong></div>
+                            <div className="fee-item"><span>Mess Charge</span><strong>{d.messCharge}</strong></div>
+                            <div className="fee-item"><span>Total Cost</span><strong>{d.totalCost}</strong></div>
                         </div>
                     </Section>
 

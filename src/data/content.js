@@ -973,9 +973,9 @@ export const facilities = [
                 { type: 'Double Occupancy', rent: '₹2,500 / month', amenities: ['Common Bathroom', 'Study Tables', 'Wardrobes', 'Fan & Light'] },
                 { type: 'Triple Occupancy', rent: '₹2,000 / month', amenities: ['Common Bathroom', 'Shared Study Area', 'Wardrobes', 'Fan & Light'] }
             ],
-            annualFee: '₹49,000 / year (Boys & Girls)',
-            messFee: 'Included in Annual Fee',
-            securityDeposit: '₹5,000 (One-time, Refundable)',
+            hostelCharge: '₹16,000 / year',
+            messCharge: '₹33,000 / year',
+            totalCost: '₹49,000 / year',
             security: [
                 '24/7 CCTV Surveillance with 80+ cameras',
                 'Biometric entry/exit system',

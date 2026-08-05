@@ -862,7 +862,7 @@ const services = [
         num: '01',
         name: 'Hostel',
         sub: 'Engineering College in Delhi, NCR',
-        desc: 'Hostel facility at a most affordable cost of Rs. 44,000 per annum which includes food and lodging both.',
+        desc: 'Hostel facility at a most affordable hostel charge 16,000, Mess charge 33,000 total cost of Rs. 49,000 per annum which includes food and lodging both.',
     },
     {
         num: '02',

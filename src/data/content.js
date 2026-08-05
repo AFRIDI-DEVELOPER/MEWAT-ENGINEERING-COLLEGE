@@ -973,7 +973,7 @@ export const facilities = [
                 { type: 'Double Occupancy', rent: '₹2,500 / month', amenities: ['Common Bathroom', 'Study Tables', 'Wardrobes', 'Fan & Light'] },
                 { type: 'Triple Occupancy', rent: '₹2,000 / month', amenities: ['Common Bathroom', 'Shared Study Area', 'Wardrobes', 'Fan & Light'] }
             ],
-            annualFee: '₹44,000 / year (Boys & Girls)',
+            annualFee: '₹49,000 / year (Boys & Girls)',
             messFee: 'Included in Annual Fee',
             securityDeposit: '₹5,000 (One-time, Refundable)',
             security: [
@@ -1356,7 +1356,7 @@ export const admissionInfo = {
     feeStructure: {
         tuitionFeeBoys: '₹49,500 / year',
         tuitionFeeGirls: '₹19,750 / year',
-        hostelFee: '₹44,000 / year',
+        hostelFee: '₹49,000 / year',
         girlsDiscount: 'Special concession of ~60% for girl students',
         scholarships: 'Various state (PMS) and central government (MOMA) scholarships available'
     },

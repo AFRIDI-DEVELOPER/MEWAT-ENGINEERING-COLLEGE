@@ -394,11 +394,11 @@ export const departments = [
                 papers: 4
             },
             {
-                name: 'Mr. Ayaz Mehmood',
-                designation: 'Assistant Professor',
+                name: 'Dr. Ayaz Mehmood',
+                designation: 'Chair',
                 experience: '17+ Years',
                 email: 'ayaz.amu09@gmail.com',
-                phone: '+91-8059104876',
+                phone: '+91 9457007322',
                 image: '/faculty/med/Mr. Ayaz Mehmood.png',
                 education: [
                     'M.Tech. – Thermal Science, AMU Aligarh (2009)',

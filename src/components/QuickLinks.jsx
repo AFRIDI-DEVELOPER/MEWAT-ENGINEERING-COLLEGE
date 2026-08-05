@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { 
     FiBarChart2, FiBookmark, FiStar, FiFileText, FiBook, 
     FiBriefcase, FiInfo, FiMessageSquare, FiMessageCircle,
-    FiLogIn, FiEdit3, FiMap
+    FiLogIn, FiEdit3, FiMap, FiCalendar
 } from 'react-icons/fi';
 import { FaUserGraduate, FaLightbulb, FaHandshake } from 'react-icons/fa';
 import './QuickLinks.css';
@@ -18,7 +18,8 @@ const quickLinksData = [
     { title: 'Feedback Form', icon: <FiMessageSquare size={22} />, link: '#' },
     { title: 'Career', icon: <FiBriefcase size={22} />, link: '#' },
     { title: 'NBA', icon: <FiStar size={22} />, link: '#' },
-    { title: 'Margadarshak', icon: <FaHandshake size={22} />, link: '#' }
+    { title: 'Margadarshak', icon: <FaHandshake size={22} />, link: '#' },
+    { title: 'Academic Calendar', icon: <FiCalendar size={22} />, link: '/academic-calendar' }
 ];
 
 export default function QuickLinks() {

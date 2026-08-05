@@ -163,7 +163,7 @@ export default function About() {
                                 </div>
                                 <div className="why-choose-mec-grid">
                                     {[
-                                        { icon: '🏠', title: 'Affordable Hostel Facility', desc: 'Hostel facility at the most affordable cost of Rs. 40,000 per annum which includes food and lodging both.' },
+                                        { icon: '🏠', title: 'Affordable Hostel Facility', desc: 'Hostel facility at the most affordable cost of Rs. 49,000 per annum which includes food and lodging both.' },
                                         { icon: '🎓', title: 'Excellent GATE Results', desc: 'Students secured good ranks in GATE with the highest being 51 All India Rank.' },
                                         { icon: '💼', title: '100% Placement', desc: '100% placement of the qualifying candidates with tie-ups with leading industries and companies.' },
                                         { icon: '📍', title: 'Unique Location', desc: 'Only Engineering College in Mewat Region and existing in Delhi NCR Region (based at Nuh).' },

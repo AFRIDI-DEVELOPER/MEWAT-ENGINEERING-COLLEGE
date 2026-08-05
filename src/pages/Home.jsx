@@ -497,6 +497,18 @@ export default function Home() {
         }
         return icons[id] || <FiAward />
     }
+    const [homeEvents, setHomeEvents] = useState([])
+    const [homeNotifications, setHomeNotifications] = useState([])
+
+    useEffect(() => {
+        const localNotifs = localStorage.getItem('mec_notifications')
+        if (localNotifs) {
+            const parsed = JSON.parse(localNotifs)
+            setHomeEvents(parsed.filter(n => n.type === 'event'))
+            setHomeNotifications(parsed.filter(n => n.type === 'important' || n.urgent))
+        }
+    }, [])
+
 
     const HighlightIcon = ({ index }) => {
         const icons = [
@@ -632,7 +644,7 @@ export default function Home() {
                     </div>
 
                     <div className="nn-grid">
-                        {/* ── University News Column ── */}
+                        {/* ── Events Column ── */}
                         <motion.div
                             className="nn-column"
                             initial={{ opacity: 0, x: -30 }}
@@ -643,7 +655,7 @@ export default function Home() {
                             <div className="nn-column-header">
                                 <div className="nn-column-accent" />
                                 <div className="nn-column-title-wrap">
-                                    <h3>University News</h3>
+                                    <h3>Events</h3>
                                     <span className="nn-badge nn-badge-news">Latest</span>
                                 </div>
                             </div>
@@ -652,13 +664,9 @@ export default function Home() {
                                 className="nn-cards-scroll"
                                 data-lenis-prevent="true"
                             >
-                                {[
-                                    { title: 'MEC Joins Nationwide \'NashaMuktYuva for Viksit Bharat\' Campaign; Around 200 Students Participate', date: 'Aug 02, 2026', type: 'campaign' },
-                                    { title: 'Annual Sports Meet "Khel Mahakumbh 2026" Successfully Concluded with Record Participation', date: 'Jul 28, 2026', type: 'sports' },
-                                    { title: 'TCS & Infosys Campus Placement Drive — 15 Students Selected in First Round', date: 'Jul 15, 2026', type: 'placement' },
-                                    { title: 'MEC Students Win Second Prize at National Robotics Competition Held at NIT Kurukshetra', date: 'Jun 20, 2026', type: 'achievement' },
-                                    { title: 'New Smart Classroom & IoT Lab Inaugurated by Hon\'ble Director Prof. Khwaja M Rafi', date: 'Jun 05, 2026', type: 'infrastructure' },
-                                ].map((item, i) => (
+                                {homeEvents.length === 0 ? (
+                                    <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>No events posted yet.</div>
+                                ) : homeEvents.map((item, i) => (
                                     <div className="nn-card" key={i}>
                                         <div className="nn-card-number">{i + 1}</div>
                                         <div className="nn-card-body">
@@ -701,13 +709,9 @@ export default function Home() {
                                 className="nn-cards-scroll"
                                 data-lenis-prevent="true"
                             >
-                                {[
-                                    { title: 'All students must fill Scholarship Continuation Form (SCF) before 30-06-2026. Late fee penalty of ₹500.', date: 'Aug 01, 2026', type: 'urgent' },
-                                    { title: 'Participation of Higher Educational Institutions in Mission Karmayogi SADHANA Saptah 2026 (2nd to 8th April 2026)', date: 'Jul 25, 2026', type: 'govt' },
-                                    { title: 'End Semester Examination Schedule Released — Download Hall Tickets from Student Portal', date: 'Jul 10, 2026', type: 'exam' },
-                                    { title: 'Promotion of "Ageing with Dignity" Initiative Pledge through HEIs — All Departments to Participate', date: 'Jun 15, 2026', type: 'govt' },
-                                    { title: 'Post-Matric Scholarship Portal Open — Eligible SC/ST/OBC/Minority Students Must Apply Before Deadline', date: 'Jun 01, 2026', type: 'scholarship' },
-                                ].map((item, i) => (
+                                {homeNotifications.length === 0 ? (
+                                    <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>No important notifications posted yet.</div>
+                                ) : homeNotifications.map((item, i) => (
                                     <div className="nn-card" key={i}>
                                         <div className="nn-card-number nn-card-number--gold">{i + 1}</div>
                                         <div className="nn-card-body">

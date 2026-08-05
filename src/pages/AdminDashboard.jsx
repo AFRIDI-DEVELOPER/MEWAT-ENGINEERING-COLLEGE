@@ -63,7 +63,7 @@ export default function AdminDashboard() {
     const [qpFile, setQpFile] = useState(null);
 
     const [newDatesheet, setNewDatesheet] = useState({ title: '', department: 'All B.Tech' });
-    const [newNotification, setNewNotification] = useState({ title: '', refNo: '', urgent: false });
+    const [newNotification, setNewNotification] = useState({ title: '', type: 'event' });
     const [newQP, setNewQP] = useState({ subject: '', code: '', dept: 'CSE', sem: '1st', year: String(new Date().getFullYear()) });
 
     const [confirmModal, setConfirmModal] = useState({ show: false, title: '', message: '', onConfirm: null, type: 'danger' });
@@ -178,27 +178,27 @@ export default function AdminDashboard() {
 
     const handleAddNotification = async (e) => {
         e.preventDefault();
-        if (!notificationFile) return alert('Please select a PDF file to upload.');
 
         const notId = 'not_' + Date.now();
-        const size = Math.round(notificationFile.size / 1024) + ' KB';
+        const size = notificationFile ? Math.round(notificationFile.size / 1024) + ' KB' : null;
 
         try {
-            await storeFile('file_' + notId, notificationFile);
+            if (notificationFile) {
+                await storeFile('file_' + notId, notificationFile);
+            }
 
             const not = {
                 id: notId,
                 title: newNotification.title,
-                refNo: newNotification.refNo || `MEC/EXAM/${new Date().getFullYear()}/${Math.floor(100 + Math.random() * 900)}`,
-                urgent: newNotification.urgent,
+                type: newNotification.type,
                 size: size,
                 date: new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
-                hasFile: true
+                hasFile: !!notificationFile
             };
             const updated = [not, ...notifications];
             setNotifications(updated);
             localStorage.setItem('mec_notifications', JSON.stringify(updated));
-            setNewNotification({ title: '', refNo: '', urgent: false });
+            setNewNotification({ title: '', type: 'event' });
             setNotificationFile(null);
             setShowAddForm(false);
         } catch (err) {
@@ -552,9 +552,9 @@ export default function AdminDashboard() {
     const renderNotificationsTab = () => (
         <div className="admin-tab-content">
             <div className="admin-header-row">
-                <h1>Exam Notification Management</h1>
+                <h1>News & Events Management</h1>
                 <button className="primary-btn" onClick={() => setShowAddForm(!showAddForm)}>
-                    <FiPlus /> {showAddForm ? 'Cancel' : 'Add Notification'}
+                    <FiPlus /> {showAddForm ? 'Cancel' : 'Add New'}
                 </button>
             </div>
 
@@ -563,25 +563,16 @@ export default function AdminDashboard() {
                     <form onSubmit={handleAddNotification}>
                         <div className="form-grid">
                             <div className="form-group">
-                                <label>Notification Title</label>
+                                <label>Title</label>
                                 <input 
                                     type="text" 
                                     value={newNotification.title} 
                                     onChange={e => setNewNotification({...newNotification, title: e.target.value})} 
-                                    placeholder="e.g. Online Submission of Exam Forms Regular/Re-appear" 
+                                    placeholder="e.g. Annual Sports Meet 2026" 
                                     required 
                                 />
                             </div>
-                            <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', gridColumn: 'span 2' }}>
-                                <div className="form-group">
-                                    <label>Reference Number (Optional)</label>
-                                    <input 
-                                        type="text" 
-                                        value={newNotification.refNo} 
-                                        onChange={e => setNewNotification({...newNotification, refNo: e.target.value})} 
-                                        placeholder="e.g. MEC/EXAM/2026/045" 
-                                    />
-                                </div>
+                            <div className="form-grid-2" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem', gridColumn: 'span 2' }}>
                                 <div className="form-group">
                                     <label>Upload PDF Document</label>
                                     <input 
@@ -605,22 +596,20 @@ export default function AdminDashboard() {
                                 </div>
                             </div>
                             <div className="urgent-toggle-row" style={{ gridColumn: 'span 2' }}>
-                                <label className="toggle-switch" htmlFor="urgent">
-                                    <input 
-                                        type="checkbox" 
-                                        id="urgent"
-                                        checked={newNotification.urgent} 
-                                        onChange={e => setNewNotification({...newNotification, urgent: e.target.checked})} 
-                                    />
-                                    <span className="toggle-slider" />
-                                </label>
-                                <label htmlFor="urgent" className="urgent-label">
-                                    <span className="urgent-text">Mark as Urgent</span>
-                                    <span className="urgent-hint">Urgent notifications appear with a red badge</span>
-                                </label>
+                                <div className="form-group">
+                                    <label>Type</label>
+                                    <select 
+                                        value={newNotification.type} 
+                                        onChange={e => setNewNotification({...newNotification, type: e.target.value})}
+                                        style={{ padding: '0.75rem', borderRadius: '8px', border: '1px solid #ddd', width: '100%' }}
+                                    >
+                                        <option value="event">Event (Shows in Events column)</option>
+                                        <option value="important">Important Notification</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Publish Notification</button>
+                        <button type="submit" className="primary-btn" style={{ marginTop: '1rem' }}>Publish</button>
                     </form>
                 </div>
             )}
@@ -629,7 +618,6 @@ export default function AdminDashboard() {
                 <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>Ref Number</th>
                             <th>Title</th>
                             <th>Type</th>
                             <th>Publish Date</th>
@@ -639,13 +627,14 @@ export default function AdminDashboard() {
                     <tbody>
                         {notifications.length > 0 ? notifications.map(not => (
                             <tr key={not.id}>
-                                <td style={{ fontWeight: '600', fontFamily: 'monospace' }}>{not.refNo}</td>
                                 <td>{not.title}</td>
                                 <td>
-                                    {not.urgent ? (
-                                        <span style={{ background: '#fef2f2', color: '#dc2626', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '700' }}>URGENT</span>
+                                    {not.type === 'important' ? (
+                                        <span style={{ background: '#fef2f2', color: '#dc2626', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '700' }}>IMPORTANT</span>
+                                    ) : not.type === 'event' ? (
+                                        <span style={{ background: '#f0fdf4', color: '#16a34a', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600' }}>EVENT</span>
                                     ) : (
-                                        <span style={{ background: '#f8fafc', color: '#64748b', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600' }}>Standard</span>
+                                        <span style={{ background: '#f8fafc', color: '#64748b', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '600' }}>STANDARD</span>
                                     )}
                                 </td>
                                 <td>{not.date}</td>

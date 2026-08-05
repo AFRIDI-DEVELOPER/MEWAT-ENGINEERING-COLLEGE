@@ -200,12 +200,12 @@ export const departments = [
                 papers: 80,
             },
             {
-                name: 'Dr. Tofeeq Alam',
+                name: 'Dr. Tofeeq Aalam',
                 designation: 'Assistant Professor',
-                experience: '4+ Years',
-                email: 'tofeeq.alam@mecw.ac.in',
+                experience: '10+ Years',
+                email: 'tofeeq.aalam@gmail.com',
                 phone: '+91-9058016190',
-                image: '/faculty/ced/Dr. Tofeeq Alam.jpg',
+                image: '/faculty/ced/Dr. Tofeeq Aalam.jpg',
                 education: [
                     'Ph.D. – Environmental Engineering, AMU (2021)',
                     'M.Tech. – Environmental Engineering (Hons.), AMU (2015)',

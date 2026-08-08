@@ -475,6 +475,23 @@ export default function Home() {
         window.dispatchEvent(new CustomEvent('cursor-change', { detail: { icons: null } }))
     }
 
+    const handleScrollAreaWheel = (e) => {
+        const el = e.currentTarget;
+        const isScrollable = el.scrollHeight > el.clientHeight;
+        if (!isScrollable) return; // Allow page scroll if container is empty or fits
+        
+        const isAtTop = el.scrollTop === 0;
+        const isAtBottom = Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) <= 1;
+        
+        if (e.deltaY < 0 && isAtTop) return; // Allow page scroll up if at top
+        if (e.deltaY > 0 && isAtBottom) return; // Allow page scroll down if at bottom
+        
+        e.stopPropagation();
+        if (e.nativeEvent && e.nativeEvent.stopImmediatePropagation) {
+            e.nativeEvent.stopImmediatePropagation();
+        }
+    };
+
     const StatIcon = ({ id }) => {
         const icons = {
             placed: <FiBriefcase />,
@@ -628,7 +645,7 @@ export default function Home() {
 
                             <div 
                                 className="nn-cards-scroll"
-                                data-lenis-prevent="true"
+                                onWheel={handleScrollAreaWheel}
                             >
                                 {homeEvents.length === 0 ? (
                                     <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>No events posted yet.</div>
@@ -673,7 +690,7 @@ export default function Home() {
 
                             <div 
                                 className="nn-cards-scroll"
-                                data-lenis-prevent="true"
+                                onWheel={handleScrollAreaWheel}
                             >
                                 {homeNotifications.length === 0 ? (
                                     <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>No important notifications posted yet.</div>

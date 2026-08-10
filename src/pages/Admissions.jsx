@@ -702,7 +702,7 @@ export default function Admissions() {
                         style={{ marginTop: '50px' }}
                     >
                         <p style={{ fontSize: '1.2rem', color: '#333', fontWeight: 600, marginBottom: '20px' }}>🎓 Ready to begin your journey?</p>
-                        <Link to="/contact" className="btn btn-primary" style={{ padding: '14px 40px', fontSize: '1.05rem' }}>Contact Admissions Office →</Link>
+                        <a href="https://mecw-admission.vercel.app/" target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ padding: '14px 40px', fontSize: '1.05rem' }}>Fill form for admission →</a>
                     </motion.div>
                 </div>
             </section>

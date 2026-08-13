@@ -466,7 +466,7 @@ export const departments = [
         iconImg: '/images/cursor/icon_18.webp',
         highlights: ['Electricity Generation & Control Lab', 'Smart Grid Training', 'Industrial Machinery', 'Kit-Based Lab Experiments', 'Modern SCADA & PLC Systems'],
         hod: {
-            name: 'Dr. Mohd. Faraz Ahmer',
+            name: 'Dr. Mohammad Faraz Ahmer',
             designation: 'HOD',
             experience: '17+ Years',
             education: 'B.Tech, M.Tech, Ph.D.',
@@ -478,7 +478,7 @@ export const departments = [
         faculty: [
             {
                 name: 'Prof. Khwaja M Rafi',
-                designation: 'Director / Professor (F.N.A.Sc.)',
+                designation: 'Director / Professor',
                 experience: '25+ Years',
                 email: 'kmrafi1@gmail.com',
                 phone: '+91-9873717806',

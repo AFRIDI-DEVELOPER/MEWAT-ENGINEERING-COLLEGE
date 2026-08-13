@@ -502,7 +502,7 @@ function HeroSection() {
                         border: '1px solid rgba(200,169,81,0.25)',
                         marginBottom: 18,
                     }}>
-                        🎓 Student Reviews
+                        🎓 Alumni Reviews
                     </span>
                     <h2 style={{
                         fontFamily: "'Poppins', sans-serif",
@@ -513,7 +513,7 @@ function HeroSection() {
                         margin: '0 auto',
                         maxWidth: 700,
                     }}>
-                        What Students &amp; Parents Say
+                        What Alumni Say
                     </h2>
                     <p style={{
                         fontFamily: "'Inter', sans-serif",
@@ -561,7 +561,7 @@ function HeroSection() {
                         fontWeight: 700, fontSize: '1rem', color: '#1A1A1A',
                         display: 'flex', alignItems: 'center', gap: 8,
                     }}>
-                        🎓 Student Reviews
+                        🎓 Alumni Reviews
                     </span>
                     <span style={{
                         fontFamily: "'Kanit', sans-serif",
@@ -580,28 +580,6 @@ function HeroSection() {
                 <ReviewMarqueeRow reviews={[...studentReviews].reverse()} direction="right" speed={28} />
             </div>
 
-            {/* Parent Reviews label */}
-            <FadeIn delay={0.25} y={15}>
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    maxWidth: 1200,
-                    margin: '0 auto 18px',
-                    padding: '0 4px',
-                }}>
-                    <span style={{
-                        fontFamily: "'Kanit', sans-serif",
-                        fontWeight: 700, fontSize: '1rem', color: '#1A1A1A',
-                        display: 'flex', alignItems: 'center', gap: 8,
-                    }}>
-                        👨‍👩‍👧 Parent Reviews
-                    </span>
-                </div>
-            </FadeIn>
-
-            {/* Row 3 — parents scroll left */}
-            <ReviewMarqueeRow reviews={parentReviews} direction="left" speed={30} />
         </section>
     )
 }

@@ -21,6 +21,7 @@ import DirectorMessage from '../components/DirectorMessage'
 
 import SEO from '../components/SEO'
 import JackPortfolio from '../components/JackPortfolio'
+import AlumniShowcase from '../components/AlumniShowcase'
 import QuickLinks from '../components/QuickLinks'
 
 
@@ -872,6 +873,9 @@ export default function Home() {
                     </div>
                 </div>
             </section>
+
+            {/* ===== ALUMNI SHOWCASE ===== */}
+            <AlumniShowcase />
 
             {/* ===== JACK 3D CREATOR PORTFOLIO ===== */}
             <JackPortfolio />

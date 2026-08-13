@@ -349,7 +349,7 @@ export default function Footer() {
                                             display: 'inline-block',
                                             marginTop: '6px'
                                         }}>
-                                        afridi developer
+                                        Afridi developer
                                     </a>
                                 </div>
                             </div>

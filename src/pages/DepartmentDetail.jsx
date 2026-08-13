@@ -672,18 +672,18 @@ export default function DepartmentDetail() {
 
     const getSyllabusPdfPath = (deptId, semNum) => {
         if (semNum === 1) {
-            if (deptId === 'civil') return getAssetPath('/civil_sem1.pdf')
-            if (deptId === 'eee') return getAssetPath('/eee_sem1.pdf')
-            if (deptId === 'ece') return getAssetPath('/ece_sem1.pdf')
-            return getAssetPath('/btech_sem1.pdf')
+            if (deptId === 'civil') return getAssetPath('/media/civil_sem1.pdf')
+            if (deptId === 'eee') return getAssetPath('/media/eee_sem1.pdf')
+            if (deptId === 'ece') return getAssetPath('/media/ece_sem1.pdf')
+            return getAssetPath('/media/btech_sem1.pdf')
         }
         if (semNum === 2) {
-            if (deptId === 'civil') return getAssetPath('/civil_sem2.pdf')
-            if (deptId === 'eee') return getAssetPath('/eee_sem2.pdf')
-            if (deptId === 'ece') return getAssetPath('/ece_sem2.pdf')
-            return getAssetPath('/btech_sem2.pdf')
+            if (deptId === 'civil') return getAssetPath('/media/civil_sem2.pdf')
+            if (deptId === 'eee') return getAssetPath('/media/eee_sem2.pdf')
+            if (deptId === 'ece') return getAssetPath('/media/ece_sem2.pdf')
+            return getAssetPath('/media/btech_sem2.pdf')
         }
-        return getAssetPath(`/syllabus_${deptId}_sem${semNum}.pdf`)
+        return getAssetPath(`/media/syllabus_${deptId}_sem${semNum}.pdf`)
     }
 
     // Normalize Supabase flat fields into nested shape used by UI
@@ -1146,6 +1146,7 @@ export default function DepartmentDetail() {
             <AnimatePresence>
                 {syllabusGridOpen && (
                     <motion.div 
+                        key="syllabus-modal"
                         className="syllabus-modal-overlay"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -1207,7 +1208,6 @@ export default function DepartmentDetail() {
                                                     <span>{theoryCount}T / {practicalCount}P</span>
                                                 </div>
                                                 
-
                                                 <div className="sem-card-actions">
                                                     <a 
                                                         href={getSyllabusPdfPath(id, semNum)}
@@ -1238,6 +1238,7 @@ export default function DepartmentDetail() {
 
                 {timetableOpen && timetablesData[id] && (
                     <motion.div 
+                        key="timetable-modal"
                         className="syllabus-modal-overlay"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}

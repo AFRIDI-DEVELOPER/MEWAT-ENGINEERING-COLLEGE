@@ -77,13 +77,6 @@ export default function ExaminationCell() {
         }
     }, [notificationsData])
 
-        if (localQP) setQuestionPapers(JSON.parse(localQP));
-        else {
-            setQuestionPapers(DEFAULT_QUESTION_PAPERS);
-            localStorage.setItem('mec_qpapers', JSON.stringify(DEFAULT_QUESTION_PAPERS));
-        }
-    }, [])
-
     const handleDownload = async (item) => {
         let fileBlob = null;
         if (item.hasFile) {

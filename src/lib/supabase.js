@@ -41,16 +41,39 @@ export async function fetchNotifications() {
         .select('*')
         .order('created_at', { ascending: false });
     if (error) throw error;
-    return data;
+    
+    // Postgres lowercases unquoted column names, so map them back to camelCase for the frontend
+    return data.map(row => ({
+        ...row,
+        hasFile: row.hasfile,
+        refNo: row.refno
+    }));
 }
 
 export async function addNotification(notificationData) {
+    // Map camelCase from frontend to lowercase for Postgres
+    const dbPayload = {
+        title: notificationData.title,
+        type: notificationData.type,
+        date: notificationData.date,
+        urgent: notificationData.urgent || false,
+        refno: notificationData.refNo,
+        size: notificationData.size,
+        hasfile: notificationData.hasFile
+    };
+
     const { data, error } = await supabase
         .from('notifications')
-        .insert([notificationData])
+        .insert([dbPayload])
         .select();
     if (error) throw error;
-    return data[0];
+    
+    const row = data[0];
+    return {
+        ...row,
+        hasFile: row.hasfile,
+        refNo: row.refno
+    };
 }
 
 export async function deleteNotification(id) {

@@ -106,8 +106,8 @@ export default function AdminDashboard() {
     useEffect(() => {
         if (isAuthenticated) {
             const localDS = localStorage.getItem('mec_datesheets');
-            const localNot = localStorage.getItem('mec_notifications');
             const localQP = localStorage.getItem('mec_qpapers');
+            const localAdmissions = localStorage.getItem('mec_online_admissions');
 
             if (localDS) setDatesheets(JSON.parse(localDS));
             else {
@@ -115,11 +115,17 @@ export default function AdminDashboard() {
                 localStorage.setItem('mec_datesheets', JSON.stringify(DEFAULT_DATESHEETS));
             }
 
-            if (localNot) setNotifications(JSON.parse(localNot));
-            else {
-                setNotifications(DEFAULT_NOTIFICATIONS);
-                localStorage.setItem('mec_notifications', JSON.stringify(DEFAULT_NOTIFICATIONS));
-            }
+            // Fetch Notifications from Supabase
+            import('../lib/supabase').then(({ fetchNotifications }) => {
+                fetchNotifications()
+                    .then(data => setNotifications(data))
+                    .catch(err => {
+                        console.error('Error fetching notifications:', err);
+                        const localNot = localStorage.getItem('mec_notifications');
+                        if (localNot) setNotifications(JSON.parse(localNot));
+                        else setNotifications(DEFAULT_NOTIFICATIONS);
+                    });
+            });
 
             if (localQP) setQuestionPapers(JSON.parse(localQP));
             else {
@@ -127,7 +133,6 @@ export default function AdminDashboard() {
                 localStorage.setItem('mec_qpapers', JSON.stringify(DEFAULT_QUESTION_PAPERS));
             }
 
-            const localAdmissions = localStorage.getItem('mec_online_admissions');
             if (localAdmissions) setOnlineAdmissions(JSON.parse(localAdmissions));
         }
     }, [isAuthenticated]);
@@ -179,38 +184,47 @@ export default function AdminDashboard() {
     const handleAddNotification = async (e) => {
         e.preventDefault();
 
-        const notId = 'not_' + Date.now();
         const size = notificationFile ? Math.round(notificationFile.size / 1024) + ' KB' : null;
 
         try {
-            if (notificationFile) {
-                await storeFile('file_' + notId, notificationFile);
-            }
-
-            const not = {
-                id: notId,
+            const { addNotification } = await import('../lib/supabase');
+            const notData = {
                 title: newNotification.title,
                 type: newNotification.type,
                 size: size,
                 date: new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' }),
                 hasFile: !!notificationFile
             };
-            const updated = [not, ...notifications];
+            if (notData.type === 'important') {
+                notData.urgent = true;
+            }
+
+            const newNot = await addNotification(notData);
+
+            if (notificationFile) {
+                await storeFile('file_' + newNot.id, notificationFile);
+            }
+
+            const updated = [newNot, ...notifications];
             setNotifications(updated);
-            localStorage.setItem('mec_notifications', JSON.stringify(updated));
             setNewNotification({ title: '', type: 'event' });
             setNotificationFile(null);
             setShowAddForm(false);
         } catch (err) {
-            alert('Error storing file: ' + err.message);
+            alert('Error creating notification: ' + err.message);
         }
     };
 
     const handleDeleteNotification = async (id) => {
-        const updated = notifications.filter(n => n.id !== id);
-        setNotifications(updated);
-        localStorage.setItem('mec_notifications', JSON.stringify(updated));
-        await deleteFile('file_' + id);
+        try {
+            const { deleteNotification } = await import('../lib/supabase');
+            await deleteNotification(id);
+            const updated = notifications.filter(n => n.id !== id);
+            setNotifications(updated);
+            await deleteFile('file_' + id);
+        } catch (err) {
+            alert('Error deleting notification: ' + err.message);
+        }
     };
 
     const handleAddQP = async (e) => {

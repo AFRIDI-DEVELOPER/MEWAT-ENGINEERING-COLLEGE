@@ -3,6 +3,7 @@ import {
     fetchDepartments,
     fetchDepartmentById,
     fetchEvents,
+    fetchNotifications,
     fetchStats,
     fetchTestimonials,
     fetchFacilities,
@@ -74,6 +75,10 @@ export function useDepartment(id) {
 
 export function useEvents() {
     return useSupabaseData(fetchEvents, []);
+}
+
+export function useNotifications() {
+    return useSupabaseData(fetchNotifications, []);
 }
 
 export function useStats() {

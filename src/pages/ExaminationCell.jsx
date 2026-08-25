@@ -6,6 +6,7 @@ import SEO from '../components/SEO'
 import { getFile } from '../utils/db'
 import { getAssetPath } from '../utils/assets'
 import '../styles/dashboard-starfield.css'
+import { useNotifications } from '../hooks/useSupabase'
 
 // Valid 1-page blank PDF bytes
 const MOCK_PDF_BYTES = new Uint8Array([
@@ -46,10 +47,11 @@ export default function ExaminationCell() {
     const [notifications, setNotifications] = useState([])
     const [questionPapers, setQuestionPapers] = useState([])
 
+    const { data: notificationsData } = useNotifications()
+
     // Load data from localStorage on mount
     useEffect(() => {
         const localDS = localStorage.getItem('mec_datesheets');
-        const localNot = localStorage.getItem('mec_notifications');
         const localQP = localStorage.getItem('mec_qpapers');
 
         if (localDS) setDatesheets(JSON.parse(localDS));
@@ -58,11 +60,22 @@ export default function ExaminationCell() {
             localStorage.setItem('mec_datesheets', JSON.stringify(DEFAULT_DATESHEETS));
         }
 
-        if (localNot) setNotifications(JSON.parse(localNot));
+        if (localQP) setQuestionPapers(JSON.parse(localQP));
         else {
-            setNotifications(DEFAULT_NOTIFICATIONS);
-            localStorage.setItem('mec_notifications', JSON.stringify(DEFAULT_NOTIFICATIONS));
+            setQuestionPapers(DEFAULT_QUESTION_PAPERS);
+            localStorage.setItem('mec_qpapers', JSON.stringify(DEFAULT_QUESTION_PAPERS));
         }
+    }, [])
+
+    useEffect(() => {
+        if (notificationsData && notificationsData.length > 0) {
+            setNotifications(notificationsData);
+        } else {
+            const localNot = localStorage.getItem('mec_notifications');
+            if (localNot) setNotifications(JSON.parse(localNot));
+            else setNotifications(DEFAULT_NOTIFICATIONS);
+        }
+    }, [notificationsData])
 
         if (localQP) setQuestionPapers(JSON.parse(localQP));
         else {

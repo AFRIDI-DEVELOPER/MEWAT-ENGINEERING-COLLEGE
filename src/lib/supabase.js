@@ -34,6 +34,33 @@ export async function fetchEvents() {
     return data;
 }
 
+// ─── Notifications ───────────────────────────────────────────────────────────
+export async function fetchNotifications() {
+    const { data, error } = await supabase
+        .from('notifications')
+        .select('*')
+        .order('created_at', { ascending: false });
+    if (error) throw error;
+    return data;
+}
+
+export async function addNotification(notificationData) {
+    const { data, error } = await supabase
+        .from('notifications')
+        .insert([notificationData])
+        .select();
+    if (error) throw error;
+    return data[0];
+}
+
+export async function deleteNotification(id) {
+    const { error } = await supabase
+        .from('notifications')
+        .delete()
+        .eq('id', id);
+    if (error) throw error;
+}
+
 // ─── Stats ───────────────────────────────────────────────────────────────────
 export async function fetchStats() {
     const { data, error } = await supabase

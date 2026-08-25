@@ -23,6 +23,7 @@ import SEO from '../components/SEO'
 import JackPortfolio from '../components/JackPortfolio'
 import AlumniShowcase from '../components/AlumniShowcase'
 import QuickLinks from '../components/QuickLinks'
+import { useNotifications } from '../hooks/useSupabase'
 
 
 
@@ -506,15 +507,21 @@ export default function Home() {
     }
     const [homeEvents, setHomeEvents] = useState([])
     const [homeNotifications, setHomeNotifications] = useState([])
+    const { data: notificationsData } = useNotifications()
 
     useEffect(() => {
-        const localNotifs = localStorage.getItem('mec_notifications')
-        if (localNotifs) {
-            const parsed = JSON.parse(localNotifs)
-            setHomeEvents(parsed.filter(n => n.type === 'event'))
-            setHomeNotifications(parsed.filter(n => n.type === 'important' || n.urgent))
+        if (notificationsData && notificationsData.length > 0) {
+            setHomeEvents(notificationsData.filter(n => n.type === 'event'))
+            setHomeNotifications(notificationsData.filter(n => n.type === 'important' || n.urgent))
+        } else {
+            const localNotifs = localStorage.getItem('mec_notifications')
+            if (localNotifs) {
+                const parsed = JSON.parse(localNotifs)
+                setHomeEvents(parsed.filter(n => n.type === 'event'))
+                setHomeNotifications(parsed.filter(n => n.type === 'important' || n.urgent))
+            }
         }
-    }, [])
+    }, [notificationsData])
 
 
     const HighlightIcon = ({ index }) => {

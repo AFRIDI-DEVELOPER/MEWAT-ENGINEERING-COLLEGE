@@ -23,19 +23,28 @@ import AcademicCalendar from './pages/AcademicCalendar'
 function ScrollToTop() {
     const { pathname, hash } = useLocation()
     useLayoutEffect(() => {
+        console.log("Navigation triggered, safe scroll running");
         if (!hash) {
-            if (window.lenis) {
-                window.lenis.scrollTo(0, { immediate: true })
-            } else {
+            try {
+                if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+                    window.lenis.scrollTo(0, { immediate: true })
+                } else {
+                    window.scrollTo(0, 0)
+                }
+            } catch (e) {
                 window.scrollTo(0, 0)
             }
         } else {
             setTimeout(() => {
                 const el = document.getElementById(hash.slice(1))
                 if (el) {
-                    if (window.lenis) {
-                        window.lenis.scrollTo(el, { behavior: 'smooth' })
-                    } else {
+                    try {
+                        if (window.lenis && typeof window.lenis.scrollTo === 'function') {
+                            window.lenis.scrollTo(el, { behavior: 'smooth' })
+                        } else {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        }
+                    } catch (e) {
                         el.scrollIntoView({ behavior: 'smooth', block: 'start' })
                     }
                 }
@@ -50,14 +59,16 @@ export default function App() {
     const isPortal = isPortalPage(location.pathname)
 
     useEffect(() => {
+        // Disable Lenis entirely on mobile/touch devices for native scroll performance
+        if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+            return;
+        }
+
         const lenis = new Lenis({
             duration: 1.5,
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             smoothWheel: true,
-            smoothTouch: true,
-            syncTouch: true,
-            syncTouchLerp: 0.05,
-            touchMultiplier: 0.75,
+            smoothTouch: false,
             wheelMultiplier: 0.85,
             lerp: 0.05,
             infinite: false,

@@ -191,11 +191,20 @@ const ScrollStack = ({
 
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
-      if (window.lenis) {
-        window.lenis.on('scroll', handleScroll);
-        lenisRef.current = window.lenis;
-        return window.lenis;
+      try {
+        if (window.lenis && typeof window.lenis.on === 'function') {
+          window.lenis.on('scroll', handleScroll);
+          lenisRef.current = window.lenis;
+          return window.lenis;
+        }
+      } catch (e) {}
+      
+      if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+          window.addEventListener('scroll', handleScroll);
+          lenisRef.current = { destroy: () => window.removeEventListener('scroll', handleScroll), off: () => {} };
+          return lenisRef.current;
       }
+
       const lenis = new Lenis({
         duration: 1.5,
         easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -221,6 +230,12 @@ const ScrollStack = ({
     } else {
       const scroller = scrollerRef.current;
       if (!scroller) return;
+
+      if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) {
+          scroller.addEventListener('scroll', handleScroll);
+          lenisRef.current = { destroy: () => scroller.removeEventListener('scroll', handleScroll), off: () => {} };
+          return lenisRef.current;
+      }
 
       const lenis = new Lenis({
         wrapper: scroller,

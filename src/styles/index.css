@@ -629,6 +629,14 @@ button {
   text-transform: uppercase;
   font-weight: 600;
   line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .logo-subtitle {
+    font-size: 0.55rem;
+    letter-spacing: 1px;
+  }
 }
 
 .nav-links {
@@ -1242,6 +1250,22 @@ main.portal-active {
   gap: 12px;
   align-items: center;
   flex-wrap: wrap;
+}
+
+@media (max-width: 480px) {
+  .vex-hero-buttons {
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: 100%;
+  }
+  .vex-btn-primary,
+  .vex-btn-secondary {
+    flex: 1;
+    padding: 10px 8px;
+    font-size: 0.75rem;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 .vex-btn-primary,

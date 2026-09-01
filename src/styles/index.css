@@ -565,6 +565,7 @@ button {
 .logo-emblem {
   width: 52px;
   height: 52px;
+  flex-shrink: 0;
   background: var(--white);
   border-radius: 50%;
   display: flex;

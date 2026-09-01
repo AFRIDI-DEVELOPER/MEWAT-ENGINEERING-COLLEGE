@@ -64,7 +64,7 @@ export default function Navbar() {
                 )}
                 <div className="main-nav">
                     <div className="container">
-                        <Link to="/" className="nav-logo">
+                        <Link to="/" className="nav-logo" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                             <div className="logo-emblem">
                                 <img src={getAssetPath('/images/mewatengineering logo.png')} alt="MEC Logo" className="logo-image" />
                             </div>

@@ -1254,15 +1254,15 @@ main.portal-active {
 
 @media (max-width: 480px) {
   .vex-hero-buttons {
-    flex-wrap: nowrap;
-    gap: 8px;
+    flex-direction: column;
+    gap: 12px;
     width: 100%;
   }
   .vex-btn-primary,
   .vex-btn-secondary {
-    flex: 1;
-    padding: 10px 8px;
-    font-size: 0.75rem;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.85rem;
     white-space: normal;
     text-align: center;
   }
@@ -1495,18 +1495,18 @@ main.portal-active {
     bottom: 76px;
   }
   .vex-hero-title {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
   .vex-hero-desc {
-    font-size: 1.15rem;
+    font-size: 1rem;
   }
   .hero-vex-pill-badge {
-    padding: 8px 14px;
-    margin-bottom: 20px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
     max-width: 100%;
   }
   .pill-chip {
-    font-size: 0.55rem;
+    font-size: 0.50rem;
     white-space: normal;
   }
   .pill-divider {

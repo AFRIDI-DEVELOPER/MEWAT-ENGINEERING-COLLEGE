@@ -27,8 +27,8 @@ const fadeVariant = {
     exit:    { opacity: 0, y: -10, transition: { duration: 0.2 } },
 }
 
-export default function About() {
-    const [activeTab, setActiveTab] = useState('about-mec')
+export default function About({ defaultTab = 'about-mec' }) {
+    const [activeTab, setActiveTab] = useState(defaultTab)
 
     return (
         <>

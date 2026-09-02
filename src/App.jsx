@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, Navigate } from 'react-router-dom'
 import { useEffect, useLayoutEffect } from 'react'
 import Lenis from 'lenis'
 import Navbar from './components/Navbar'
@@ -20,6 +20,7 @@ import AdminDashboard from './pages/AdminDashboard'
 import Notices from './pages/Notices'
 import AcademicCalendar from './pages/AcademicCalendar'
 import Alumni from './pages/Alumni'
+import NotFound from './pages/NotFound'
 
 function ScrollToTop() {
     const { pathname, hash } = useLocation()
@@ -113,6 +114,13 @@ export default function App() {
                     <Route path="/notices" element={<Notices />} />
                     <Route path="/academic-calendar" element={<AcademicCalendar />} />
                     <Route path="/alumni" element={<Alumni />} />
+                    
+                    {/* Specific routes for legacy SEO indexed pages */}
+                    <Route path="/chairman-message" element={<About defaultTab="admin-message" />} />
+                    <Route path="/our-mission" element={<About defaultTab="vision-mission" />} />
+                    
+                    {/* Catch-all route for 404 */}
+                    <Route path="*" element={<NotFound />} />
                 </Routes>
             </main>
             {!isPortal && <Footer />}

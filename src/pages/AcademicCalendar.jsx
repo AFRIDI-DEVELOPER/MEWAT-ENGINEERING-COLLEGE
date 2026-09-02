@@ -3,17 +3,17 @@ import { monthlyCalendarData, calendarLegend } from '../data/calendar'
 import { FiInfo, FiCheck, FiUsers, FiStar, FiBriefcase } from 'react-icons/fi'
 import SEO from '../components/SEO'
 
-export default function AcademicCalendar() {
+export default function AcademicCalendar({ embedded = false }) {
     // Academic Calendar States
     const today = new Date()
     const currentYear = today.getFullYear()
     const currentMonth = String(today.getMonth() + 1).padStart(2, '0')
-    const initialCalendarKey = monthlyCalendarData[`${currentYear}-${currentMonth}`] ? `${currentYear}-${currentMonth}` : '2025-07'
+    const initialCalendarKey = monthlyCalendarData[`${currentYear}-${currentMonth}`] ? `${currentYear}-${currentMonth}` : '2026-07'
     const [selectedMonthKey, setSelectedMonthKey] = useState(initialCalendarKey)
     const [calendarView, setCalendarView] = useState('monthly') // 'monthly' | 'highlights'
 
     // Calculate calendar days
-    const monthData = monthlyCalendarData[selectedMonthKey] || monthlyCalendarData['2025-07']
+    const monthData = monthlyCalendarData[selectedMonthKey] || monthlyCalendarData['2026-07']
     const firstDayIndex = new Date(monthData.year, monthData.month, 1).getDay()
     const totalDays = new Date(monthData.year, monthData.month + 1, 0).getDate()
     
@@ -37,18 +37,24 @@ export default function AcademicCalendar() {
 
     return (
         <>
-            <SEO 
-                title="Academic Calendar" 
-                description="Plan your semester with key dates, sessional exams, GUG holidays, and campus activities at MEC." 
-            />
+            {!embedded && (
+                <SEO 
+                    title="Academic Calendar" 
+                    description="Plan your semester with key dates, sessional exams, GUG holidays, and campus activities at MEC." 
+                />
+            )}
             
-            <div style={{ paddingTop: '100px', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+            <div style={embedded ? { background: 'var(--bg-primary)' } : { paddingTop: '100px', minHeight: '100vh', background: 'var(--bg-primary)' }}>
                 <section className="section academic-calendar-section" id="academic-calendar">
                     <div className="container">
                         <div className="section-header">
                             <span className="section-label">Academic Schedule</span>
-                            <h2>Academic Calendar 2025-26</h2>
+                            <h2>Academic Calendar 2026-27</h2>
                             <p>Plan your semester with key dates, sessional exams, GUG holidays, and campus activities.</p>
+                            
+                            <a href="/academic-calendar-2026-27.pdf" target="_blank" download className="btn btn-primary" style={{ marginTop: '16px', display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                                Download Academic Calendar
+                            </a>
                             
                             {/* Selector between monthly calendar view and semesters highlights summary */}
                             <div className="calendar-view-selector" style={{ marginTop: '24px' }}>
@@ -132,7 +138,7 @@ export default function AcademicCalendar() {
                                     {/* Right Side Info Area */}
                                     <div className="calendar-info-area">
                                         <div className="calendar-info-header">
-                                            <h4>Events in {monthData.year === 2025 ? 'July-Dec 2025' : 'Jan-Jun 2026'}</h4>
+                                            <h4>Events in {monthData.year === 2026 ? 'July-Dec 2026' : 'Jan-Jun 2027'}</h4>
                                             <span className="current-month-badge">
                                                 {["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][monthData.month]} {monthData.year}
                                             </span>
@@ -185,54 +191,84 @@ export default function AcademicCalendar() {
                             /* Highlights Table View */
                             <div className="calendar-table-card">
                                 <div className="calendar-table-wrapper">
-                                    <table className="academic-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Academic Activity / Event</th>
-                                                <th>Odd Semester (Odd Sem)</th>
-                                                <th>Even Semester (Even Sem)</th>
-                                            </tr>
-                                        </thead>
+                                    <table className="academic-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
                                         <tbody>
+                                            {/* ODD SEMESTER */}
                                             <tr>
-                                                <td className="table-highlight">Classes Commencement</td>
-                                                <td>
-                                                    <strong>28th July 2025</strong> (3rd, 5th, 7th Sem)<br />
-                                                    <strong>01st September 2025</strong> (1st Sem)
-                                                </td>
-                                                <td><strong>12th January 2026</strong></td>
+                                                <th colSpan="2" style={{ background: '#4d7c36', color: 'white', padding: '12px', textAlign: 'center', fontSize: '1.1rem' }}>
+                                                    Odd Semester
+                                                </th>
                                             </tr>
                                             <tr>
-                                                <td className="table-highlight">First Sessional Exam</td>
-                                                <td>08th - 10th October 2025</td>
-                                                <td>09th - 11th March 2026</td>
+                                                <td className="table-highlight highlight-purple" style={{ width: '50%' }}>Odd Sem (3rd, 5th, 7th) Classes Commencement</td>
+                                                <td style={{ width: '50%' }}>21st July 2026</td>
                                             </tr>
                                             <tr>
-                                                <td className="table-highlight">Second Sessional Exam</td>
-                                                <td>24th - 26th November 2025</td>
-                                                <td>27th - 29th April 2026</td>
+                                                <td className="table-highlight highlight-blue">Remedial Classes and Induction Program</td>
+                                                <td>03rd August 2026 to 16th August 2026</td>
                                             </tr>
                                             <tr>
-                                                <td className="table-highlight">End of Classes</td>
-                                                <td>05th December 2025</td>
-                                                <td>08th May 2026</td>
+                                                <td className="table-highlight highlight-purple">Odd Sem (1st) Classes Commencement</td>
+                                                <td>17th August 2026</td>
                                             </tr>
                                             <tr>
-                                                <td className="table-highlight">End Semester Theory/Practical Exams</td>
-                                                <td>08th December 2025 onwards</td>
-                                                <td>09th May 2026 onwards</td>
+                                                <td className="table-highlight highlight-orange">First Sessional Exam</td>
+                                                <td>28th - 30th September 2026</td>
                                             </tr>
                                             <tr>
-                                                <td className="table-highlight">Vacations / Holidays Break</td>
-                                                <td>
-                                                    <strong>Winter Break:</strong><br />
-                                                    22.12.2025 – 04.01.2026 (B.Tech 3rd/5th/7th)<br />
-                                                    29.12.2025 – 11.01.2026 (B.Tech 1st Sem)
-                                                </td>
-                                                <td>
-                                                    <strong>Summer Vacations:</strong><br />
-                                                    From 25th May 2026 onwards
-                                                </td>
+                                                <td className="table-highlight highlight-orange">Second Sessional Exam</td>
+                                                <td>02nd - 04th December 2026</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-green">End of classes</td>
+                                                <td>08th December 2026</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-red">Practical Examinations</td>
+                                                <td>As per University Notification</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-red">End semester Examinations</td>
+                                                <td>As per University Notification</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-green">Winter Break</td>
+                                                <td>15.12.2026 onwards</td>
+                                            </tr>
+
+                                            {/* EVEN SEMESTER */}
+                                            <tr>
+                                                <th colSpan="2" style={{ background: '#4d7c36', color: 'white', padding: '12px', textAlign: 'center', fontSize: '1.1rem' }}>
+                                                    Even Semester
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-purple">Even semester classes Commencement</td>
+                                                <td>11th January 2027</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-orange">First sessional Exams</td>
+                                                <td>24th - 26th March, 2027</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-orange">Second Sessional Exams</td>
+                                                <td>03rd - 05th May 2027</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-green">End of classes</td>
+                                                <td>13th May 2027</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-red">Practical Exam</td>
+                                                <td>As per University Notification</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-red">End semester Examinations</td>
+                                                <td>As per University Notification</td>
+                                            </tr>
+                                            <tr>
+                                                <td className="table-highlight highlight-green">Summer vacations</td>
+                                                <td>31st May 2027 onwards</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -243,39 +279,30 @@ export default function AcademicCalendar() {
                                     <h4>Key Campus Activities & Events</h4>
                                     <div className="activities-horizontal-grid">
                                         <div className="activity-mini-card">
-                                            <div className="activity-icon-container" style={{ background: '#ecfdf5', color: '#10b981' }}>
-                                                <FiCheck size={16} />
-                                            </div>
-                                            <div>
-                                                <h5>Induction Program</h5>
-                                                <p>18th - 20th August 2025</p>
-                                            </div>
-                                        </div>
-                                        <div className="activity-mini-card">
-                                            <div className="activity-icon-container" style={{ background: '#eff6ff', color: '#3b82f6' }}>
-                                                <FiUsers size={16} />
-                                            </div>
-                                            <div>
-                                                <h5>2nd Alumni Meet</h5>
-                                                <p>06th September 2025 (Delhi)</p>
-                                            </div>
-                                        </div>
-                                        <div className="activity-mini-card">
-                                            <div className="activity-icon-container" style={{ background: '#f5f3ff', color: '#8b5cf6' }}>
-                                                <FiStar size={16} />
-                                            </div>
-                                            <div>
-                                                <h5>Fresher Party</h5>
-                                                <p>22nd September 2025</p>
-                                            </div>
-                                        </div>
-                                        <div className="activity-mini-card">
-                                            <div className="activity-icon-container" style={{ background: '#fff7ed', color: '#f97316' }}>
+                                            <div className="activity-icon-container" style={{ background: '#fefce8', color: '#eab308' }}>
                                                 <FiBriefcase size={16} />
                                             </div>
                                             <div>
-                                                <h5>Sports & Cultural Week</h5>
-                                                <p>10-12 Oct 2025 & 2-8 Feb 2026</p>
+                                                <h5>College Tours</h5>
+                                                <p>3rd - 5th December 2026</p>
+                                            </div>
+                                        </div>
+                                        <div className="activity-mini-card">
+                                            <div className="activity-icon-container" style={{ background: '#fef2f2', color: '#dc2626' }}>
+                                                <FiStar size={16} />
+                                            </div>
+                                            <div>
+                                                <h5>Gazetted Holidays</h5>
+                                                <p>Refer to monthly grid for exact dates</p>
+                                            </div>
+                                        </div>
+                                        <div className="activity-mini-card">
+                                            <div className="activity-icon-container" style={{ background: '#f0f9ff', color: '#0ea5e9' }}>
+                                                <FiCheck size={16} />
+                                            </div>
+                                            <div>
+                                                <h5>Restricted Holidays (RH)</h5>
+                                                <p>Multiple dates throughout the year</p>
                                             </div>
                                         </div>
                                     </div>

@@ -1,121 +1,123 @@
 // Academic Calendar Data for Mewat Engineering College (Waqf)
-// Academic Session 2025-26 (Odd/Even Semesters)
+// Academic Session 2026-27 (Odd/Even Semesters)
 
 export const calendarLegend = [
-  { id: 'class-start', label: 'Class Starts', color: '#7c3aed', bg: '#f5f3ff' },
-  { id: 'sessional', label: 'Sessional Test', color: '#f97316', bg: '#fff7ed' },
-  { id: 'tour', label: 'Tours & Visits', color: '#84cc16', bg: '#f7fee7' },
-  { id: 'exam', label: 'University Exam (GUG)', color: '#16a34a', bg: '#f0fdf4' },
-  { id: 'holiday', label: 'Gazetted Holiday', color: '#dc2626', bg: '#fef2f2' },
-  { id: 'activity', label: 'Activities & Events', color: '#0ea5e9', bg: '#f0f9ff' }
+  { id: 'class-start', label: 'Class Starts/End', color: '#7c3aed', bg: '#f5f3ff' },
+  { id: 'sessional', label: 'Sessional Test', color: '#b45309', bg: '#fffbeb' },
+  { id: 'tour', label: 'Tours', color: '#eab308', bg: '#fefce8' },
+  { id: 'exam', label: 'GUG Exam', color: '#047857', bg: '#ecfdf5' },
+  { id: 'rh', label: 'RH', color: '#0ea5e9', bg: '#f0f9ff' },
+  { id: 'holiday', label: 'Gazetted Holiday', color: '#dc2626', bg: '#fef2f2' }
 ];
 
 export const monthlyCalendarData = {
   "2026-07": {
     year: 2026,
-    month: 6, // 0-indexed (July)
+    month: 6, // July (0-indexed)
     events: [
-      { date: 28, title: "Odd Sem (3rd, 5th, 7th) Classes Commencement", type: "class-start" },
-      { date: 29, title: "Remedial / Induction classes start", type: "activity" },
-      { date: 30, title: "Registration Process", type: "activity" },
+      { date: 18, title: "RH", type: "rh" },
+      { date: 21, title: "Class Starts/End", type: "class-start" },
       { date: 31, title: "Gazetted Holiday", type: "holiday" }
     ]
   },
   "2026-08": {
     year: 2026,
-    month: 7, // August
+    month: 7,
     events: [
-      { date: 1, title: "Odd Sem classes registration continues", type: "class-start" },
-      { date: 2, title: "Odd Sem classes registration continues", type: "class-start" },
-      { date: 15, title: "Independence Day Celebration", type: "holiday" },
-      { date: 18, dateEnd: 20, title: "Induction Program for First Year Students", type: "activity" },
-      { date: 18, dateEnd: 31, title: "Remedial Classes and Induction Program", type: "activity" }
+      { date: 4, title: "Gazetted Holiday", type: "holiday" },
+      { date: 12, title: "RH", type: "rh" },
+      { date: 15, title: "RH", type: "rh" },
+      { date: 26, title: "Gazetted Holiday", type: "holiday" },
+      { date: 28, title: "Gazetted Holiday", type: "holiday" }
     ]
   },
   "2026-09": {
     year: 2026,
-    month: 8, // September
+    month: 8,
     events: [
-      { date: 1, title: "Odd Sem (1st Sem) Classes Commencement", type: "class-start" },
-      { date: 6, title: "2nd Alumni Meet (Indian International Center Delhi)", type: "activity" },
-      { date: 13, title: "1st year students visit to Indian Islamic Culture Centre", type: "tour" },
-      { date: 22, title: "Fresher Party (Venue: Seminar Hall, 02:00-05:00 pm)", type: "activity" },
-      { date: 25, dateEnd: 30, title: "Industrial Visit / College Tour 1 (CE, CSE, etc.)", type: "tour" }
+      { date: 4, title: "Gazetted Holiday", type: "holiday" },
+      { date: 23, title: "Gazetted Holiday", type: "holiday" },
+      { date: 24, title: "RH", type: "rh" },
+      { date: 28, dateEnd: 30, title: "Sessional Test", type: "sessional" }
     ]
   },
   "2026-10": {
     year: 2026,
-    month: 9, // October
+    month: 9,
     events: [
-      { date: 2, title: "Mahatma Gandhi Jayanti Holiday", type: "holiday" },
-      { date: 8, dateEnd: 10, title: "First Sessional Examinations (Odd Sem)", type: "sessional" },
-      { date: 10, dateEnd: 12, title: "Sports Week & Cultural Activities 1", type: "activity" }
+      { date: 2, title: "Gazetted Holiday", type: "holiday" },
+      { date: 20, title: "Gazetted Holiday", type: "holiday" },
+      { date: 26, title: "Gazetted Holiday", type: "holiday" },
+      { date: 29, title: "RH", type: "rh" }
     ]
   },
   "2026-11": {
     year: 2026,
-    month: 10, // November
+    month: 10,
     events: [
-      { date: 24, dateEnd: 26, title: "Second Sessional Examinations (Odd Sem)", type: "sessional" }
+      { date: 11, title: "RH", type: "rh" },
+      { date: 24, title: "Gazetted Holiday", type: "holiday" }
     ]
   },
   "2026-12": {
     year: 2026,
-    month: 11, // December
+    month: 11,
     events: [
-      { date: 5, title: "End of Odd Semester Classes", type: "class-start" },
-      { date: 8, title: "End semester Examinations (Odd Semester) start", type: "exam" },
-      { date: 22, dateEnd: 31, title: "Winter Break (B.Tech 3rd/5th/7th)", type: "holiday" },
-      { date: 29, dateEnd: 31, title: "Winter Break (B.Tech 1st Sem)", type: "holiday" }
+      { date: 2, dateEnd: 4, title: "Sessional Test", type: "sessional" },
+      { date: 8, title: "Class Starts/End", type: "class-start" },
+      { date: 14, title: "RH", type: "rh" },
+      { date: 25, title: "Gazetted Holiday", type: "holiday" },
+      { date: 26, title: "RH", type: "rh" }
     ]
   },
   "2027-01": {
     year: 2027,
-    month: 0, // January
+    month: 0,
     events: [
-      { date: 1, dateEnd: 4, title: "Winter Break (B.Tech 3rd/5th/7th) continues", type: "holiday" },
-      { date: 1, dateEnd: 11, title: "Winter Break (B.Tech 1st Sem) continues", type: "holiday" },
-      { date: 12, title: "Even Semester Classes Commencement", type: "class-start" },
-      { date: 26, title: "Republic Day Celebration", type: "holiday" }
+      { date: 1, title: "Class Starts/End", type: "class-start" },
+      { date: 12, title: "RH", type: "rh" },
+      { date: 26, title: "Gazetted Holiday", type: "holiday" }
     ]
   },
   "2027-02": {
     year: 2027,
-    month: 1, // February
+    month: 1,
     events: [
-      { date: 2, dateEnd: 8, title: "Sports Week and Cultural Activities 2", type: "activity" },
-      { date: 23, dateEnd: 28, title: "Industrial Visit / College Tour 2", type: "tour" }
+      { date: 11, title: "Gazetted Holiday", type: "holiday" }
     ]
   },
   "2027-03": {
     year: 2027,
-    month: 2, // March
+    month: 2,
     events: [
-      { date: 9, dateEnd: 11, title: "First Sessional Examinations (Even Sem)", type: "sessional" }
+      { date: 5, title: "Gazetted Holiday", type: "holiday" },
+      { date: 9, dateEnd: 10, title: "Gazetted Holiday", type: "holiday" },
+      { date: 26, title: "RH", type: "rh" }
     ]
   },
   "2027-04": {
     year: 2027,
-    month: 3, // April
+    month: 3,
     events: [
-      { date: 27, dateEnd: 29, title: "Second Sessional Examinations (Even Sem)", type: "sessional" }
+      { date: 14, title: "Gazetted Holiday", type: "holiday" }
     ]
   },
   "2027-05": {
     year: 2027,
-    month: 4, // May
+    month: 4,
     events: [
-      { date: 1, title: "Farewell Party (Final Year Students)", type: "activity" },
-      { date: 8, title: "End of Even Semester Classes", type: "class-start" },
-      { date: 9, title: "End semester Examinations start", type: "exam" },
-      { date: 25, dateEnd: 31, title: "Summer Vacations Commencement", type: "holiday" }
+      { date: 3, dateEnd: 5, title: "Sessional Test", type: "sessional" },
+      { date: 13, title: "Class Starts/End", type: "class-start" },
+      { date: 17, dateEnd: 19, title: "Gazetted Holiday", type: "holiday" },
+      { date: 20, title: "RH", type: "rh" }
     ]
   },
   "2027-06": {
     year: 2027,
-    month: 5, // June
+    month: 5,
     events: [
-      { date: 1, dateEnd: 30, title: "Summer Vacations continue", type: "holiday" }
+      { date: 9, title: "RH", type: "rh" },
+      { date: 15, dateEnd: 16, title: "Gazetted Holiday", type: "holiday" }
     ]
   }
 };

@@ -12445,14 +12445,13 @@ main {
 .academic-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 800px;
   text-align: left;
 }
 
 .academic-table th, .academic-table td {
   padding: 18px 24px;
   border-bottom: 1px solid #f1f5f9;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
 .academic-table th {
@@ -12471,7 +12470,62 @@ main {
 
 .table-highlight {
   font-weight: 800;
-  color: #2563eb;
+}
+
+/* Colorful Tag Variants for Calendar Highlights */
+.highlight-purple { background: #f3e8ff !important; color: #7e22ce !important; }
+.highlight-orange { background: #ffedd5 !important; color: #c2410c !important; }
+.highlight-green { background: #dcfce7 !important; color: #15803d !important; }
+.highlight-blue { background: #dbeafe !important; color: #1d4ed8 !important; }
+.highlight-red { background: #fee2e2 !important; color: #b91c1c !important; }
+
+@media (max-width: 768px) {
+  .calendar-table-wrapper {
+    overflow-x: hidden;
+  }
+  .academic-table {
+    display: block;
+  }
+  .academic-table tbody {
+    display: block;
+    width: 100%;
+  }
+  .academic-table tr {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  .academic-table tr:last-child {
+    border-bottom: none;
+  }
+  .academic-table th[colspan="2"] {
+    display: block;
+    width: 100% !important;
+  }
+  .academic-table th, .academic-table td {
+    width: 100% !important;
+    display: block;
+    padding: 12px 16px !important;
+    border-bottom: none;
+  }
+  .academic-table td.table-highlight {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 10px 16px 6px 16px !important;
+    border-radius: 0 !important;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: none;
+  }
+  .academic-table td:not(.table-highlight) {
+    padding-top: 4px !important;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--near-black);
+  }
 }
 
 /* Key activities mini cards list */
@@ -12636,7 +12690,7 @@ main {
   min-height: 0;
   scrollbar-width: thin;
   scrollbar-color: rgba(0,0,0,0.15) transparent;
-  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .nn-cards-scroll::-webkit-scrollbar {

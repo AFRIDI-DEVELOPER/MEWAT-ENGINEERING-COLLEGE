@@ -23,6 +23,7 @@ import SEO from '../components/SEO'
 import JackPortfolio from '../components/JackPortfolio'
 import AlumniShowcase from '../components/AlumniShowcase'
 import QuickLinks from '../components/QuickLinks'
+import AcademicCalendar from './AcademicCalendar'
 import { useNotifications } from '../hooks/useSupabase'
 
 
@@ -742,6 +743,8 @@ export default function Home() {
                 </div>
             </section>
 
+            {/* ===== ACADEMIC CALENDAR ===== */}
+            <AcademicCalendar embedded={true} />
 
             {/* ===== HIGHLIGHTS ===== */}
             <section className="section highlights">

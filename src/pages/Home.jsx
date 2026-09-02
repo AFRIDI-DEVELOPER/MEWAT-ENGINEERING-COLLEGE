@@ -11,7 +11,7 @@ import {
 } from '../data/content'
 import AnimatedCounter from '../components/AnimatedCounter'
 import { getAssetPath } from '../utils/assets'
-import { FiBriefcase, FiAward, FiUsers, FiBookOpen, FiMap, FiCheckCircle, FiPercent, FiTrendingUp, FiHome, FiUser, FiBell, FiArrowRight, FiStar, FiCalendar, FiClock, FiInfo, FiCheck } from 'react-icons/fi'
+import { FiBriefcase, FiAward, FiUsers, FiBookOpen, FiMap, FiCheckCircle, FiPercent, FiTrendingUp, FiHome, FiUser, FiBell, FiArrowRight, FiStar, FiCalendar, FiClock, FiInfo, FiCheck, FiInbox } from 'react-icons/fi'
 
 import { FaFacebook, FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa'
 import AboutPreview from '../components/AboutPreview'
@@ -657,7 +657,12 @@ export default function Home() {
                                 onWheel={handleScrollAreaWheel}
                             >
                                 {homeEvents.length === 0 ? (
-                                    <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>No events posted yet.</div>
+                                    <div className="nn-empty-state">
+                                        <div className="nn-empty-state-icon">
+                                            <FiInbox size={24} />
+                                        </div>
+                                        <div className="nn-empty-state-text">No events posted yet.</div>
+                                    </div>
                                 ) : homeEvents.map((item, i) => (
                                     <div className="nn-card" key={i}>
                                         <div className="nn-card-number">{i + 1}</div>
@@ -675,10 +680,12 @@ export default function Home() {
                                 ))}
                             </div>
 
-                            <Link to="/notices" className="nn-view-all">
-                                View All
-                                <FiArrowRight size={14} />
-                            </Link>
+                            {homeEvents.length > 0 && (
+                                <Link to="/notices" className="nn-view-all">
+                                    View All
+                                    <FiArrowRight size={14} />
+                                </Link>
+                            )}
                         </motion.div>
 
                         {/* ── Important Notifications Column ── */}
@@ -702,7 +709,12 @@ export default function Home() {
                                 onWheel={handleScrollAreaWheel}
                             >
                                 {homeNotifications.length === 0 ? (
-                                    <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>No important notifications posted yet.</div>
+                                    <div className="nn-empty-state">
+                                        <div className="nn-empty-state-icon" style={{ color: 'var(--gold-dark)', background: 'rgba(200, 169, 81, 0.1)' }}>
+                                            <FiInbox size={24} />
+                                        </div>
+                                        <div className="nn-empty-state-text">No important notifications posted yet.</div>
+                                    </div>
                                 ) : homeNotifications.map((item, i) => (
                                     <div className="nn-card" key={i}>
                                         <div className="nn-card-number nn-card-number--gold">{i + 1}</div>
@@ -720,10 +732,12 @@ export default function Home() {
                                 ))}
                             </div>
 
-                            <Link to="/notices" className="nn-view-all nn-view-all--gold">
-                                View All
-                                <FiArrowRight size={14} />
-                            </Link>
+                            {homeNotifications.length > 0 && (
+                                <Link to="/notices" className="nn-view-all nn-view-all--gold">
+                                    View All
+                                    <FiArrowRight size={14} />
+                                </Link>
+                            )}
                         </motion.div>
                     </div>
 

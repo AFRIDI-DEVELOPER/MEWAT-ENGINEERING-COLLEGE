@@ -12707,6 +12707,37 @@ main {
   background: rgba(0,0,0,0.25);
 }
 
+/* ── Empty State ── */
+.nn-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--medium-gray);
+  gap: 15px;
+}
+
+.nn-empty-state-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--medium-gray);
+}
+
+.nn-empty-state-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  max-width: 220px;
+  line-height: 1.5;
+}
+
 /* ── Individual card ── */
 .nn-card {
   display: flex;

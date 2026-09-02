@@ -1492,8 +1492,10 @@ main.portal-active {
     display: inline-flex;
   }
   .hero-vex-content {
-    width: 100%;
-    padding: 0 24px;
+    left: 24px;
+    right: 24px;
+    width: auto;
+    padding: 0;
     bottom: 76px;
   }
   .vex-hero-title {

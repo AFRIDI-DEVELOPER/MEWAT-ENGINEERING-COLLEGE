@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { navLinks, contactInfo } from '../data/content'
 import { FiMapPin, FiPhone, FiMail, FiX, FiFileText, FiExternalLink } from 'react-icons/fi'
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa'
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaHandPointer } from 'react-icons/fa'
 import { getAssetPath } from '../utils/assets'
 
 // ─── Document data for each modal ────────────────────────────────────────────
@@ -328,29 +328,34 @@ export default function Footer() {
                                 <FiMail className="contact-icon" />
                                 <span>{contactInfo.email[0]}</span>
                             </div>
-                            <div className="footer-contact-item" style={{ marginTop: '1.5rem', alignItems: 'flex-start', width: '100%' }}>
+                            <div className="footer-contact-item" style={{ marginTop: '1.5rem', width: '100%', justifyContent: 'center' }}>
                                 <div style={{
                                     fontFamily: "'Syncopate', sans-serif",
                                     fontWeight: 700, 
                                     fontSize: '0.9rem',
                                     letterSpacing: '1px', 
                                     lineHeight: '1.6',
-                                    color: 'rgba(255,255,255,0.7)',
-                                    textTransform: 'lowercase'
+                                    color: 'rgba(255,255,255,0.6)',
+                                    textTransform: 'lowercase',
+                                    textAlign: 'center'
                                 }}>
                                     heyy! this website is developed by<br />
-                                    <a href="https://afrididvlpr.pro/" target="_blank" rel="noopener noreferrer"
-                                        style={{ 
-                                            color: '#ff0033', 
-                                            textDecoration: 'none',
-                                            fontWeight: 700,
-                                            fontSize: '1.4rem',
-                                            letterSpacing: '3px',
-                                            display: 'inline-block',
-                                            marginTop: '6px'
-                                        }}>
-                                        Afridi developer
-                                    </a>
+                                    <div style={{ position: 'relative', display: 'inline-block' }}>
+                                        <a href="https://afrididvlpr.pro/" target="_blank" rel="noopener noreferrer"
+                                            className="developer-link"
+                                            style={{ 
+                                                color: '#ffffff', 
+                                                textDecoration: 'none',
+                                                fontWeight: 700,
+                                                fontSize: '1.4rem',
+                                                letterSpacing: '3px',
+                                                display: 'inline-block',
+                                                marginTop: '6px'
+                                            }}>
+                                            Afridi developer
+                                        </a>
+                                        <FaHandPointer className="click-hand-icon" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

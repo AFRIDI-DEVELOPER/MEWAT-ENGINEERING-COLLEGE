@@ -7813,8 +7813,13 @@ main.portal-active {
   }
 
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 32px;
+  }
+
+  .footer-brand, 
+  .footer-grid .footer-col:last-child {
+    grid-column: 1 / -1;
   }
 
   .footer-bottom {
@@ -12962,4 +12967,42 @@ main {
     .jack-gallery-col1-img1 {
         height: clamp(130px, 16vw, 230px);
     }
+}
+
+/* Developer Link Effects */
+.developer-link {
+  position: relative;
+  transition: all 0.3s ease;
+  animation: dev-glow-pulse 1.5s infinite alternate;
+}
+
+.click-hand-icon {
+  position: absolute;
+  top: 24px;
+  right: -5px;
+  color: #ffcc00;
+  font-size: 1.4rem;
+  animation: hand-click 0.5s infinite alternate cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+  z-index: 10;
+}
+
+@keyframes hand-click {
+  0% { transform: translate(6px, 6px) scale(1) rotate(-15deg); }
+  100% { transform: translate(0, 0) scale(0.85) rotate(-15deg); }
+}
+
+@keyframes dev-glow-pulse {
+  0% { 
+    text-shadow: 0 0 5px rgba(255,255,255,0.6), 0 0 10px rgba(255,255,255,0.3);
+  }
+  100% { 
+    text-shadow: 0 0 12px rgba(255,255,255,1), 0 0 24px rgba(255,255,255,0.8), 0 0 36px rgba(255,255,255,0.5);
+  }
+}
+
+@keyframes dev-bounce {
+  0% { transform: translateY(0) scale(1); opacity: 0.8; }
+  100% { transform: translateY(-4px) scale(1.1); opacity: 1; }
 }

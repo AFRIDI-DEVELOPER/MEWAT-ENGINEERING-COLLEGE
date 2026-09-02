@@ -1252,23 +1252,6 @@ main.portal-active {
   flex-wrap: wrap;
 }
 
-@media (max-width: 480px) {
-  .vex-hero-buttons {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 8px;
-    width: 100%;
-  }
-  .vex-btn-primary,
-  .vex-btn-secondary {
-    flex: 1;
-    width: auto;
-    padding: 10px 4px;
-    font-size: 0.70rem;
-    white-space: normal;
-    text-align: center;
-  }
-}
 
 .vex-btn-primary,
 .vex-btn-secondary {
@@ -1314,6 +1297,24 @@ main.portal-active {
   border-color: rgba(255, 255, 255, 0.60);
   transform: translateY(-2px);
   color: #fff;
+}
+
+@media (max-width: 480px) {
+  .vex-hero-buttons {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: 100%;
+  }
+  .vex-btn-primary,
+  .vex-btn-secondary {
+    flex: 1;
+    width: auto;
+    padding: 10px 4px;
+    font-size: 0.70rem;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 /* ─── Right-side Vertical Notice Panel ──────────────────────────────── */

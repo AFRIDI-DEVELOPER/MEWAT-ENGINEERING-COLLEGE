@@ -47,13 +47,7 @@ export default function AdministratorMessage() {
                                 {isExpanded ? 'Read Less' : 'Read More'}
                             </button>
                         )}
-                        <div className="admin-signature">
-                            <div className="admin-signature-line" />
-                            <div>
-                                <div className="admin-sig-name">Ch. Zakir Hussain, Ex. MLA</div>
-                                <div className="admin-sig-title">The Administrator · Haryana Waqf Board</div>
-                            </div>
-                        </div>
+
                     </motion.div>
                     <motion.div
                         className="admin-image-wrapper"

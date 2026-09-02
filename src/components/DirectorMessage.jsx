@@ -56,10 +56,7 @@ export default function DirectorMessage() {
                                 {isExpanded ? 'Read Less' : 'Read More'}
                             </button>
                         )}
-                        <div className="director-signature">
-                            <div className="director-signature-line" />
-                            <span>{directorData.name}, {directorData.institution}</span>
-                        </div>
+
                     </motion.div>
                 </div>
             </div>

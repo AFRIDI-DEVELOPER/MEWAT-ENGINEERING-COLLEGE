@@ -88,17 +88,13 @@ export default function CEOMessage() {
                                 {isExpanded ? 'Read Less' : 'Read More'}
                             </button>
                         )}
-                        <div className="ceo-blessings">
-                            <span className="ceo-blessings-icon">✨</span>
-                            <p>{ceoData.blessings}</p>
-                        </div>
-                        <div className="ceo-signature">
-                            <div className="ceo-signature-line" />
-                            <div>
-                                <div className="ceo-sig-name">{ceoData.name}</div>
-                                <div className="ceo-sig-title">{ceoData.title} · {ceoData.organization}</div>
+                        {isExpanded && (
+                            <div className="ceo-blessings">
+                                <span className="ceo-blessings-icon">✨</span>
+                                <p>{ceoData.blessings}</p>
                             </div>
-                        </div>
+                        )}
+
                     </motion.div>
                 </div>
             </div>

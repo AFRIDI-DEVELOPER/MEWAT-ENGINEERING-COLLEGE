@@ -2935,7 +2935,7 @@ main.portal-active {
 
 /* --- Director's Message Section --- */
 .director-section {
-  padding: 140px 0 100px;
+  padding: 80px 0 60px;
   background: #0d1a0d !important;
   background-color: #0d1a0d !important;
   position: relative;
@@ -3036,15 +3036,7 @@ main.portal-active {
   z-index: 0;
 }
 
-.director-image-frame::after {
-  content: '';
-  position: absolute;
-  inset: -16px;
-  border-radius: var(--radius-full);
-  border: 2px dashed rgba(200, 169, 81, 0.25);
-  z-index: 0;
-  animation: director-rotate 30s linear infinite;
-}
+
 
 @keyframes director-rotate {
   from {
@@ -3093,7 +3085,7 @@ main.portal-active {
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-lg);
-  padding: 48px;
+  padding: 32px;
   position: relative;
   overflow: hidden;
   box-shadow: 
@@ -3143,7 +3135,7 @@ main.portal-active {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 20px;
+  margin-bottom: -10px;
   font-family: Georgia, serif;
   display: block;
 }
@@ -3185,7 +3177,7 @@ main.portal-active {
 
 /* --- Administrator Message --- */
 .admin-section {
-  padding: 140px 0 100px;
+  padding: 80px 0 60px;
   background: linear-gradient(160deg, #0f1a12 0%, #0a1a10 30%, #12271a 65%, #060d08 100%);
   position: relative;
   overflow: hidden;
@@ -3230,7 +3222,7 @@ main.portal-active {
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
-  padding: 52px 52px 44px;
+  padding: 32px 32px 28px;
   position: relative;
   overflow: hidden;
   box-shadow:
@@ -3274,7 +3266,7 @@ main.portal-active {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 20px;
+  margin-bottom: -10px;
   font-family: Georgia, serif;
   display: block;
 }
@@ -3350,15 +3342,7 @@ main.portal-active {
   z-index: 0;
 }
 
-.admin-image-frame::after {
-  content: '';
-  position: absolute;
-  inset: -14px;
-  border-radius: 30px;
-  border: 1.5px dashed rgba(200, 169, 81, 0.22);
-  z-index: 0;
-  animation: director-rotate 30s linear infinite;
-}
+
 
 .admin-image-frame img,
 .admin-image-placeholder {
@@ -3444,7 +3428,7 @@ main.portal-active {
 
 /* --- CEO Message Section --- */
 .ceo-section {
-  padding: 140px 0 100px;
+  padding: 80px 0 60px;
   background: linear-gradient(155deg, #0b0f1a 0%, #0e1628 25%, #141f35 50%, #0d1426 75%, #080c16 100%);
   position: relative;
   overflow: hidden;
@@ -3519,15 +3503,7 @@ main.portal-active {
   z-index: 0;
 }
 
-.ceo-image-frame::after {
-  content: '';
-  position: absolute;
-  inset: -16px;
-  border-radius: 34px;
-  border: 1.5px dashed rgba(200, 169, 81, 0.2);
-  z-index: 0;
-  animation: director-rotate 35s linear infinite;
-}
+
 
 .ceo-image-frame img,
 .ceo-image-placeholder {
@@ -3645,7 +3621,7 @@ main.portal-active {
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
-  padding: 52px 52px 44px;
+  padding: 32px 32px 28px;
   position: relative;
   overflow: hidden;
   box-shadow:
@@ -3689,7 +3665,7 @@ main.portal-active {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 20px;
+  margin-bottom: -10px;
   font-family: Georgia, serif;
   display: block;
 }
@@ -3790,11 +3766,11 @@ main.portal-active {
   }
 
   .ceo-message-content {
-    padding: 32px 28px;
+    padding: 24px 20px;
   }
 
   .ceo-section {
-    padding: 80px 0 60px;
+    padding: 40px 0 40px;
   }
 }
 
@@ -3814,7 +3790,7 @@ main.portal-active {
   }
 
   .ceo-message-content {
-    padding: 28px 20px;
+    padding: 20px 16px;
   }
 
   .ceo-message-content > p {
@@ -7720,7 +7696,7 @@ main.portal-active {
   }
 
   .director-message-content {
-    padding: 36px;
+    padding: 24px 20px;
   }
 
   .admin-grid {
@@ -7870,7 +7846,7 @@ main.portal-active {
   }
 
   .director-message-content {
-    padding: 28px;
+    padding: 20px 16px;
   }
 
   .director-signature {
@@ -7894,12 +7870,12 @@ main.portal-active {
   }
 
   .admin-message-content {
-    padding: 28px 24px;
+    padding: 20px 16px;
   }
 
   .mobile-truncate {
     display: -webkit-box;
-    -webkit-line-clamp: 10;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -12931,3 +12907,59 @@ main {
 .form-grid input, .form-grid select { padding: 12px 15px; border-radius: 8px; border: 1px solid #d1d5db; font-size: 0.95rem; background: #f9fafb; transition: border-color 0.2s, box-shadow 0.2s; width: 100%; box-sizing: border-box; }
 .form-grid input:focus, .form-grid select:focus { outline: none; border-color: var(--accent-gold); box-shadow: 0 0 0 3px rgba(184, 147, 59, 0.1); background: #fff; }
 @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } .file-upload-grid { grid-template-columns: 1fr !important; } }
+/* Alumni Marquee Styles */
+.alumni-marquee-container {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 30px;
+  width: 100%;
+  margin-bottom: 30px;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.alumni-marquee-track {
+  display: flex;
+  gap: 30px;
+  min-width: max-content;
+}
+
+.alumni-marquee-left .alumni-marquee-track {
+  animation: alumni-scroll-left 40s linear infinite;
+}
+
+.alumni-marquee-right .alumni-marquee-track {
+  animation: alumni-scroll-right 40s linear infinite;
+}
+
+.alumni-marquee-container:hover .alumni-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes alumni-scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 15px)); }
+}
+
+@keyframes alumni-scroll-right {
+  0% { transform: translateX(calc(-50% - 15px)); }
+  100% { transform: translateX(0); }
+}
+
+/* JackPortfolio Gallery Responsive Heights */
+.jack-gallery-grid {
+    height: clamp(200px, 50vw, 580px);
+}
+.jack-gallery-col1-img1 {
+    height: clamp(90px, 20vw, 230px);
+}
+
+@media (min-width: 769px) {
+    .jack-gallery-grid {
+        height: clamp(320px, 40vw, 580px);
+    }
+    .jack-gallery-col1-img1 {
+        height: clamp(130px, 16vw, 230px);
+    }
+}

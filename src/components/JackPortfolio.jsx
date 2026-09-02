@@ -1032,7 +1032,7 @@ function ProjectCard({ project, index }) {
                 </div>
 
                 {/* Images grid */}
-                <div style={{ display: 'flex', gap: 12, height: 'clamp(320px, 40vw, 580px)' }}>
+                <div style={{ display: 'flex', gap: 12, height: 'clamp(240px, 40vw, 580px)' }}>
                     {/* Col 1 — 40% width, 2 stacked */}
                     <div style={{ width: '40%', display: 'flex', flexDirection: 'column', gap: 12 }}>
                         <img
@@ -1040,7 +1040,7 @@ function ProjectCard({ project, index }) {
                             alt={project.name}
                             style={{
                                 width: '100%',
-                                height: 'clamp(130px, 16vw, 230px)',
+                                height: 'clamp(100px, 16vw, 230px)',
                                 objectFit: 'cover',
                                 borderRadius: imgRadius,
                                 flexShrink: 0,
